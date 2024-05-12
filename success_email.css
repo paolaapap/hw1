@@ -1,0 +1,63 @@
+html{
+    font-size: 16px;
+}
+
+body{
+    margin: 0px;
+    width: 100vw;
+    height: 100vh;
+}
+
+a {
+    text-decoration: none;
+    color: inherit; /* Usa il colore del testo del contesto genitore */
+}
+
+#background{
+    background-color: rgba(246, 193, 230, 1);
+    width: 100%;
+    height: 100%;
+    padding: 2.6% 0px;
+}
+
+#main{
+    display: flex;
+    justify-content: center;
+    margin: 0px 10.9%;
+}
+
+#success_email{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: white;
+    width: 39%;
+    height: 250px;
+    padding: 2.6% 4%;
+    border: 3px solid black;
+}
+
+
+#logo{
+    width: 209px;
+    height: 53px;
+}
+
+
+#success_email a, #success_email span{
+    font-family: "Ysabeau Infant", sans-serif;
+    font-weight: 700;
+    line-height: 22px;
+    font-size: clamp(12px, 2vw, 1.3rem); 
+    width: fit-content;
+    padding-bottom: 4px;
+}
+
+
+#success_email a:hover{
+    cursor: pointer;
+    border-bottom: 2px solid black;
+}
+
+
+
