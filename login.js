@@ -33,3 +33,24 @@ function validazione(event){
 }
 
 loginForm.addEventListener('submit', validazione);
+
+function checkEmail(event){
+    if(event.currentTarget.value.length == 0){
+        emailError.classList.remove('hidden');
+        event.currentTarget.classList.add('error_input');
+    }
+
+    event.preventDefault();
+}
+
+function checkPassword(event){
+    if(event.currentTarget.value.length == 0){
+        passwordError.classList.remove('hidden');
+        event.currentTarget.classList.add('error_input');
+    }
+
+    event.preventDefault();
+}
+
+loginForm.email.addEventListener('blur', checkEmail);
+loginForm.password.addEventListener('blur', checkPassword);

@@ -1,32 +1,37 @@
 <?php
-    session_start();
+    require_once 'auth.php';
 
-    if(isset($_SESSION["email"])){
-        header("Location: index_logged.php");
-        exit;
+    if (checkAuth()) {
+          header('Location: index_logged.php');
+          exit;
     }
 
-    
+      
     if(isset($_POST["email"]) && isset($_POST["password"])){
     
-        $conn = mysqli_connect("localhost", "root", "", "utenti") or die("Errore: " .mysqli_connect_error());
+        $conn = mysqli_connect($dbconfig['host'], $dbconfig['user'], "", $dbconfig['database']) or die("Errore: " .mysqli_connect_error());
 
-		    $email = mysqli_real_escape_string($conn,$_POST['email']);
-		    $password = mysqli_real_escape_string($conn,$_POST['password']);
+		    $email = mysqli_real_escape_string($conn, strtolower($_POST['email']));
 
-
-		    $query = "SELECT * FROM users WHERE email ='" . $email . "' AND password = '" .$password."'";
-
+        //controllo intanto se esiste qualcuno che è registrato al sito con questa email
+        $query="SELECT * FROM users WHERE email = '$email'";
         $res = mysqli_query($conn, $query) or die("Errore: ". mysqli_connect_error());
+        
+        if(mysqli_num_rows($res) > 0){ //se esiste un utente registrato con questa mail, prendi la password
+          $entry = mysqli_fetch_assoc($res);
+          
+          if (password_verify($_POST['password'], $entry['password'])) {
 
-       if(mysqli_num_rows($res) > 0){
-
-            $_SESSION["email"] = $_POST["email"];
-            header("Location: index_logged.php");
-            exit;
-        }
-        else{
-            $errore = true;
+                $_SESSION["user_id"] = $entry['id'];
+                header("Location: index_logged.php");
+                mysqli_free_result($res);
+                mysqli_close($conn);
+                exit;
+          } else{
+            $wrong_password = true;
+          }  
+        } else{
+          $user_notexists = true;
         }
     }
 
@@ -51,18 +56,23 @@
               <img id="logo" src="images\logo.png"/>
               <h1>Log in to your account with your email and password.</h1>
               <?php
-                if(isset($errore)){
-                    echo "<h1 class='error'>";
-                    echo "We couldn’t log you in with the email and password you provided. Please try again.";
+                if(isset($wrong_password)){
+                    echo "<h1 class='error_php'>";
+                    echo "Wrong password. Try again or go to forgot password section.";
                     echo "</h1>";
                 }
+                if(isset($user_notexists)){
+                  echo "<h1 class='error_php'>";
+                  echo "You aren't registered with the email address you provided. Change email address or create a new account.";
+                  echo "</h1>";
+              }
               ?>
               <form name="form_login" method="post">
 
-                <input type="email" name="email" placeholder="Email address" class="input">
+                <input type="email" name="email" placeholder="Email address" class="input" <?php if(isset($_POST["email"])){echo "value=".$_POST["email"];} ?>>
                 <div id="email_error" class="error hidden">Enter your email</div>
 
-                <input type="password" name="password" placeholder="Password" class="input">
+                <input type="password" name="password" placeholder="Password" class="input" <?php if(isset($_POST["password"])){echo "value=".$_POST["password"];} ?>>
                 <div id="password_error" class="error hidden">Enter your password</div>
 
                 <img id="show_pss" src="images\show_pss.jpg" /> 

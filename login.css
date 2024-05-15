@@ -161,6 +161,15 @@ a {
     font-size: 1rem;
 }
 
+.error_php{
+    margin: 0px;
+    color: red;
+    font-size: 1.3rem !important;
+    font-family: "Lalezar", system-ui;
+    font-weight: 600;
+    line-height: 15px; 
+}
+
 .error_input{
     border-bottom-color: red !important; /*senza important non funziona*/
 }
