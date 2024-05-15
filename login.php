@@ -9,7 +9,7 @@
       
     if(isset($_POST["email"]) && isset($_POST["password"])){
     
-        $conn = mysqli_connect($dbconfig['host'], $dbconfig['user'], "", $dbconfig['database']) or die("Errore: " .mysqli_connect_error());
+        $conn = mysqli_connect($dbconfig['host'], $dbconfig['user'], $dbconfig['password'], $dbconfig['database']) or die("Errore: " .mysqli_connect_error());
 
 		    $email = mysqli_real_escape_string($conn, strtolower($_POST['email']));
 

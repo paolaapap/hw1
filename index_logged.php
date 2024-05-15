@@ -1,30 +1,28 @@
 <?php
-    session_start();
- 
-    if(!isset($_SESSION['email'])){
+    require_once 'auth.php';
+
+    if (!$userid = checkAuth()) {
         header("Location: login.php");
         exit;
     } else{
 
-        $email = $_SESSION["email"];
-        $conn = mysqli_connect("localhost", "root", "", "utenti") or die("Errore: " .mysqli_connect_error());
-        $query = "SELECT nome FROM users WHERE email ='" . $email . "'";
+        $conn = mysqli_connect($dbconfig['host'], $dbconfig['user'], $dbconfig['password'], $dbconfig['database']) or die("Errore: " .mysqli_connect_error());
+        $userid = mysqli_real_escape_string($conn, $userid);
+        $query = "SELECT * FROM users WHERE id = $userid";
 
         $res = mysqli_query($conn, $query) or die("Errore: ". mysqli_connect_error());
 
        if(mysqli_num_rows($res) > 0){
-            $row = mysqli_fetch_assoc($res);
-            $nome = $row["nome"];
+            $userinfo = mysqli_fetch_assoc($res);
+            $nome = $userinfo["nome"];
         }
         else{
             $name_notfound = true;
         }
 
+        mysqli_free_result($res);
+        mysqli_close($conn);
     }
-
-
-
-
 ?>
 
 <!DOCTYPE html>
@@ -59,7 +57,7 @@
             <div class="d1">
             <?php 
             if(isset($name_notfound)){
-                echo "<h1>Hello, $email</h1>";
+                echo "<h1>Hello, $userid</h1>";
             } else {
                 echo "<h1>Hello, $nome</h1>";
             }

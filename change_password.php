@@ -1,35 +1,55 @@
 <?php
-    session_start();
+    require_once 'auth.php';
 
     if(isset($_POST["email"]) && isset($_POST["old_password"]) && isset($_POST["new_password"]) && isset($_POST["new_password_confirm"]))
     {
-        $conn = mysqli_connect("localhost", "root", "", "utenti") or die("Errore: ". mysqli_connect_error());
-		    $email = mysqli_real_escape_string($conn,$_POST['email']);
+        $conn = mysqli_connect($dbconfig['host'], $dbconfig['user'], $dbconfig['password'], $dbconfig['database']) or die("Errore: ". mysqli_connect_error());
+		    $email = mysqli_real_escape_string($conn,strtolower($_POST['email']));
 		    $old_password = mysqli_real_escape_string($conn,$_POST['old_password']);
+        $old_password = password_hash($old_password, PASSWORD_BCRYPT);
         $new_password = mysqli_real_escape_string($conn,$_POST['new_password']);
+        $new_password = password_hash($new_password, PASSWORD_BCRYPT);
         $new_password_confirm = mysqli_real_escape_string($conn,$_POST['new_password_confirm']);
+        
 
-		$query = "SELECT * FROM users WHERE email ='" . $email . "'";
+		    $query = "SELECT * FROM users WHERE email ='" . $email . "'";
         $res = mysqli_query($conn, $query)  or die("Errore: ". mysqli_connect_error());
+
         if(mysqli_num_rows($res) > 0){
 
-            $query_complete = "SELECT * FROM users WHERE email ='" . $email . "' AND password = '" .$old_password."'";
-            $res2 = mysqli_query($conn, $query_complete)  or die("Errore: ". mysqli_connect_error());
+          if(!(preg_match('/.{8,}/', $_POST['new_password']) && preg_match('/[A-Z]/', $_POST['new_password']) && preg_match('/[a-z]/', $_POST['new_password']) &&
+          preg_match('/[0-9]/', $_POST['new_password']) && preg_match('/[!@#$%^&*(),.?]/', $_POST['new_password']))){
+          $error_password = true;
+          } else {
+          $error_password = false;
+          }
 
-            if(mysqli_num_rows($res2) > 0 and $new_password==$new_password_confirm){
+          $entry = mysqli_fetch_assoc($res);
+          
+          if ((password_verify($_POST['old_password'], $entry['password'])) && (strcmp($_POST['new_password'], $_POST['new_password_confirm']) == 0)) {
+      
                 $query_update = "UPDATE users SET password ='" . $new_password . "' WHERE email ='" . $email . "'";
                 $res = mysqli_query($conn, $query_update)  or die("Errore: ". mysqli_connect_error());
                 if($res){
-                  $_SESSION["email"] = $email;
-                  header("Location: personal_area.php"); 
-                  exit;   
+                        $query_id ="SELECT * FROM users WHERE email = '".$email."'";
+                        $res4 = mysqli_query($conn, $query_id) or die("Errore: ". mysqli_connect_error());
+                        if(mysqli_num_rows($res4) > 0){
+                          $userinfo = mysqli_fetch_assoc($res4);
+                          $userid = $userinfo["id"];
+                        } else {
+                          $error = true;
+                        }
+                        $_SESSION["user_id"] = $userid;
+                        header("Location: index_logged.php"); 
+                        exit;     
                 }
                 else{
                   $error=true;
                 }
-            }else{
-                $wrong_password = true;
-            }
+            
+          } else{
+            $wrong_password = true;
+        }
         }
         else{
             $account_doesnt_exist = true;

@@ -3,6 +3,9 @@ const formNewAccount = document.forms['form_new_account'];
 const lastNameError = document.querySelector('#last_name_error');
 const firstNameError = document.querySelector('#fisrt_name_error');
 const emailError = document.querySelector('#email_error');
+const emailRequirements= document.querySelector('#email_requirements');
+const emailAccepted = document.querySelector('#email_accepted');
+const emailUsed = document.querySelector('#email_used');
 const passwordError = document.querySelector('#password_error');
 const passwordConfirmError = document.querySelector('#password_confirm_error');
 const passwordAccepted = document.querySelector('#password_accepted');
@@ -72,11 +75,62 @@ function validazione_input(event){
 
 formNewAccount.addEventListener('submit', validazione_input);
 
+function checkFirstName(event){
+    if(event.currentTarget.value.length == 0){
+        firstNameError.classList.remove('hidden');
+        event.currentTarget.classList.add('error_input');
+    }
+
+    event.preventDefault();
+}
+
+function checkLastName(event){
+    if(event.currentTarget.value.length == 0){
+        lastNameError.classList.remove('hidden');
+        event.currentTarget.classList.add('error_input');
+    }
+
+    event.preventDefault();
+}
+
+function checkEmail(event){
+    if(event.currentTarget.value.length == 0){
+        emailError.classList.remove('hidden');
+        event.currentTarget.classList.add('error_input');
+    }
+
+    event.preventDefault();
+}
+
+function checkPassword(event){
+    if(event.currentTarget.value.length == 0){
+        passwordError.classList.remove('hidden');
+        event.currentTarget.classList.add('error_input');
+    }
+
+    event.preventDefault();
+}
+
+function checkPasswordConfirm(event){
+    if(event.currentTarget.value.length == 0){
+        passwordConfirmError.classList.remove('hidden');
+        event.currentTarget.classList.add('error_input');
+    }
+
+    event.preventDefault();
+}
+
+formNewAccount.first_name.addEventListener('blur', checkFirstName);
+formNewAccount.last_name.addEventListener('blur', checkLastName);
+formNewAccount.email.addEventListener('blur', checkEmail);
+formNewAccount.password.addEventListener('blur', checkPassword);
+formNewAccount.password_confirm.addEventListener('blur', checkPasswordConfirm);
+
 /// VALIDAZIONE NOME E COGNOME
 const nameRegex = /^[a-zA-ZàèìòùÀÈÌÒÙçÇ ]+$/; // Solo lettere e spazi
 
-function validazione_cognome() {
-    const result = nameRegex.test(formNewAccount.last_name.value);
+function validazione_cognome(event) {
+    const result = nameRegex.test(event.currentTarget.value);
     if (result) {
         lastNameNotValid.classList.add('hidden');
     } else {
@@ -85,8 +139,8 @@ function validazione_cognome() {
     return result;
 }
 
-function validazione_nome() {
-    const result = nameRegex.test(formNewAccount.first_name.value);
+function validazione_nome(event) {
+    const result = nameRegex.test(event.currentTarget.value);
     if(result) {
         firstNameNotValid.classList.add('hidden');
     } else {
@@ -99,7 +153,43 @@ formNewAccount.last_name.addEventListener("input", validazione_cognome);
 formNewAccount.first_name.addEventListener("input", validazione_nome);
 
 
-/// VALIDAZIONE EMAIL VIENE FATTA DI DEFAUL DAL TIPO EMAIL NELL HTML
+/// VALIDAZIONE EMAIL LATO CLIENT PER LE ESPRESSIONI REGOLARI
+/// VALIDAZIONE EMAIL LATO SERVER PER GARANTIRE CHE SIA UNICA 
+const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+const validazioneEmail = true;
+function validazione_email(event) {
+
+    const result = emailRegex.test(String(event.currentTarget.value).toLowerCase()) 
+    if(result){
+        fetch("check_email.php?q="+encodeURIComponent(String(event.currentTarget.value).toLowerCase())).then(fetchResponse).then(jsonCheckEmail);
+
+    } else {
+        emailRequirements.classList.remove('hidden');
+        emailAccepted.classList.add('hidden');
+        validazioneEmail=false;
+    }
+}
+
+formNewAccount.email.addEventListener("input", validazione_email);
+
+function fetchResponse(response) {
+    if (!response.ok) return null;
+    return response.json();
+}
+
+function jsonCheckEmail(json) {
+    // Controllo il campo exists ritornato dal JSON
+    if (json.exists) {
+        emailUsed.classList.remove('hidden');
+        emailRequirements.classList.add('hidden');
+        emailAccepted.classList.add('hidden');
+        validazioneEmail = false;
+    } else {
+        emailUsed.classList.add('hidden');
+        emailRequirements.classList.add('hidden');
+        emailAccepted.classList.remove('hidden');
+    }
+}
 
 /// VALIDAZIONE PASSWORD
 const minLength = /.{8,}/;
@@ -108,12 +198,12 @@ const hasLowercase = /[a-z]/;
 const hasNumber = /[0-9]/;
 const hasSpecialChar = /[!@#$%^&*(),.?]/;
 
-function validazione_password() {
-    const result =  minLength.test(formNewAccount.password.value) &&
-                    hasUppercase.test(formNewAccount.password.value) &&
-                    hasLowercase.test(formNewAccount.password.value) &&
-                    hasNumber.test(formNewAccount.password.value) &&
-                    hasSpecialChar.test(formNewAccount.password.value);
+function validazione_password(event) {
+    const result =  minLength.test(event.currentTarget.value) &&
+                    hasUppercase.test(event.currentTarget.value) &&
+                    hasLowercase.test(event.currentTarget.value) &&
+                    hasNumber.test(event.currentTarget.value) &&
+                    hasSpecialChar.test(event.currentTarget.value);
     
     if (result) {
         passwordRequirements.classList.add('hidden');
@@ -130,7 +220,7 @@ formNewAccount.password.addEventListener("input", validazione_password);
 
 
 function matchPassword(){
-    if(formNewAccount.password.value == formNewAccount.password_confirm.value){
+    if(formNewAccount.password.value == event.currentTarget.value){
         passwordMatch.classList.remove('hidden');
         passwordDontMatch.classList.add('hidden');   
         return true; 
@@ -145,7 +235,7 @@ function matchPassword(){
 formNewAccount.password_confirm.addEventListener("input", matchPassword);
 
 function checkPassordBeforSubmit(event){
-    if(!validazione_password() || !matchPassword() || !validazione_nome() || !validazione_cognome())
+    if(!validazione_password() || !matchPassword() || !validazione_nome() || !validazione_cognome() || validazioneEmail)
         event.preventDefault();
 }
 

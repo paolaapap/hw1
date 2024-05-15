@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once 'auth.php';
  
 if(isset($_SESSION['token']))
 {
@@ -9,13 +9,16 @@ if(isset($_SESSION['token']))
     //se il token è sbagliato ERRORE con stringa rossa in alto "This token is not valid. Try again." (cioè se il token non esiste nel db)
     //se la query non restituisce risultati ERRORE con stringa rossa in alto "There is not a token associated with this email. Return to forgot password section" (cioe se nel db non esiste la riga email & token)
     if(isset($_POST['token']) && isset($_POST['email']) && isset($_POST['password']) && isset($_POST['password_confirm'])){
-        $conn = mysqli_connect("localhost", "root", "", "utenti") or die("Errore: " .mysqli_connect_error());
+        $conn = mysqli_connect($dbconfig['host'], $dbconfig['user'], $dbconfig['password'], $dbconfig['database']) or die("Errore: " .mysqli_connect_error());
 
         
         $token = mysqli_real_escape_string($conn, $_POST['token']);
-        $email = mysqli_real_escape_string($conn, $_POST['email']);
+        $email = mysqli_real_escape_string($conn, strtolower($_POST['email']));
         $password = mysqli_real_escape_string($conn, $_POST['password']);
+        $password = password_hash($password, PASSWORD_BCRYPT);
         $password_confirm = mysqli_real_escape_string($conn, $_POST['password_confirm']);
+        $password_confirm = password_hash($password_confirm, PASSWORD_BCRYPT);
+        
 
         $query_token = "SELECT * FROM reset_password WHERE token='$token'";
         $res = mysqli_query($conn, $query_token)  or die("Errore: ". mysqli_connect_error());
@@ -26,21 +29,40 @@ if(isset($_SESSION['token']))
             $query_control = "SELECT * FROM reset_password WHERE email ='" . $email . "' AND token = '" .$token."'";
             $res2 = mysqli_query($conn, $query_control)  or die("Errore: ". mysqli_connect_error());
 
-            if(mysqli_num_rows($res2) > 0 and $password==$password_confirm)
+            if(mysqli_num_rows($res2) > 0 && (strcmp($_POST['password'], $_POST['password_confirm']) == 0))
             { //allora permette la modifica della password, fa la sessione con session email ed elimina la sessione del token e manda ad index_logged
-                  $query_update = "UPDATE users SET password ='" . $password . "' WHERE email ='" . $email . "'";
-                  $res3 = mysqli_query($conn, $query_update)  or die("Errore: ". mysqli_connect_error());
+                  if(!(preg_match('/.{8,}/', $_POST['password']) && preg_match('/[A-Z]/', $_POST['password']) && preg_match('/[a-z]/', $_POST['password']) &&
+                      preg_match('/[0-9]/', $_POST['password']) && preg_match('/[!@#$%^&*(),.?]/', $_POST['password']))){
+                      $error_password = true;
+                  } else {
+                    $error_password = false;
+                  }
                   
-                  if($res3)
-                  {
-                    unset($_SESSION['token']);
-                    $_SESSION["email"] = $email;
-                    header("Location: index_logged.php"); 
-                    exit;  
-                  } 
-                  else 
-                  {
-                    $error = true;
+                  if($error_password == "false"){
+                      $query_update = "UPDATE users SET password ='" . $password . "' WHERE email ='" . $email . "'";
+                      $res3 = mysqli_query($conn, $query_update)  or die("Errore: ". mysqli_connect_error());
+                      
+                      if($res3)
+                      {
+                        $query_id ="SELECT * FROM users WHERE email = '$email'";
+                        $res4 = mysqli_query($conn, $query_id) or die("Errore: ". mysqli_connect_error());
+                        if(mysqli_num_rows($res4) > 0){
+                          $userinfo = mysqli_fetch_assoc($res4);
+                          $userid = $userinfo["id"];
+                        } else {
+                          $error_found = true;
+                        }
+                        unset($_SESSION['token']);
+                        $_SESSION["user_id"] = $userid;
+                        header("Location: index_logged.php"); 
+                        mysqli_free_result($res3);
+                        mysqli_free_result($res4);
+                        exit;  
+                      } 
+                      else 
+                      {
+                        $error = true;
+                      }
                   }
             }
             else
@@ -53,6 +75,10 @@ if(isset($_SESSION['token']))
         {
           $token_notvalid=true;
         }
+        mysqli_free_result($res);
+        mysqli_free_result($res2); //sistema questo codice altrimenti dopo exit queste non verranno mai cagate
+
+        mysqli_close($conn);
     }
 } 
 else
@@ -95,6 +121,13 @@ else
                 if(isset($error)){
                   echo "<h1 class='error_php'>";
                   echo "Unexpected error while changing password. Please try again.";
+                  echo "</h1>";
+              } 
+
+
+                if(isset($error_found)){
+                  echo "<h1 class='error_php'>";
+                  echo "Lalalal";
                   echo "</h1>";
               } 
             ?>

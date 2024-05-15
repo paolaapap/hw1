@@ -7,14 +7,13 @@
 //invio l'email 
 // -> se l'invio va a buon fine mi reindirizzo ad una pagina identica ma con scritto che l'email è andata a buon fine e di NON chiudere il browser
 // -> se l'invio NON va a buon fine mi reindirizzo ad una pagina identica ma con scritto che l'email NON è andata a buon fine
-session_start();
 
-
+require_once 'auth.php';
 
 if(isset($_POST['email'])) 
 {   
-    $conn = mysqli_connect("localhost", "root", "", "utenti") or die("Errore: " .mysqli_connect_error());
-    $email = mysqli_real_escape_string($conn,$_POST['email']);
+    $conn = mysqli_connect($dbconfig['host'], $dbconfig['user'], $dbconfig['password'], $dbconfig['database']) or die("Errore: " .mysqli_connect_error());
+    $email = mysqli_real_escape_string($conn, strtolower($_POST['email']));
 
     $query = "SELECT * FROM users WHERE email = '$email'";
     $res = mysqli_query($conn, $query) or die("Errore: ". mysqli_connect_error());
@@ -40,9 +39,9 @@ if(isset($_POST['email']))
             //$message .= "</body></html>";
             $headers =['from' => $from];
 
-            $res=mail($email, $subject, $message, $headers);
+            $res3=mail($email, $subject, $message, $headers);
 
-            if ($res) 
+            if ($res3) 
             {
                 header("Location: success_email.php");
                 exit;
@@ -62,6 +61,10 @@ if(isset($_POST['email']))
     {
         $user_notexist = true;
     }
+
+    mysqli_free_result($res);
+    mysqli_free_result($res2);
+    mysqli_close($conn);
 }
 
 ?>
@@ -90,6 +93,11 @@ if(isset($_POST['email']))
                     echo "There is no account associated with this email. Go to the new account section.";
                     echo "</h1>";
                 }
+                if(isset($error)){
+                  echo "<h1 class='error'>";
+                  echo "Something went wrong.";
+                  echo "</h1>";
+              }
               ?>
             <form name="form_forgot_password" method="post">
 
