@@ -35,37 +35,50 @@ function hidePss(){
 
 imgShowPss.addEventListener('mouseup', hidePss);
 
-function validazione_input(event){
-    if(formChangePassword.email.value.length == 0 || formChangePassword.old_password.value.length == 0 || 
-        formChangePassword.new_password.value.length == 0 || formChangePassword.new_password_confirm.value.length == 0){
 
-        if(formChangePassword.email.value.length == 0){
-            emailError.classList.remove('hidden');
-            formChangePassword.email.classList.add('error_input');
+//GENERICA FUNZIONE PER STAMPARE GLI ERRORI SOTTO LE CASELLE DI INPUT E FARE IL CHECK DELLA LUNGHEZZA DELL'INPUT
+function checkInput(inputElement, errorMessage){
+    if (inputElement.value.length == 0) {
+        if (inputElement.nextElementSibling.classList.contains('error') || inputElement.nextElementSibling.classList.contains('right')) {
+            inputElement.nextElementSibling.remove();
         }
-
-        if(formChangePassword.old_password.value.length == 0){
-            oldPasswordError.classList.remove('hidden');
-            formChangePassword.old_password.classList.add('error_input');
-        }
-
-        if(formChangePassword.new_password.value.length == 0){
-            newPasswordError.classList.remove('hidden');
-            formChangePassword.new_password.classList.add('error_input');
-        }
-
-        if(formChangePassword.new_password_confirm.value.length == 0){
-            newPasswordConfirmError.classList.remove('hidden');
-            formChangePassword.new_password_confirm.classList.add('error_input');
-        }
-
-        // Blocca l'invio del form
-        event.preventDefault();
+        const error = document.createElement("div");
+        error.textContent = errorMessage;
+        error.classList.add("error");
+        inputElement.insertAdjacentElement('afterend', error);
+        inputElement.classList.add('error_input');
+        return true;
+    } else {
+        return false;
     }
-        
+}
+
+function validazione_input(event){
+    //non so perche se chiamo le funzioni dentro l'if partono solo per email
+    (checkInput(formChangePassword.email, "Enter your email"));
+    (checkInput(formChangePassword.old_password, "Enter your old password"));
+    (checkInput(formChangePassword.new_password, "Enter a new passowrd"));
+    (checkInput(formChangePassword.new_password_confirm, "Repeat password"));
+
+    if((checkInput(formChangePassword.email, "Enter your email")) || (checkInput(formChangePassword.old_password, "Enter your old password")) || 
+        (checkInput(formChangePassword.new_password, "Enter a new passowrd")) || (checkInput(formChangePassword.new_password_confirm, "Repeat password"))){
+
+        event.preventDefault();
+    }  
 }
 
 formChangePassword.addEventListener('submit', validazione_input);
+
+//GENERICA FUNZIONE PER STAMPARE SCRITTE SOTTO LE CASELLE DI INPUT 
+function printSentence(inputElement, message, class_){
+    if (inputElement.nextElementSibling.classList.contains('error') || inputElement.nextElementSibling.classList.contains('right')) {
+        inputElement.nextElementSibling.remove();
+    }
+    const div = document.createElement("div");
+    div.textContent = message;
+    div.classList.add(class_);
+    inputElement.insertAdjacentElement('afterend', div);
+}
 
 /// VALIDAZIONE NUOVA PASSWORD
 const minLength = /.{8,}/;
@@ -82,13 +95,11 @@ function validazione_nuova_password() {
                     hasSpecialChar.test(formChangePassword.new_password.value);
     
     if (result) {
-        newPasswordRequirements.classList.add('hidden');
-        newPasswordAccepted.classList.remove('hidden');
+        printSentence(formChangePassword.new_password, "This password is valid", "right");
     } else {
-        newPasswordRequirements.classList.remove('hidden');
-        newPasswordAccepted.classList.add('hidden');
+        printSentence(formChangePassword.new_password, 
+            "Password must be at least 8 characters, 1 uppercase, 1 lowercase, 1 number and 1 special character [!@#$%^&*(),.?]", "error");
     }
-
     return result;
 }
 
@@ -97,13 +108,11 @@ formChangePassword.new_password.addEventListener("input", validazione_nuova_pass
 
 function matchPassword(){
     if(formChangePassword.new_password.value == formChangePassword.new_password_confirm.value){
-        passwordMatch.classList.remove('hidden');
-        passwordDontMatch.classList.add('hidden');  
+        printSentence(formChangePassword.new_password_confirm, "Passwords match", "right"); 
         return true; 
     }
     else{
-        passwordMatch.classList.add('hidden');
-        passwordDontMatch.classList.remove('hidden');   
+        printSentence(formChangePassword.new_password_confirm, "Passwords don't match", "error");   
         return false; 
     }
 }
@@ -112,12 +121,10 @@ formChangePassword.new_password_confirm.addEventListener("input", matchPassword)
 
 function differentPassword(){
     if(formChangePassword.old_password.value == formChangePassword.new_password.value){
-        samePasswordError.classList.remove('hidden');
-        newPasswordAccepted.classList.add('hidden');
+        printSentence(formChangePassword.new_password, "Your new password must be different from your old", "error"); 
         return false;
     }
     else{
-        samePasswordError.classList.add('hidden');
         return true;
     }
 }
