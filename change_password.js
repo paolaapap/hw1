@@ -1,23 +1,5 @@
 const imgShowPss = document.querySelector('#show_pss');
 const formChangePassword = document.forms['form_change_password'];
-const emailError = document.querySelector('#email_error');
-const oldPasswordError = document.querySelector('#old_password_error');
-const newPasswordError = document.querySelector('#new_password_error');
-const newPasswordConfirmError = document.querySelector('#new_password_confirm_error');
-const newPasswordAccepted = document.querySelector('#new_password_accepted');
-const newPasswordRequirements = document.querySelector('#new_password_requirements');
-const passwordMatch = document.querySelector('#password_match');
-const passwordDontMatch = document.querySelector('#password_dont_match');
-const samePasswordError = document.querySelector('#same_passwords');
-const allErrors = document.querySelectorAll('.error');
-
-function hideAllErrors() {
-    for (a of allErrors) {
-      a.classList.add('hidden');
-    }
-}
-
-window.onload = hideAllErrors;
 
 function showPss(){
     formChangePassword.old_password.type = 'input';
@@ -34,40 +16,6 @@ function hidePss(){
 }
 
 imgShowPss.addEventListener('mouseup', hidePss);
-
-
-//GENERICA FUNZIONE PER STAMPARE GLI ERRORI SOTTO LE CASELLE DI INPUT E FARE IL CHECK DELLA LUNGHEZZA DELL'INPUT
-function checkInput(inputElement, errorMessage){
-    if (inputElement.value.length == 0) {
-        if (inputElement.nextElementSibling.classList.contains('error') || inputElement.nextElementSibling.classList.contains('right')) {
-            inputElement.nextElementSibling.remove();
-        }
-        const error = document.createElement("div");
-        error.textContent = errorMessage;
-        error.classList.add("error");
-        inputElement.insertAdjacentElement('afterend', error);
-        inputElement.classList.add('error_input');
-        return true;
-    } else {
-        return false;
-    }
-}
-
-function validazione_input(event){
-    //non so perche se chiamo le funzioni dentro l'if partono solo per email
-    (checkInput(formChangePassword.email, "Enter your email"));
-    (checkInput(formChangePassword.old_password, "Enter your old password"));
-    (checkInput(formChangePassword.new_password, "Enter a new passowrd"));
-    (checkInput(formChangePassword.new_password_confirm, "Repeat password"));
-
-    if((checkInput(formChangePassword.email, "Enter your email")) || (checkInput(formChangePassword.old_password, "Enter your old password")) || 
-        (checkInput(formChangePassword.new_password, "Enter a new passowrd")) || (checkInput(formChangePassword.new_password_confirm, "Repeat password"))){
-
-        event.preventDefault();
-    }  
-}
-
-formChangePassword.addEventListener('submit', validazione_input);
 
 //GENERICA FUNZIONE PER STAMPARE SCRITTE SOTTO LE CASELLE DI INPUT 
 function printSentence(inputElement, message, class_){
@@ -137,3 +85,38 @@ function checkPassordBeforSubmit(event){
 }
 
 formChangePassword.addEventListener("submit", checkPassordBeforSubmit);
+
+
+//GENERICA FUNZIONE PER STAMPARE GLI ERRORI SOTTO LE CASELLE DI INPUT E FARE IL CHECK DELLA LUNGHEZZA DELL'INPUT
+function checkInput(inputElement, errorMessage){
+    if (inputElement.value.length == 0) {
+        if (inputElement.nextElementSibling.classList.contains('error') || inputElement.nextElementSibling.classList.contains('right')) {
+            inputElement.nextElementSibling.remove();
+        }
+        const error = document.createElement("div");
+        error.textContent = errorMessage;
+        error.classList.add("error");
+        inputElement.insertAdjacentElement('afterend', error);
+        inputElement.classList.add('error_input');
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function validazione_input(event){
+    //non so perche se chiamo le funzioni dentro l'if partono solo per email
+    (checkInput(formChangePassword.email, "Enter your email"));
+    (checkInput(formChangePassword.old_password, "Enter your old password"));
+    (checkInput(formChangePassword.new_password, "Enter a new passowrd"));
+    (checkInput(formChangePassword.new_password_confirm, "Repeat password"));
+
+    if((checkInput(formChangePassword.email, "Enter your email")) || (checkInput(formChangePassword.old_password, "Enter your old password")) || 
+        (checkInput(formChangePassword.new_password, "Enter a new passowrd")) || (checkInput(formChangePassword.new_password_confirm, "Repeat password"))){
+
+        event.preventDefault();
+    }  
+}
+
+formChangePassword.addEventListener('submit', validazione_input);
+

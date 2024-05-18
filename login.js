@@ -1,7 +1,6 @@
 const imgShowPss = document.querySelector('#show_pss');
 const loginForm = document.forms['form_login'];
-const emailError = document.querySelector('#email_error');
-const passwordError = document.querySelector('#password_error');
+
 
 function showPss(){
     loginForm.password.type = 'input';
@@ -15,42 +14,30 @@ function hidePss(){
 
 imgShowPss.addEventListener('mouseup', hidePss);
 
-function validazione(event){
-    if(loginForm.email.value.length == 0 || loginForm.password.value.length == 0){
-        if(loginForm.email.value.length == 0){
-            emailError.classList.remove('hidden');
-            loginForm.email.classList.add('error_input');
-        }
-        if(loginForm.password.value.length == 0){
-            passwordError.classList.remove('hidden');
-            loginForm.password.classList.add('error_input');
-        }
 
-        // Blocca l'invio del form
+function checkInput(inputElement, errorMessage){
+    if (inputElement.value.length == 0) {
+        if (inputElement.nextElementSibling.classList.contains('error') || inputElement.nextElementSibling.classList.contains('right')) {
+            inputElement.nextElementSibling.remove();
+        }
+        const error = document.createElement("div");
+        error.textContent = errorMessage;
+        error.classList.add("error");
+        inputElement.insertAdjacentElement('afterend', error);
+        inputElement.classList.add('error_input');
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function validazione_input(event){
+    checkInput(loginForm.email, "Enter your email");
+    checkInput(loginForm.password, "Enter your password");
+    if(checkInput(loginForm.email, "Enter your email") || checkInput(loginForm.password, "Enter your password")){
         event.preventDefault();
-    }
-        
+    }  
 }
 
-loginForm.addEventListener('submit', validazione);
+loginForm.addEventListener('submit', validazione_input);
 
-function checkEmail(event){
-    if(event.currentTarget.value.length == 0){
-        emailError.classList.remove('hidden');
-        event.currentTarget.classList.add('error_input');
-    }
-
-    event.preventDefault();
-}
-
-function checkPassword(event){
-    if(event.currentTarget.value.length == 0){
-        passwordError.classList.remove('hidden');
-        event.currentTarget.classList.add('error_input');
-    }
-
-    event.preventDefault();
-}
-
-loginForm.email.addEventListener('blur', checkEmail);
-loginForm.password.addEventListener('blur', checkPassword);

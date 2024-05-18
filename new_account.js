@@ -1,28 +1,5 @@
 const imgShowPss = document.querySelector('#show_pss');
 const formNewAccount = document.forms['form_new_account'];
-const lastNameError = document.querySelector('#last_name_error');
-const firstNameError = document.querySelector('#fisrt_name_error');
-const emailError = document.querySelector('#email_error');
-const emailRequirements= document.querySelector('#email_requirements');
-const emailAccepted = document.querySelector('#email_accepted');
-const emailUsed = document.querySelector('#email_used');
-const passwordError = document.querySelector('#password_error');
-const passwordConfirmError = document.querySelector('#password_confirm_error');
-const passwordAccepted = document.querySelector('#password_accepted');
-const passwordRequirements = document.querySelector('#password_requirements');
-const passwordMatch = document.querySelector('#password_match');
-const passwordDontMatch = document.querySelector('#password_dont_match');
-const lastNameNotValid = document.querySelector('#last_name_notvalid');
-const firstNameNotValid = document.querySelector('#first_name_notvalid');
-const allErrors = document.querySelectorAll('.error');
-
-function hideAllErrors() {
-    for (a of allErrors) {
-      a.classList.add('hidden');
-    }
-}
-
-window.onload = hideAllErrors;
 
 function showPss(){
     formNewAccount.password.type = 'input';
@@ -38,113 +15,40 @@ function hidePss(){
 
 imgShowPss.addEventListener('mouseup', hidePss);
 
-function validazione_input(event){
-    if(formNewAccount.first_name.value.length == 0 || formNewAccount.last_name.value.length == 0 || 
-        formNewAccount.email.value.length == 0 || formNewAccount.password.value.length == 0 || formNewAccount.password_confirm.value.length == 0){
-
-        if(formNewAccount.first_name.value.length == 0){
-            firstNameError.classList.remove('hidden');
-            formNewAccount.first_name.classList.add('error_input');
-        }
-
-        if(formNewAccount.last_name.value.length == 0){
-            lastNameError.classList.remove('hidden');
-            formNewAccount.last_name.classList.add('error_input');
-        }
-
-        if(formNewAccount.email.value.length == 0){
-            emailError.classList.remove('hidden');
-            formNewAccount.email.classList.add('error_input');
-        }
-
-        if(formNewAccount.password.value.length == 0){
-            passwordError.classList.remove('hidden');
-            formNewAccount.password.classList.add('error_input');
-        }
-
-        if(formNewAccount.password_confirm.value.length == 0){
-            passwordConfirmError.classList.remove('hidden');
-            formNewAccount.password_confirm.classList.add('error_input');
-        }
-
-        // Blocca l'invio del form
-        event.preventDefault();
+//GENERICA FUNZIONE PER STAMPARE SCRITTE SOTTO LE CASELLE DI INPUT 
+function printSentence(inputElement, message, class_){
+    if (inputElement.nextElementSibling.classList.contains('error') || inputElement.nextElementSibling.classList.contains('right')) {
+        inputElement.nextElementSibling.remove();
     }
-        
+    const div = document.createElement("div");
+    div.textContent = message;
+    div.classList.add(class_);
+    inputElement.insertAdjacentElement('afterend', div);
 }
-
-formNewAccount.addEventListener('submit', validazione_input);
-
-function checkFirstName(event){
-    if(event.currentTarget.value.length == 0){
-        firstNameError.classList.remove('hidden');
-        event.currentTarget.classList.add('error_input');
-    }
-
-    event.preventDefault();
-}
-
-function checkLastName(event){
-    if(event.currentTarget.value.length == 0){
-        lastNameError.classList.remove('hidden');
-        event.currentTarget.classList.add('error_input');
-    }
-
-    event.preventDefault();
-}
-
-function checkEmail(event){
-    if(event.currentTarget.value.length == 0){
-        emailError.classList.remove('hidden');
-        event.currentTarget.classList.add('error_input');
-    }
-
-    event.preventDefault();
-}
-
-function checkPassword(event){
-    if(event.currentTarget.value.length == 0){
-        passwordError.classList.remove('hidden');
-        event.currentTarget.classList.add('error_input');
-    }
-
-    event.preventDefault();
-}
-
-function checkPasswordConfirm(event){
-    if(event.currentTarget.value.length == 0){
-        passwordConfirmError.classList.remove('hidden');
-        event.currentTarget.classList.add('error_input');
-    }
-
-    event.preventDefault();
-}
-
-formNewAccount.first_name.addEventListener('blur', checkFirstName);
-formNewAccount.last_name.addEventListener('blur', checkLastName);
-formNewAccount.email.addEventListener('blur', checkEmail);
-formNewAccount.password.addEventListener('blur', checkPassword);
-formNewAccount.password_confirm.addEventListener('blur', checkPasswordConfirm);
 
 /// VALIDAZIONE NOME E COGNOME
 const nameRegex = /^[a-zA-ZàèìòùÀÈÌÒÙçÇ ]+$/; // Solo lettere e spazi
 
 function validazione_cognome(event) {
     const result = nameRegex.test(event.currentTarget.value);
-    if (result) {
-        lastNameNotValid.classList.add('hidden');
+    if (!(result)) {
+        printSentence(formNewAccount.last_name, "Insert a valid last name", "error");
     } else {
-        lastNameNotValid.classList.remove('hidden');
+        if (formNewAccount.last_name.nextElementSibling.classList.contains('error')) {
+            formNewAccount.last_name.nextElementSibling.remove();
+        }    
     }
     return result;
 }
 
 function validazione_nome(event) {
     const result = nameRegex.test(event.currentTarget.value);
-    if(result) {
-        firstNameNotValid.classList.add('hidden');
+    if (!(result)) {
+        printSentence(formNewAccount.first_name, "Insert a valid first name", "error");
     } else {
-        firstNameNotValid.classList.remove('hidden');
+        if (formNewAccount.first_name.nextElementSibling.classList.contains('error')) {
+            formNewAccount.first_name.nextElementSibling.remove();
+        }    
     }
     return result;
 }
@@ -164,8 +68,7 @@ function validazione_email(event) {
         fetch("check_email.php?q="+encodeURIComponent(String(event.currentTarget.value).toLowerCase())).then(fetchResponse).then(jsonCheckEmail);
 
     } else {
-        emailRequirements.classList.remove('hidden');
-        emailAccepted.classList.add('hidden');
+        printSentence(formNewAccount.email, "Insert a valid email", "error");
         validazioneEmail=false;
     }
 }
@@ -180,14 +83,10 @@ function fetchResponse(response) {
 function jsonCheckEmail(json) {
     // Controllo il campo exists ritornato dal JSON
     if (json.exists) {
-        emailUsed.classList.remove('hidden');
-        emailRequirements.classList.add('hidden');
-        emailAccepted.classList.add('hidden');
+        printSentence(formNewAccount.email, "Email already used", "error");
         validazioneEmail = false;
     } else {
-        emailUsed.classList.add('hidden');
-        emailRequirements.classList.add('hidden');
-        emailAccepted.classList.remove('hidden');
+        printSentence(formNewAccount.email, "Email valid", "right");
     }
 }
 
@@ -206,13 +105,11 @@ function validazione_password(event) {
                     hasSpecialChar.test(event.currentTarget.value);
     
     if (result) {
-        passwordRequirements.classList.add('hidden');
-        passwordAccepted.classList.remove('hidden');
+        printSentence(formNewAccount.password, "This password is valid", "right");
     } else {
-        passwordRequirements.classList.remove('hidden');
-        passwordAccepted.classList.add('hidden');
+        printSentence(formNewAccount.password, 
+            "Password must be at least 8 characters, 1 uppercase, 1 lowercase, 1 number and 1 special character [!@#$%^&*(),.?]", "error");
     }
-
     return result;
 }
 
@@ -220,14 +117,12 @@ formNewAccount.password.addEventListener("input", validazione_password);
 
 
 function matchPassword(){
-    if(formNewAccount.password.value == event.currentTarget.value){
-        passwordMatch.classList.remove('hidden');
-        passwordDontMatch.classList.add('hidden');   
+    if(formNewAccount.password.value == formNewAccount.password_confirm.value){
+        printSentence(formNewAccount.password_confirm, "Passwords match", "right"); 
         return true; 
     }
     else{
-        passwordMatch.classList.add('hidden');
-        passwordDontMatch.classList.remove('hidden');   
+        printSentence(formNewAccount.password_confirm, "Passwords don't match", "error");   
         return false; 
     }
 }
@@ -240,3 +135,38 @@ function checkPassordBeforSubmit(event){
 }
 
 formNewAccount.addEventListener("submit", checkPassordBeforSubmit);
+
+//GENERICA FUNZIONE PER STAMPARE GLI ERRORI SOTTO LE CASELLE DI INPUT E FARE IL CHECK DELLA LUNGHEZZA DELL'INPUT
+function checkInput(inputElement, errorMessage){
+    if (inputElement.value.length == 0) {
+        if (inputElement.nextElementSibling.classList.contains('error') || inputElement.nextElementSibling.classList.contains('right')) {
+            inputElement.nextElementSibling.remove();
+        }
+        const error = document.createElement("div");
+        error.textContent = errorMessage;
+        error.classList.add("error");
+        inputElement.insertAdjacentElement('afterend', error);
+        inputElement.classList.add('error_input');
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function validazione_input(event){
+    //non so perche se chiamo le funzioni dentro l'if partono solo per email
+    (checkInput(formNewAccount.last_name, "Enter your last name"));
+    (checkInput(formNewAccount.first_name, "Enter your first name"));
+    (checkInput(formNewAccount.email, "Enter your email"));
+    (checkInput(formNewAccount.password, "Eneter your password"));
+    (checkInput(formNewAccount.password_confirm, "Repeat password"));
+
+    if((checkInput(formNewAccount.last_name, "Enter your last name")) || (checkInput(formNewAccount.first_name, "Enter your first name")) || 
+    (checkInput(formNewAccount.email, "Enter your email")) || (checkInput(formNewAccount.password, "Eneter your password")) || (checkInput(formNewAccount.password_confirm, "Repeat password"))){
+
+        event.preventDefault();
+    }  
+}
+
+formNewAccount.addEventListener('submit', validazione_input);
+

@@ -12,61 +12,52 @@ require_once 'auth.php';
 
 if(isset($_POST['email'])) 
 {   
+    $error = array();
     $conn = mysqli_connect($dbconfig['host'], $dbconfig['user'], $dbconfig['password'], $dbconfig['database']) or die("Errore: " .mysqli_connect_error());
+    
+    #CONTROLLO CHE L'UTENTE SIA REGISTRATO
     $email = mysqli_real_escape_string($conn, strtolower($_POST['email']));
-
     $query = "SELECT * FROM users WHERE email = '$email'";
     $res = mysqli_query($conn, $query) or die("Errore: ". mysqli_connect_error());
-
-    if(mysqli_num_rows($res) > 0) 
-    { 
-        $token = rand(10000, 99999);
-
-        $insert_query = "INSERT INTO reset_password VALUES ('$email', '$token')";
-        $res2 = mysqli_query($conn, $insert_query) or die("Errore: ". mysqli_connect_error());
-
-        if($res2) 
-        { 
-            $_SESSION['token'] = $token;
-
-            //invio email
-            $subject= "Reset password MoMA account";
-            $from= "momanewyork00@gmail.com";
-            $message = "This is your token to reset you password \n $token \n To reset your password click this link \n localhost/hw1/reset_password.php";
-            //$message .= "<h1>RESET PASSWORD OF MOMA ACCOUNT</h1>";
-            //$message .= "<span>This is your token to reset you password <br>$token<br> </span>";
-            //$message .= "<span>To reset your password click the link below <br><a href=\"localhost/hw1/reset_password.php\">Link to reset password</a></span>";
-            //$message .= "</body></html>";
-            $headers =['from' => $from];
-
-            $res3=mail($email, $subject, $message, $headers);
-
-            if ($res3) 
-            {
-                header("Location: success_email.php");
-                exit;
-            } 
-            else 
-            {
-                header("Location: failed_email.php");
-                exit;
-            }
-        } 
-        else 
-        {
-            $error = true;
-        }
+    if(mysqli_num_rows($res) == 0){
+        $error[] = "There is no account associated with this email. Go to the new account section.";
     } 
-    else 
-    {
-        $user_notexist = true;
+
+    #SE NON CI SONO ERRORI FACCIO L'INSERT NEL DB
+    if(count($error) == 0){
+        $token = rand(10000, 99999);
+        $insert_query = "INSERT INTO reset_password VALUES ('$email', '$token')";
+        $res = mysqli_query($conn, $insert_query) or die("Errore: ". mysqli_connect_error());   
+        if(!($res)){
+            $error[] = "Something went wrong.";
+        }      
     }
 
-    mysqli_free_result($res);
-    mysqli_free_result($res2);
-    mysqli_close($conn);
-}
+    #SE ANCHE L'INSERT NEL DB E' ANDATO BENE MANDO LA MAIL E FACCIO LA SESSIONE
+    if(count($error) == 0) { 
+        
+        //invio email
+        $subject= "Reset password MoMA account";
+        $from= "momanewyork00@gmail.com";
+        $message = "This is your token to reset you password \n $token \n To reset your password click this link \n localhost/hw1/reset_password.php";
+        $headers =['from' => $from];
+        $res_mail=mail($email, $subject, $message, $headers);
+        
+        if ($res_mail) {
+            header("Location: success_email.php");
+            $_SESSION['token'] = $token;
+            mysqli_free_result($res);
+            mysqli_close($conn);
+            exit;
+        } else {
+            header("Location: failed_email.php");
+            mysqli_free_result($res);
+            mysqli_close($conn);
+            exit;
+        }
+    }
 
+}
 ?>
 <html>
   <head>
@@ -87,21 +78,16 @@ if(isset($_POST['email']))
             <img id="logo" src="images\logo.png"/>
             <h1>Enter the email associated with the account whose password you forgot.</h1>
             <span>You will receive an email to the address provided below with instructions to change your password.</span>
-            <?php
-                if(isset($user_notexist)){
-                    echo "<h1 class='error'>";
-                    echo "There is no account associated with this email. Go to the new account section.";
-                    echo "</h1>";
-                }
-                if(isset($error)){
-                  echo "<h1 class='error'>";
-                  echo "Something went wrong.";
-                  echo "</h1>";
-              }
-              ?>
+            <?php 
+            if(isset($error)) {
+                    foreach($error as $err) {
+                        echo "<div class='error_php'>".$err."</div>";
+                    }
+            } 
+            ?>
             <form name="form_forgot_password" method="post">
 
-              <input type="email" name="email" placeholder="Email address" class="input">
+              <input type="email" name="email" placeholder="Email address" class="input" <?php if(isset($_POST["email"])){echo "value=".$_POST["email"];} ?>>
               <div id="email_error" class="error hidden">Enter your email</div>
 
               <input type="submit" value="Send email" class="button">

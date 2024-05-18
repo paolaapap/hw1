@@ -59,6 +59,8 @@ if(isset($_SESSION['token'])){
                     unset($_SESSION['token']);
                     $_SESSION["user_id"] = $userid;
                     header("Location: index_logged.php"); 
+                    mysqli_free_result($res);
+                    mysqli_close($conn);
                     exit;  
                 }
                 else{
@@ -69,7 +71,7 @@ if(isset($_SESSION['token'])){
             }
         }
 
-        mysqli_close($conn);
+
     }
 
 } else {
@@ -101,29 +103,14 @@ if(isset($_SESSION['token'])){
                     foreach($error as $err) {
                         echo "<div class='error_php'>".$err."</div>";
                     }
-                  } 
+            } 
             ?>
             <form name="form_reset_password" method="post">
-
-              <input type="email" name="email" placeholder="Email address" class="input">
-              <div id="email_error" class="error hidden">Enter your email</div>
-
-              <input type="input" name="token" placeholder="Token" class="input">
-              <div id="token_error" class="error hidden">Enter token</div>
-              <div id="token_notvalid" class="error hidden">Token is not valid</div>
-
-              <input type="password" name="password" placeholder="Create a new password" class="input">
-              <div id="password_error" class="error hidden">Enter your new password</div>
-              <div id="password_requirements" class="error hidden">Password must be at least 8 characters, 1 uppercase, 1 lowercase, 1 number and 1 special character [!@#$%^&*(),.?]</div>
-              <div id="password_accepted" class="right hidden">This password is valid</div>
-
-              <input type="password" name="password_confirm" placeholder="Confirm password" class="input">
-              <div id="password_confirm_error" class="error hidden">Repeat password</div>
-              <div id="password_match" class="right hidden">Passwords match</div>
-              <div id="password_dont_match" class="error hidden">Passwords don't match</div>
-
+              <input type="email" name="email" placeholder="Email address" class="input" <?php if(isset($_POST["email"])){echo "value=".$_POST["email"];} ?>>
+              <input type="input" name="token" placeholder="Token" class="input"  <?php if(isset($_POST["token"])){echo "value=".$_POST["token"];} ?>>
+              <input type="password" name="password" placeholder="Create a new password" class="input" <?php if(isset($_POST["password"])){echo "value=".$_POST["password"];} ?>>
+              <input type="password" name="password_confirm" placeholder="Confirm password" class="input" <?php if(isset($_POST["password_confirm"])){echo "value=".$_POST["password_confirm"];} ?>>
               <img id="show_pss" src="images\show_pss.jpg" /> 
-              
               <input type="submit" value="Reset password" class="button">
             </form>
             <a href="http://localhost/hw1/index.php">&#8592; Return to home page</a>

@@ -12,17 +12,17 @@ if(isset($_POST['last_name']) && isset($_POST['first_name']) && isset($_POST['em
     $error = array();
     $conn = mysqli_connect($dbconfig['host'], $dbconfig['user'], $dbconfig['password'], $dbconfig['database']) or die("Errore: ". mysqli_connect_error());
     
-    #COGNOME
+    #VALIDAZIONE COGNOME
     if(!preg_match('/^[a-zA-ZàèìòùÀÈÌÒÙçÇ ]+$/', $_POST['last_name'])){
       $error[] = "Last name not valid.";
     }
 
-    #NOME
+    #VALIDAZIONE NOME
     if(!preg_match('/^[a-zA-ZàèìòùÀÈÌÒÙçÇ ]+$/', $_POST['first_name'])){
       $error[] = "First name not valid.";
     }
 
-    #EMAIL
+    #VALIDAZIONE EMAIL
     if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
       $error[] = "Email not valid.";
     } else {
@@ -35,13 +35,13 @@ if(isset($_POST['last_name']) && isset($_POST['first_name']) && isset($_POST['em
       }
     }
 
-    #PASSOWRD
+    #VALIDAZIONE PASSOWRD
     if(!(preg_match('/.{8,}/', $_POST['password']) && preg_match('/[A-Z]/', $_POST['password']) && preg_match('/[a-z]/', $_POST['password']) &&
         preg_match('/[0-9]/', $_POST['password']) && preg_match('/[!@#$%^&*(),.?]/', $_POST['password']))){
       $error[] = "Password not valid.";
     }
 
-    #CONFIRM PASSWORD
+    #MATCH PASSWORD
     if (strcmp($_POST['password'], $_POST['password_confirm']) != 0) {
       $error[] = "Passowrds don't match";
     }
@@ -54,20 +54,17 @@ if(isset($_POST['last_name']) && isset($_POST['first_name']) && isset($_POST['em
       $password = password_hash($password, PASSWORD_BCRYPT);
 
       $query_insert = "INSERT INTO users(email, password, nome, cognome) VALUES('$email','$password','$nome','$cognome')";
-      $res2 = mysqli_query($conn, $query_insert)  or die("Errore: ". mysqli_connect_error());
-      if($res2){
+      $res = mysqli_query($conn, $query_insert)  or die("Errore: ". mysqli_connect_error());
+      if($res){
               $_SESSION["user_id"]=mysqli_insert_id($conn);
-              mysqli_close($conn);
               header("Location: index_logged.php");
+              mysqli_free_result($res);
+              mysqli_close($conn);
               exit;
           }else{
               $error[] = "Something went wrong.";
           }
     }    
-
-    mysqli_free_result($res);
-    mysqli_free_result($res2);
-    mysqli_close($conn);
 } 
 ?>
 
@@ -89,40 +86,20 @@ if(isset($_POST['last_name']) && isset($_POST['first_name']) && isset($_POST['em
           <div id="new_account">
             <img id="logo" src="images\logo.png"/>
             <h1>Create your new account.</h1>
-            <?php if(isset($error)) {
+            <?php 
+            if(isset($error)) {
                     foreach($error as $err) {
                         echo "<div class='error_php'>".$err."</div>";
                     }
-                  } 
+            } 
             ?>
             <form name="form_new_account" method="post">
-
               <input type="input" name="last_name" placeholder="Last name" class="input" <?php if(isset($_POST["last_name"])){echo "value=".$_POST["last_name"];} ?> >
-              <div id="last_name_error" class="error hidden">Enter your last name</div>
-              <div id="last_name_notvalid" class="error hidden">Insert a valid last name</div>
-
-              <input type="input" name="first_name" placeholder="First name" class="input" <?php if(isset($_POST["first_name"])){echo "value=".$_POST["first_name"];} ?> >
-              <div id="fisrt_name_error" class="error hidden">Enter your first name</div>
-              <div id="first_name_notvalid" class="error hidden">Insert a valid first name</div>
-
+              <input type="input" name="first_name" placeholder="First name" class="input" <?php if(isset($_POST["first_name"])){echo "value=".$_POST["first_name"];} ?> >             
               <input type="email" name="email" placeholder="Email address" class="input" <?php if(isset($_POST["email"])){echo "value=".$_POST["email"];} ?> >
-              <div id="email_error" class="error hidden">Enter your email</div>
-              <div id="email_requirements" class="error hidden">Insert a valid email</div>
-              <div id="email_accepted" class="right hidden">Email valid</div>
-              <div id="email_used" class="error hidden">Email already used</div>
-
               <input type="password" name="password" placeholder="Create password" class="input" <?php if(isset($_POST["password"])){echo "value=".$_POST["password"];} ?> >
-              <div id="password_error" class="error hidden">Enter your password</div>
-              <div id="password_requirements" class="error hidden">Password must be at least 8 characters, 1 uppercase, 1 lowercase, 1 number and 1 special character [!@#$%^&*(),.?]</div>
-              <div id="password_accepted" class="right hidden">Password valid</div>
-
               <input type="password" name="password_confirm" placeholder="Confirm password" class="input" <?php if(isset($_POST["password_confirm"])){echo "value=".$_POST["password_confirm"];} ?> >
-              <div id="password_confirm_error" class="error hidden">Repeat password</div>
-              <div id="password_match" class="right hidden">Passwords match</div>
-              <div id="password_dont_match" class="error hidden">Passwords don't match</div>
-
               <img id="show_pss" src="images\show_pss.jpg" /> 
-              
               <input type="submit" value="Create account" class="button">
             </form>
             <a href="http://localhost/hw1/index.php">&#8592; Return to home page</a>

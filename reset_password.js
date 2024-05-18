@@ -1,23 +1,5 @@
 const imgShowPss = document.querySelector('#show_pss');
 const formResetPassword = document.forms['form_reset_password'];
-const emailError = document.querySelector('#email_error');
-const tokenError = document.querySelector('#token_error');
-const tokenNotValid = document.querySelector('#token_notvalid');
-const passwordError = document.querySelector('#password_error');
-const passwordConfirmError = document.querySelector('#password_confirm_error');
-const passwordAccepted = document.querySelector('#password_accepted');
-const passwordRequirements = document.querySelector('#password_requirements');
-const passwordMatch = document.querySelector('#password_match');
-const passwordDontMatch = document.querySelector('#password_dont_match');
-const allErrors = document.querySelectorAll('.error');
-
-function hideAllErrors() {
-    for (a of allErrors) {
-      a.classList.add('hidden');
-    }
-}
-
-window.onload = hideAllErrors;
 
 function showPss(){
     formResetPassword.password.type = 'input';
@@ -33,37 +15,16 @@ function hidePss(){
 
 imgShowPss.addEventListener('mouseup', hidePss);
 
-function validazione_input(event){
-    if(formResetPassword.email.value.length == 0 || formResetPassword.token.value.length == 0 ||  formResetPassword.password.value.length == 0 || 
-        formResetPassword.password_confirm.value.length == 0){
-
-        if(formResetPassword.email.value.length == 0){
-            emailError.classList.remove('hidden');
-            formResetPassword.email.classList.add('error_input');
-        }
-
-        if(formResetPassword.token.value.length == 0){
-            tokenError.classList.remove('hidden');
-            formResetPassword.token.classList.add('error_input');
-        }
-
-        if(formResetPassword.password.value.length == 0){
-            passwordError.classList.remove('hidden');
-            formResetPassword.password.classList.add('error_input');
-        }
-
-        if(formResetPassword.password_confirm.value.length == 0){
-            passwordConfirmError.classList.remove('hidden');
-            formResetPassword.password_confirm.classList.add('error_input');
-        }
-
-        // Blocca l'invio del form
-        event.preventDefault();
+//GENERICA FUNZIONE PER STAMPARE SCRITTE SOTTO LE CASELLE DI INPUT 
+function printSentence(inputElement, message, class_){
+    if (inputElement.nextElementSibling.classList.contains('error') || inputElement.nextElementSibling.classList.contains('right')) {
+        inputElement.nextElementSibling.remove();
     }
-        
+    const div = document.createElement("div");
+    div.textContent = message;
+    div.classList.add(class_);
+    inputElement.insertAdjacentElement('afterend', div);
 }
-
-formResetPassword.addEventListener('submit', validazione_input);
 
 /// VALIDAZIONE TOKEN
 const regexNum = /^[0-9]+$/;
@@ -72,10 +33,12 @@ const regexLeng = /^.{5}$/;
 
 function validazione_token() {
     const result = regexNum.test(formResetPassword.token.value) && regexLeng.test(formResetPassword.token.value);
-    if (result) {
-        tokenNotValid.classList.add('hidden');
+    if (!(result)) {
+        printSentence(formResetPassword.token, "Token is not valid", "error");
     } else {
-        tokenNotValid.classList.remove('hidden');
+        if (formResetPassword.token.nextElementSibling.classList.contains('error')) {
+            formResetPassword.token.nextElementSibling.remove();
+        } 
     }
     return result;
 }
@@ -98,13 +61,11 @@ function validazione_password() {
                     hasSpecialChar.test(formResetPassword.password.value);
     
     if (result) {
-        passwordRequirements.classList.add('hidden');
-        passwordAccepted.classList.remove('hidden');
+        printSentence(formResetPassword.password, "This password is valid", "right");
     } else {
-        passwordRequirements.classList.remove('hidden');
-        passwordAccepted.classList.add('hidden');
+        printSentence(formResetPassword.password, 
+            "Password must be at least 8 characters, 1 uppercase, 1 lowercase, 1 number and 1 special character [!@#$%^&*(),.?]", "error");
     }
-
     return result;
 }
 
@@ -113,13 +74,11 @@ formResetPassword.password.addEventListener("input", validazione_password);
 
 function matchPassword(){
     if(formResetPassword.password.value == formResetPassword.password_confirm.value){
-        passwordMatch.classList.remove('hidden');
-        passwordDontMatch.classList.add('hidden');   
+        printSentence(formResetPassword.password_confirm, "Passwords match", "right"); 
         return true; 
     }
     else{
-        passwordMatch.classList.add('hidden');
-        passwordDontMatch.classList.remove('hidden');   
+        printSentence(formResetPassword.password_confirm, "Passwords don't match", "error");   
         return false; 
     }
 }
@@ -132,3 +91,36 @@ function checkPassordBeforSubmit(event){
 }
 
 formResetPassword.addEventListener("submit", checkPassordBeforSubmit);
+
+//GENERICA FUNZIONE PER STAMPARE GLI ERRORI SOTTO LE CASELLE DI INPUT E FARE IL CHECK DELLA LUNGHEZZA DELL'INPUT
+function checkInput(inputElement, errorMessage){
+    if (inputElement.value.length == 0) {
+        if (inputElement.nextElementSibling.classList.contains('error') || inputElement.nextElementSibling.classList.contains('right')) {
+            inputElement.nextElementSibling.remove();
+        }
+        const error = document.createElement("div");
+        error.textContent = errorMessage;
+        error.classList.add("error");
+        inputElement.insertAdjacentElement('afterend', error);
+        inputElement.classList.add('error_input');
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function validazione_input(event){
+    //non so perche se chiamo le funzioni dentro l'if partono solo per email
+    (checkInput(formResetPassword.email, "Enter your email"));
+    (checkInput(formResetPassword.token, "Enter token"));
+    (checkInput(formResetPassword.password, "Eneter your new password"));
+    (checkInput(formResetPassword.password_confirm, "Repeat password"));
+
+    if((checkInput(formResetPassword.email, "Enter your email")) || (checkInput(formResetPassword.token, "Enter token")) || 
+    (checkInput(formResetPassword.password, "Eneter your new password")) || (checkInput(formResetPassword.password_confirm, "Repeat password"))){
+
+        event.preventDefault();
+    }  
+}
+
+formResetPassword.addEventListener('submit', validazione_input);
