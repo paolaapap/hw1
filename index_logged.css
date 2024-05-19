@@ -326,17 +326,16 @@ header {
 }
 
 
-.pop_up_menu span{
+.pop_up_menu span, .pop_up_menu a{
     display: block;
     padding-left: 167px;
     padding-top: 10px;
 }
 
-.pop_up_menu span:hover{
+.pop_up_menu span:hover, .pop_up_menu a:hover{
     color: #8fc421;
     cursor: pointer;
 }
-
 .pop_up_menu .close:hover{
     color: black; 
 }

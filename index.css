@@ -16,7 +16,7 @@ a {
 header {
     background-color: #fff;
     margin: 0;
-    width: 100vw;
+    width: 100%;
     height: 156px;
     position: sticky;
     top: 0px;
@@ -282,13 +282,13 @@ header {
 }
 
 
-.pop_up_menu span{
+.pop_up_menu span, .pop_up_menu a{
     display: block;
     padding-left: 167px;
     padding-top: 10px;
 }
 
-.pop_up_menu span:hover{
+.pop_up_menu span:hover, .pop_up_menu a:hover{
     color: #8fc421;
     cursor: pointer;
 }
@@ -851,7 +851,7 @@ input[type="text"] {
   #footer{
     display: flex;
     flex-direction: column;
-    width: 100vw;
+    width: 100%;
     height: 647px;
     border: 0;
     padding: 64px 0px;

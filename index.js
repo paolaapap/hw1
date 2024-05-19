@@ -61,55 +61,14 @@ const text_by_chatgpt = custom_tour_section.querySelector('span');
 const tour_click = document.querySelector('.custom_tour');
 
 
-fetchExibitions();
-fetchMagazine();
-fetchSponsor();
-fetchCollection();
-
-function showMenu (event){
-    const index = parseInt(event.currentTarget.dataset.index);
-    for (p of popUpMenu){
-        p.classList.add('hidden');
-    }
-    document.body.classList.add('no-scroll');
-    switch(index){
-        case 1:
-            const popUpMenu1 = document.querySelector('#pop_up_m_v');
-            popUpMenu1.classList.remove('hidden');
-            break;
-        case 2:
-            const popUpMenu2 = document.querySelector('#pop_up_m_w');
-            popUpMenu2.classList.remove('hidden');
-            break;
-        case 3:
-            const popUpMenu3 = document.querySelector('#pop_up_m_a');
-            popUpMenu3.classList.remove('hidden');
-            break;
-    }
-}
-
-for (n of navClick){
-    n.addEventListener('click', showMenu);
-}
-
-for (n of navClickScroll){
-    n.addEventListener('click', showMenu);
-}
-
-function hideMenu(){
-    for (const p of popUpMenu){
-        p.classList.add('hidden');
-    }
-    document.body.classList.remove('no-scroll');
-}
-
-for (const c of closeButton){
-    c.addEventListener('click', hideMenu);    
-}
-
-function fetchExibitions(){
+function fetch_all(){
     fetch("fetch_exibitions.php").then(fetchResponse).then(fetchExibitionsJson);
+    fetch("fetch_magazine.php").then(fetchResponse).then(fetchMagazineJson);
+    fetch("fetch_sponsor.php").then(fetchResponse).then(fetchSponsorJson);
+    fetch("fetch_collection.php").then(fetchResponse).then(fetchCollectionJson);
 }
+
+fetch_all();
 
 function fetchResponse(response) {
     if (!response.ok) {return null};
@@ -167,9 +126,6 @@ function noResults(father){
     father.appendChild(span_error);
 }
 
-function fetchMagazine(){
-    fetch("fetch_magazine.php").then(fetchResponse).then(fetchMagazineJson);
-}
 
 //funzione generatrice di un intero random tra 0 e index-1
 function generaNumeroRandomico(index) {
@@ -207,12 +163,9 @@ function fetchMagazineJson(json){
     div.appendChild(auth_and_date);
 }
 
-function fetchSponsor(){
-    fetch("fetch_sponsor.php").then(fetchResponse).then(fetchSponsorJson);
-}
+
 
 function fetchSponsorJson(json){
-    console.log(json);
     if(json.length == 0){
         noResults(sponsor.img);
         return;
@@ -224,9 +177,6 @@ function fetchSponsorJson(json){
 
 }
 
-function fetchCollection(){
-    fetch("fetch_collection.php").then(fetchResponse).then(fetchCollectionJson);
-}
 
 function fetchCollectionJson(json){
     console.log(json);
@@ -239,8 +189,52 @@ function fetchCollectionJson(json){
     img.src = json[index].content.image;
     img.dataset.index = json[index].id;
     const div = collection.querySelector('.title');
-    div.insertAdjacentElement('afterend', img);
+    div.insertAdjacentElement('afterend', img)
 }
+
+
+
+function showMenu (event){
+    const index = parseInt(event.currentTarget.dataset.index);
+    for (p of popUpMenu){
+        p.classList.add('hidden');
+    }
+    document.body.classList.add('no-scroll');
+    switch(index){
+        case 1:
+            const popUpMenu1 = document.querySelector('#pop_up_m_v');
+            popUpMenu1.classList.remove('hidden');
+            break;
+        case 2:
+            const popUpMenu2 = document.querySelector('#pop_up_m_w');
+            popUpMenu2.classList.remove('hidden');
+            break;
+        case 3:
+            const popUpMenu3 = document.querySelector('#pop_up_m_a');
+            popUpMenu3.classList.remove('hidden');
+            break;
+    }
+}
+
+for (n of navClick){
+    n.addEventListener('click', showMenu);
+}
+
+for (n of navClickScroll){
+    n.addEventListener('click', showMenu);
+}
+
+function hideMenu(){
+    for (const p of popUpMenu){
+        p.classList.add('hidden');
+    }
+    document.body.classList.remove('no-scroll');
+}
+
+for (const c of closeButton){
+    c.addEventListener('click', hideMenu);    
+}
+
 
 function changeImg(event) {
     const image = event.currentTarget;

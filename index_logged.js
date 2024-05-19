@@ -63,11 +63,136 @@ const api_key_chatgpt = '022b4901d2mshc22ec5bba4faa35p19c891jsndd905e2f2fba';
 const text_by_chatgpt = custom_tour_section.querySelector('span');
 const tour_click = document.querySelector('.custom_tour');
 
+function fetch_all(){
+    fetch("fetch_exibitions.php").then(fetchResponse).then(fetchExibitionsJson);
+    fetch("fetch_magazine.php").then(fetchResponse).then(fetchMagazineJson);
+    fetch("fetch_sponsor.php").then(fetchResponse).then(fetchSponsorJson);
+    fetch("fetch_collection.php").then(fetchResponse).then(fetchCollectionJson);
+}
 
-fetchExibitions();
-fetchMagazine();
-fetchSponsor();
-fetchCollection();
+fetch_all();
+
+function fetchResponse(response) {
+    if (!response.ok) {return null};
+    return response.json();
+}
+
+function fetchExibitionsJson(json){
+    if(json.length == 0){
+        noResults(exib_container);
+        return;
+    }
+
+    exib_container.innerHTML = '';
+    for (let result in json){
+        const id = json[result].id;
+        const class_box = "s" + id;
+        const little_box = "l" + id;
+        const sectionBox = document.createElement('div');
+        sectionBox.classList.add('section-box');
+        sectionBox.classList.add(class_box);
+        exib_container.appendChild(sectionBox);
+        const little = document.createElement('div');
+        little.classList.add('little');
+        little.classList.add(little_box);
+        const img = document.createElement('img');
+        img.dataset.index = id;
+        const h1 = document.createElement('h1');
+        const span = document.createElement('span');
+        span.classList.add('strong');
+        little.appendChild(h1);
+        little.appendChild(span);
+        h1.textContent = json[result].content.title;
+        span.textContent = json[result].content.text;
+        img.src = json[result].content.image;
+        exib_img_dinamic[id] = json[result].content.image_dinamic;
+        exib_img_static[id] = json[result].content.image;
+        img.addEventListener('mouseenter', changeImg);
+        img.addEventListener('mouseleave', resetImg);
+        if((id % 2) === 0 ){ //se l'id è pari
+            sectionBox.appendChild(img);
+            sectionBox.appendChild(little);
+        } else {
+            sectionBox.appendChild(little);
+            sectionBox.appendChild(img);
+        }
+
+    }
+
+}
+
+function noResults(father){
+    father.innerHTML='';
+    const span_error = document.createElement('span');
+    span_error.textContent = 'No results found.'
+    father.appendChild(span_error);
+}
+
+
+//funzione generatrice di un intero random tra 0 e index-1
+function generaNumeroRandomico(index) {
+    return Math.floor(Math.random() * index) ;
+}
+
+function fetchMagazineJson(json){
+    if(json.length == 0){
+        noResults(magazine);
+        return;
+    }
+
+    magazine.innerHTML = '';
+    let index = generaNumeroRandomico(json.length);
+    const img = document.createElement("img");
+    img.src = json[index].content.image;
+    magazine.appendChild(img);
+    const div = document.createElement("div");
+    div.classList.add("mag2_2");
+    magazine.appendChild(div);
+    const title1 = document.createElement("h1");
+    title1.textContent=json[index].content.title1;
+    title1.classList.add("title1");
+    div.appendChild(title1);
+    const title2 = document.createElement("h1");
+    title2.textContent=json[index].content.title2;
+    div.appendChild(title2);
+    const desc = document.createElement("span");
+    desc.textContent=json[index].content.description;
+    desc.classList.add("span1");
+    div.appendChild(desc);
+    const auth_and_date = document.createElement("span");
+    auth_and_date.textContent=json[index].content.author_and_date;
+    auth_and_date.classList.add("span2");
+    div.appendChild(auth_and_date);
+}
+
+
+
+function fetchSponsorJson(json){
+    if(json.length == 0){
+        noResults(sponsor.img);
+        return;
+    }
+    let index = generaNumeroRandomico(json.length);
+    const img = document.createElement("img");
+    img.src = json[index].content.image;
+    sponsor.appendChild(img);
+
+}
+
+
+function fetchCollectionJson(json){
+    console.log(json);
+    if(json.length == 0){
+        noResults(collection.img);
+        return;
+    }
+    let index = generaNumeroRandomico(json.length);
+    const img = document.createElement("img");
+    img.src = json[index].content.image;
+    img.dataset.index = json[index].id;
+    const div = collection.querySelector('.title');
+    div.insertAdjacentElement('afterend', img);
+}
 
 function showMenu (event){
     const index = parseInt(event.currentTarget.dataset.index);
@@ -127,141 +252,6 @@ function hidePersonalMenu(event){
 personalAreaH1.addEventListener('mouseleave', hidePersonalMenu);
 personalAreaImg.addEventListener('mouseleave', hidePersonalMenu);
 menuPersonalArea.addEventListener('mouseleave', hidePersonalMenu);
-
-function fetchExibitions(){
-    fetch("fetch_exibitions.php").then(fetchResponse).then(fetchExibitionsJson);
-}
-
-function fetchResponse(response) {
-    if (!response.ok) {return null};
-    return response.json();
-}
-
-function fetchExibitionsJson(json){
-    if(json.length == 0){
-        noResults(exib_container);
-        return;
-    }
-
-    exib_container.innerHTML = '';
-    for (let result in json){
-        const id = json[result].id;
-        const class_box = "s" + id;
-        const little_box = "l" + id;
-        const sectionBox = document.createElement('div');
-        sectionBox.classList.add('section-box');
-        sectionBox.classList.add(class_box);
-        exib_container.appendChild(sectionBox);
-        const little = document.createElement('div');
-        little.classList.add('little');
-        little.classList.add(little_box);
-        const img = document.createElement('img');
-        img.dataset.index = id;
-        const h1 = document.createElement('h1');
-        const span = document.createElement('span');
-        span.classList.add('strong');
-        little.appendChild(h1);
-        little.appendChild(span);
-        h1.textContent = json[result].content.title;
-        span.textContent = json[result].content.text;
-        img.src = json[result].content.image;
-        exib_img_dinamic[id] = json[result].content.image_dinamic;
-        exib_img_static[id] = json[result].content.image;
-        img.addEventListener('mouseenter', changeImg);
-        img.addEventListener('mouseleave', resetImg);
-        if((id % 2) === 0 ){ //se l'id è pari
-            sectionBox.appendChild(img);
-            sectionBox.appendChild(little);
-        } else {
-            sectionBox.appendChild(little);
-            sectionBox.appendChild(img);
-        }
-
-    }
-
-}
-
-function noResults(father){
-    father.innerHTML='';
-    const span_error = document.createElement('span');
-    span_error.textContent = 'No results found.'
-    father.appendChild(span_error);
-}
-
-function fetchMagazine(){
-    fetch("fetch_magazine.php").then(fetchResponse).then(fetchMagazineJson);
-}
-
-//funzione generatrice di un intero random tra 0 e index-1
-function generaNumeroRandomico(index) {
-    return Math.floor(Math.random() * index) ;
-}
-
-function fetchMagazineJson(json){
-    if(json.length == 0){
-        noResults(magazine);
-        return;
-    }
-
-    magazine.innerHTML = '';
-    let index = generaNumeroRandomico(json.length);
-    const img = document.createElement("img");
-    img.src = json[index].content.image;
-    magazine.appendChild(img);
-    const div = document.createElement("div");
-    div.classList.add("mag2_2");
-    magazine.appendChild(div);
-    const title1 = document.createElement("h1");
-    title1.textContent=json[index].content.title1;
-    title1.classList.add("title1");
-    div.appendChild(title1);
-    const title2 = document.createElement("h1");
-    title2.textContent=json[index].content.title2;
-    div.appendChild(title2);
-    const desc = document.createElement("span");
-    desc.textContent=json[index].content.description;
-    desc.classList.add("span1");
-    div.appendChild(desc);
-    const auth_and_date = document.createElement("span");
-    auth_and_date.textContent=json[index].content.author_and_date;
-    auth_and_date.classList.add("span2");
-    div.appendChild(auth_and_date);
-}
-
-function fetchSponsor(){
-    fetch("fetch_sponsor.php").then(fetchResponse).then(fetchSponsorJson);
-}
-
-function fetchSponsorJson(json){
-    console.log(json);
-    if(json.length == 0){
-        noResults(sponsor.img);
-        return;
-    }
-    let index = generaNumeroRandomico(json.length);
-    const img = document.createElement("img");
-    img.src = json[index].content.image;
-    sponsor.appendChild(img);
-
-}
-
-function fetchCollection(){
-    fetch("fetch_collection.php").then(fetchResponse).then(fetchCollectionJson);
-}
-
-function fetchCollectionJson(json){
-    console.log(json);
-    if(json.length == 0){
-        noResults(collection.img);
-        return;
-    }
-    let index = generaNumeroRandomico(json.length);
-    const img = document.createElement("img");
-    img.src = json[index].content.image;
-    img.dataset.index = json[index].id;
-    const div = collection.querySelector('.title');
-    div.insertAdjacentElement('afterend', img);
-}
 
 function changeImg(event) {
     const image = event.currentTarget;

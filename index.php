@@ -76,7 +76,7 @@
         <span class="close">X</span>
     </section>
     <section id="pop_up_m_a" class='pop_up_menu hidden'>
-        <span>The Collection</span>
+        <a href="http://localhost/hw1/collection.php">The Collection</a>
         <span>Artists</span>
         <span>Art terms</span>
         <span>Audio</span>
