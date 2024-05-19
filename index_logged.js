@@ -4,23 +4,28 @@
 
 const navClick = document.querySelectorAll('.header_nav_lower span');
 const popUpMenu = document.querySelectorAll('.pop_up_menu');
+const closeButton = document.querySelectorAll('.close');
 const personalAreaH1 = document.querySelector('.header_nav_lower .d1 h1');
 const personalAreaImg = document.querySelector('.header_nav_lower .d1 img');
 const menuPersonalArea = document.querySelector("#menu_personal_area");
-const closeButton = document.querySelectorAll('.close');
+const exib_container = document.querySelector('#exibitions');
+const exib_img_dinamic = [];
+const exib_img_static = [];
 const bookATour = document.querySelector('.tour');
 const customTour = document.querySelector('.custom_tour');
-const images = document.querySelectorAll('.section-box img');
 const header_scroll = document.querySelector('.header_scroll');
 const white_bar = document.querySelector('.white');
 const header_fix = document.querySelector('header');
 const navClickScroll = document.querySelectorAll('.header_scroll span');
+const magazine = document.querySelector('#magazine .mag2');
 const search_icon = document.querySelector('.header_nav_lower img');
 const modalView = document.querySelector('#modal_view');
 const modalViewForm = document.querySelector('#modal_view form');
 const textBox = document.querySelector('.text_box');
 const searchIconScroll = document.querySelector ('.header_scroll img');
 const textBoxMail = document.querySelectorAll('.a');
+const sponsor = document.querySelector('#sponsor');
+const collection = document.querySelector('#collection');
 const form_hotel = document.querySelector('#modal_view_hotel form');
 const modalViewHotel = document.querySelector('#modal_view_hotel');
 const modalViewArtworks = document.querySelector('#modal_view_artworks');
@@ -58,6 +63,11 @@ const api_key_chatgpt = '022b4901d2mshc22ec5bba4faa35p19c891jsndd905e2f2fba';
 const text_by_chatgpt = custom_tour_section.querySelector('span');
 const tour_click = document.querySelector('.custom_tour');
 
+
+fetchExibitions();
+fetchMagazine();
+fetchSponsor();
+fetchCollection();
 
 function showMenu (event){
     const index = parseInt(event.currentTarget.dataset.index);
@@ -118,33 +128,168 @@ personalAreaH1.addEventListener('mouseleave', hidePersonalMenu);
 personalAreaImg.addEventListener('mouseleave', hidePersonalMenu);
 menuPersonalArea.addEventListener('mouseleave', hidePersonalMenu);
 
+function fetchExibitions(){
+    fetch("fetch_exibitions.php").then(fetchResponse).then(fetchExibitionsJson);
+}
+
+function fetchResponse(response) {
+    if (!response.ok) {return null};
+    return response.json();
+}
+
+function fetchExibitionsJson(json){
+    if(json.length == 0){
+        noResults(exib_container);
+        return;
+    }
+
+    exib_container.innerHTML = '';
+    for (let result in json){
+        const id = json[result].id;
+        const class_box = "s" + id;
+        const little_box = "l" + id;
+        const sectionBox = document.createElement('div');
+        sectionBox.classList.add('section-box');
+        sectionBox.classList.add(class_box);
+        exib_container.appendChild(sectionBox);
+        const little = document.createElement('div');
+        little.classList.add('little');
+        little.classList.add(little_box);
+        const img = document.createElement('img');
+        img.dataset.index = id;
+        const h1 = document.createElement('h1');
+        const span = document.createElement('span');
+        span.classList.add('strong');
+        little.appendChild(h1);
+        little.appendChild(span);
+        h1.textContent = json[result].content.title;
+        span.textContent = json[result].content.text;
+        img.src = json[result].content.image;
+        exib_img_dinamic[id] = json[result].content.image_dinamic;
+        exib_img_static[id] = json[result].content.image;
+        img.addEventListener('mouseenter', changeImg);
+        img.addEventListener('mouseleave', resetImg);
+        if((id % 2) === 0 ){ //se l'id è pari
+            sectionBox.appendChild(img);
+            sectionBox.appendChild(little);
+        } else {
+            sectionBox.appendChild(little);
+            sectionBox.appendChild(img);
+        }
+
+    }
+
+}
+
+function noResults(father){
+    father.innerHTML='';
+    const span_error = document.createElement('span');
+    span_error.textContent = 'No results found.'
+    father.appendChild(span_error);
+}
+
+function fetchMagazine(){
+    fetch("fetch_magazine.php").then(fetchResponse).then(fetchMagazineJson);
+}
+
+//funzione generatrice di un intero random tra 0 e index-1
+function generaNumeroRandomico(index) {
+    return Math.floor(Math.random() * index) ;
+}
+
+function fetchMagazineJson(json){
+    if(json.length == 0){
+        noResults(magazine);
+        return;
+    }
+
+    magazine.innerHTML = '';
+    let index = generaNumeroRandomico(json.length);
+    const img = document.createElement("img");
+    img.src = json[index].content.image;
+    magazine.appendChild(img);
+    const div = document.createElement("div");
+    div.classList.add("mag2_2");
+    magazine.appendChild(div);
+    const title1 = document.createElement("h1");
+    title1.textContent=json[index].content.title1;
+    title1.classList.add("title1");
+    div.appendChild(title1);
+    const title2 = document.createElement("h1");
+    title2.textContent=json[index].content.title2;
+    div.appendChild(title2);
+    const desc = document.createElement("span");
+    desc.textContent=json[index].content.description;
+    desc.classList.add("span1");
+    div.appendChild(desc);
+    const auth_and_date = document.createElement("span");
+    auth_and_date.textContent=json[index].content.author_and_date;
+    auth_and_date.classList.add("span2");
+    div.appendChild(auth_and_date);
+}
+
+function fetchSponsor(){
+    fetch("fetch_sponsor.php").then(fetchResponse).then(fetchSponsorJson);
+}
+
+function fetchSponsorJson(json){
+    console.log(json);
+    if(json.length == 0){
+        noResults(sponsor.img);
+        return;
+    }
+    let index = generaNumeroRandomico(json.length);
+    const img = document.createElement("img");
+    img.src = json[index].content.image;
+    sponsor.appendChild(img);
+
+}
+
+function fetchCollection(){
+    fetch("fetch_collection.php").then(fetchResponse).then(fetchCollectionJson);
+}
+
+function fetchCollectionJson(json){
+    console.log(json);
+    if(json.length == 0){
+        noResults(collection.img);
+        return;
+    }
+    let index = generaNumeroRandomico(json.length);
+    const img = document.createElement("img");
+    img.src = json[index].content.image;
+    img.dataset.index = json[index].id;
+    const div = collection.querySelector('.title');
+    div.insertAdjacentElement('afterend', img);
+}
+
 function changeImg(event) {
     const image = event.currentTarget;
     const index = parseInt(image.dataset.index);
     switch (index) {
         case 1:
-            image.src = 'images/s1_js.jpg';
+            image.src = exib_img_dinamic[1];
             break;
         case 2:
-            image.src = 'images/s2_js.jpg';
+            image.src = exib_img_dinamic[2];
             break;
         case 3:
-            image.src = 'images/s3_js.jpg';
+            image.src = exib_img_dinamic[3];
             break;
         case 4:
-            image.src = 'images/s4_js.jpg';
+            image.src = exib_img_dinamic[4];
             break;
         case 5:
-            image.src = 'images/s5_js.avif';
+            image.src = exib_img_dinamic[5];
             break;
         case 6:
-            image.src = 'images/s6_js.jpg';
+            image.src = exib_img_dinamic[6];
             break;
         case 7:
-            image.src = 'images/s7_js.jpg';
+            image.src = exib_img_dinamic[7];
             break;
         case 8:
-            image.src = 'images/s8_js.webp';
+            image.src = exib_img_dinamic[8];
             break;
     }
 }
@@ -154,37 +299,33 @@ function resetImg(event) {
     const index = parseInt(image.dataset.index);
     switch (index) {
         case 1:
-            image.src = 'images/section_s1.webp';
+            image.src = exib_img_static[1];
             break;
         case 2:
-            image.src = 'images/section_s2.jpg';
+            image.src = exib_img_static[2];
             break;
         case 3:
-            image.src = 'images/section_s3.jpg';
+            image.src = exib_img_static[3];
             break;
         case 4:
-            image.src = 'images/section_s4.jpg';
+            image.src = exib_img_static[4];
             break;
         case 5:
-            image.src = 'images/section_s5.jpg';
+            image.src = exib_img_static[5];
             break;
         case 6:
-            image.src = 'images/section_s6.jpg';
+            image.src = exib_img_static[6];
             break;
         case 7:
-            image.src = 'images/section_s7.jpg';
+            image.src = exib_img_static[7];
             break;
         case 8:
-            image.src = 'images/section_s8.jpg';
+            image.src = exib_img_static[8];
             break;
     }
 }
 
 
-for (const image of images) {
-    image.addEventListener('mouseenter', changeImg);
-    image.addEventListener('mouseleave', resetImg);
-}
 
 function checkScrolling(event)
 {

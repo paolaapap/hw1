@@ -51,7 +51,7 @@ header {
 .header_nav_upper .a1 {
     position: absolute;
     top: 2vw;
-    left: 73vw;
+    left: 74vw;
 }
 
 .header_nav_upper .a2{
@@ -79,10 +79,32 @@ header {
     justify-content: space-between;
     position: sticky;
 }
+
 .header_nav_lower .d1{
     width: 50%;
     background-color: #fff;
+    display: flex;
+    justify-content: end;
 }
+
+.header_nav_lower .d1 h1{
+    font-family: "Lalezar", system-ui;
+    font-weight: 400;
+    font-size: 1.6rem;
+    margin: 0px;    
+}
+
+.header_nav_lower .d1 img{
+    width: 32px;
+    height: 32px;
+    margin-left: 8px;
+}
+
+.header_nav_lower .d1 h1:hover, .header_nav_lower .d1 img:hover{
+    cursor: pointer;
+}
+
+
 .header_nav_lower span, .header_nav_lower a, .header_scroll {
         font-family: "Lalezar", system-ui;
         font-weight: 400;
@@ -269,6 +291,28 @@ header {
     font-size: 1.3rem;
     color: #8fc421;  
   }
+
+  #menu_personal_area{
+    font-family: "Lalezar", system-ui;
+    width: 175px;
+    height: 100px;
+    padding-bottom: 12px !important;
+    padding: 12px;
+    padding-top: 24px;
+    background-color: white;
+    font-size: 1.4rem;
+    color: black;
+    position: absolute;
+    top:127px;
+    left: 78%;
+    z-index: 3;
+    padding-bottom: 48px;
+}
+
+#menu_personal_area a:hover{
+    cursor: pointer;
+    color: #8fc421;
+}
 
 .pop_up_menu{
     font-family: "Lalezar", system-ui;
@@ -760,47 +804,6 @@ input[type="text"] {
     font-size: 1.1rem;
 }
 
-#orange{
-    height: 340px;
-}
-
-.orange_figlio{
-    display: flex;
-    width: 71vw;
-    height: 244px;
-    padding: 48px;
-    background-color: #FF8F1C;
-    border-radius: 10px;
-}
-#orange .o1{
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    justify-content: space-between;
-}
-
-.o1 .title{
-    font-weight: 900;
-    font-size: 4rem;  
-    line-height: 60px;  
-}
-
-.o1 .subtitle{
-    font-size: 2rem;
-    font-weight: 700;
-}
-
-#orange .o2{
-    display: flex;
-    flex-grow: 1;
-    justify-content: end;
-    align-items: center;
-}
-
-.o2 img{
-    width: 16.6vw;
-    height: 243px;
-}
 
 #store{
     height: 518px;

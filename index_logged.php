@@ -24,13 +24,12 @@
         mysqli_close($conn);
     }
 ?>
-
 <!DOCTYPE html>
  <html>
   <head>
     <meta charset="utf-8">
-      <title>INDEX LOGGED</title>
-      <link rel="stylesheet" href="index_ logged.css"/>
+      <title>INDEX</title>
+      <link rel="stylesheet" href="index_logged.css"/>
       <script src="index_logged.js" defer></script>
       <link rel="preconnect" href="https://fonts.googleapis.com">
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -55,13 +54,13 @@
             <a href="https://store.moma.org/?_ga=2.93273949.1716260741.1710596028-1262709068.1710596028&_gl=1*d4f806*_ga*MTI2MjcwOTA2OC4xNzEwNTk2MDI4*_ga_8QY3201SLC*MTcxMDYwMTMzNy4yLjEuMTcxMDYwMzM1MS41MC4wLjA.&utm_source=moma.org">Store</a>   
             <img src="images\search_icon.png" />
             <div class="d1">
-            <?php 
-            if(isset($name_notfound)){
-                echo "<h1>Hello, $userid</h1>";
-            } else {
-                echo "<h1>Hello, $nome</h1>";
-            }
-            ?>
+                <?php 
+                if(isset($name_notfound)){
+                    echo "<h1>Hello, $userid</h1>";
+                } else {
+                    echo "<h1>Hello, $nome</h1>";
+                }
+                ?>
 
                 <img src="images\personal_area.jpeg"/>
             </div>
@@ -146,95 +145,7 @@
         </form>
         <div class="hotel_grid"></div>
     </section>
-    <section id="container">
-        <div class='section-box s1'>
-            <div class='little l1'>
-                <h1>An-My Le</h1>
-                <span class="strong">Member Last Look, Mar17 </br>
-                    Last chance</br>
-                    Through Mar16
-                </span>
-            </div> 
-            <img data-index="1" src="images\section_s1.webp"/> 
-        </div>
-        <div class='section-box s2'>
-            <img data-index="2" src="images\section_s2.jpg"/>
-            <div class='little l2'>
-                <h1>Crafting</br>
-                    Modernity:</br>
-                    Design in Latin</br>
-                    America,</br>
-                    1940-1980
-                </h1>
-                <span class="strong">Through Sep 22</span>
-            </div> 
-        </div>
-        <div class='section-box s3'>
-            <div class='little l3'>
-                <h1>Joan Jonas:</br>
-                    Good Night</br>
-                    Good Morning
-                </h1>
-                <span class="strong">Member Previews, Mar14-16</br>
-                     Mar17-Jul6, 2024 
-                </span>
-                
-            </div> 
-            <img data-index="3" src="images\section_s3.jpg"/> 
-        </div>
-        <div class='section-box s4'>
-            <img data-index="4" src="images\section_s4.jpg"/>
-            <div class='little l4'>
-                <h1>Shana Moulton:</br>
-                    Meta/Physical</br>
-                    Therapy
-                </h1>
-                <span class="strong">Through Apr 21</span>
-            </div> 
-        </div>
-        <div class='section-box s5'>
-            <div class='little l5'>
-                <h1>Grace Wales</br>
-                    Bonner
-                </h1>
-                <span class="strong">Now on view</span>
-            </div> 
-            <img data-index="5" src="images\section_s5.jpg"/> 
-        </div>
-        <div class='section-box s6'>
-            <img data-index="6" src="images\section_s6.jpg"/>
-            <div class='little l6'>
-                <h1>Body Constructs</h1>
-                <span class="strong">What happens when design</br>
-                    collides with real people?
-                </span>
-            </div> 
-        </div>
-        <div class='section-box s7'>
-            <div class='little l7'>
-                <h1>Read, watch,</br>
-                    and listen</br>
-                    from wherever</br>
-                    you are.
-                </h1>
-                <span class="strong">Explore Magazine</br>
-                                    Online 
-                </span>
-            </div> 
-            <img data-index="7" src="images\section_s7.jpg"/> 
-        </div>
-        <div class='section-box s8'>
-            <img data-index="8" src="images\section_s8.jpg"/>
-            <div class='little l8'>
-                <h1>Visit MoMA</br>
-                PS1 in Queens 
-                </h1>
-                <span class="strong">Free for New Yorkers</br>
-                    MoMA PS1
-                </span>
-            </div> 
-        </div>
-    </section>
+    <section id="exibitions"></section>
     <section id="home_location">
         <div class='home h1'>
             <span class="home_descr">MoMA</br>
@@ -259,34 +170,14 @@
         </span>
     </section>
     <section id="magazine">
-        <span class="mag1">Magazine</span>    
+        <h1 class="mag1">Magazine</h1>
         <div class="mag2">
-            <img src="images\magazine.jpeg"/>
-            <div class="mag2_2">
-                <span class="sent1">Drawn to MoMA</span>
-                <h1>Manjit Thapp's Thaw Out</h1>
-                <span class="sent2">The illustrator helps us look beyound our winter blues.</span>
-                <span class="sent3">Manjit Thapp</span>
-                <span class="sent4">Mar13, 2024</span>
-            </div>
-        </div>  
+
+        </div>
     </section>
     <section id="collection">
         <div class="title">In the collection</div>
-        <img src="images\collection.jpg"/>
         <div class="subtitle">See what's on view &#8594;</div>    
-    </section>
-    <section id="orange">
-        <div class="orange_figlio">
-            <div class="o1">
-                <span class="title">Discover more</br> 
-                    as a member</span>
-                <span class="subtitle">Join today &#8594;</span>
-            </div> 
-            <div class="o2">
-                <img src="images\orange.gif"/>
-            </div> 
-        </div>  
     </section>
     <section id="store">
         <div class="store1">
@@ -301,8 +192,7 @@
         </div>   
     </section>
     <section id="sponsor">
-        <span class="title">Il MoMA desidera ringraziare i suoi partner principali.</span>
-        <img src="images\sponsor.jpg"/>
+        <span class="title">MoMA gratefully acknowledges its major partners.</span>
     </section>
     <footer id="footer">
         <div class="footer_section">
@@ -313,7 +203,7 @@
                 <span class="word">Teaching</span>
                 <span class="word">Magazine</span>
             </div>
-            <a href="http://localhost/hw1/logout.php" class='word right'>Logout</a>
+            <a href="http://localhost/hw1/logout.php" class='word right'>Log out</a>
         </div>
         <div class="footer_address">
             <div class="left">
