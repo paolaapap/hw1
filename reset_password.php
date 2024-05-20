@@ -83,7 +83,8 @@ if(isset($_SESSION['token'])){
  <html>
   <head>
     <meta charset="utf-8">
-      <title>RESET PASSWORD</title>
+      <link rel="icon" type="image/png" href="images/logo_mini.png">
+      <title>Reset password | MoMA</title>
       <link rel="stylesheet" href="reset_password.css"/>
       <script src="reset_password.js" defer></script>
       <link rel="preconnect" href="https://fonts.googleapis.com">

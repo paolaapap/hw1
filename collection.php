@@ -2,7 +2,8 @@
  <html>
   <head>
     <meta charset="utf-8">
-      <title>THE COLLECTION</title>
+      <link rel="icon" type="image/png" href="images/logo_mini.png">
+      <title>The collection | MoMA</title>
       <link rel="stylesheet" href="collection.css"/>
       <script src="collection.js" defer></script>
       <link rel="preconnect" href="https://fonts.googleapis.com">

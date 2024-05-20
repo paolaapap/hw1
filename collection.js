@@ -1,6 +1,7 @@
 const fixHeader = document.querySelector('#fix_header');
 const dinamicHeader = document.querySelector('#dinamic_header');
 const dataListFilter = document.querySelector('#filters');
+const filter_section = document.querySelector('#filter');
 const filterInput = document.querySelector('#filter_input');
 const artworksSection = document.querySelector('#artworks_section');
 
@@ -49,11 +50,16 @@ function fetchCategoryJson(json){
 filterInput.addEventListener("change", fetchSearchByCategory);
 
 function fetchSearchByCategory(event){
-    fetch("fetch_bycategory.php?category=" +encodeURIComponent(event.target.value)).then(fetchResponse).then(fetchArtworksJson);
+    fetch("fetch_collection.php?category=" +encodeURIComponent(event.target.value)).then(fetchResponse).then(fetchArtworksJson);
+    if(!filter_section.querySelector('h1')){
+        const h1 = document.createElement("h1");
+        h1.textContent="Remove filter";
+        filter_section.appendChild(h1);
+        h1.addEventListener("click", fetch_all);
+    }
 }
 
 function fetchArtworksJson(json){
-    console.log(json);
     if(json.length == 0){
         noResults(artworksSection);
         return;
@@ -72,6 +78,43 @@ function fetchArtworksJson(json){
         const author = document.createElement("span");
         author.textContent= json[result].content.author;
         div.append(author);
+        fetch("fetch_show_like.php?id_collection=" +encodeURIComponent(div.dataset.index)).then(fetchResponse).then(fetchAddHeartJson);
+        function fetchAddHeartJson(json){
+            const artwork = artworksSection.querySelectorAll('.artworks');
+            const cuore = document.createElement("img");
+            cuore.src = json[0].img;
+            cuore.classList.add("cuore");
+            for(a of artwork){
+                if(a.dataset.index == json[0].id)
+                    a.appendChild(cuore);
+            }
+            cuore.addEventListener("click", fetch_add_remove_like);
+        }
+        function fetch_add_remove_like(){
+            fetch("fetch_add_remove_like.php?id_collection=" +encodeURIComponent(div.dataset.index)).then(fetchResponse).then(fetchLikeJson);
+        }
+        function fetchLikeJson(json){
+            if(json[0].res == true){
+                const artwork = artworksSection.querySelectorAll('.artworks');
+                for (a of artwork){
+                    if (a.querySelector('cuore')) {
+                        const cuoreElement = a.querySelector('.cuore');
+                        cuoreElement.parentNode.removeChild(cuoreElement);
+                    }    
+                }
+                const cuore = document.createElement("img");
+                cuore.src = json[0].img;
+                cuore.classList.add("cuore");
+                for(a of artwork){
+                    if(a.dataset.index == json[0].id)
+                        a.appendChild(cuore);
+                }
+                cuore.addEventListener("click", fetch_add_remove_like);
+            } else {
+                window.location.href = 'login.php';
+            }
+        }
+
     }
 }
 

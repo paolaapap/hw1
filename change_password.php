@@ -61,7 +61,8 @@ if(isset($_POST['email']) && isset($_POST['old_password']) && isset($_POST['new_
  <html>
   <head>
     <meta charset="utf-8">
-      <title>CHANGE PASSWORD</title>
+      <link rel="icon" type="image/png" href="images/logo_mini.png">
+      <title>Change password | MoMA</title>
       <link rel="stylesheet" href="change_password.css"/>
       <script src="change_password.js" defer></script>
       <link rel="preconnect" href="https://fonts.googleapis.com">

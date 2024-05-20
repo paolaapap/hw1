@@ -1,7 +1,8 @@
 <html>
   <head>
     <meta charset="utf-8">
-      <title>SUCCESS EMAIL</title>
+    <link rel="icon" type="image/png" href="images/logo_mini.png">
+      <title>Success Email | MoMA</title>
       <link rel="stylesheet" href="success_email.css"/>
       <link rel="preconnect" href="https://fonts.googleapis.com">
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

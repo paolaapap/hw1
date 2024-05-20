@@ -2,7 +2,8 @@
  <html>
   <head>
     <meta charset="utf-8">
-      <title>INDEX</title>
+      <link rel="icon" type="image/png" href="images/logo_mini.png">
+      <title>Home | MoMA</title>
       <link rel="stylesheet" href="index.css"/>
       <script src="index.js" defer></script>
       <link rel="preconnect" href="https://fonts.googleapis.com">

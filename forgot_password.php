@@ -62,7 +62,8 @@ if(isset($_POST['email']))
 <html>
   <head>
     <meta charset="utf-8">
-      <title>FORGOT PASSWORD</title>
+      <link rel="icon" type="image/png" href="images/logo_mini.png">
+      <title>Forgot password | MoMA</title>
       <link rel="stylesheet" href="forgot_password.css"/>
       <script src="forgot_password.js" defer></script>
       <link rel="preconnect" href="https://fonts.googleapis.com">

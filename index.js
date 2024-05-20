@@ -179,7 +179,6 @@ function fetchSponsorJson(json){
 
 
 function fetchCollectionJson(json){
-    console.log(json);
     if(json.length == 0){
         noResults(collection.img);
         return;

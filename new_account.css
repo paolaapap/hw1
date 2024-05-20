@@ -32,7 +32,7 @@ a {
     justify-content: space-between;
     background-color: white;
     width: 39%;
-    height: 750px;
+    height: 820px;
     padding: 2.6% 4%;
     border: 3px solid black;
 }
@@ -40,7 +40,7 @@ a {
 
 #new_account form{
     width: 90%;
-    height: 65%;
+    height: 70%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -112,7 +112,7 @@ a {
 
 .error{
     margin: 0px;
-    color: red;
+    color: #ec5252;
     font-family: "Lalezar", system-ui;
     font-weight: 400;
     font-size: 1rem;
@@ -121,15 +121,15 @@ a {
 
 .error_php{
     margin: 0px;
-    color: red;
+    color: #ec5252;
     font-size: 1.3rem !important;
     font-family: "Lalezar", system-ui;
-    font-weight: 600;
+    font-weight: 400;
     line-height: 15px; 
 }
 
 .error_input{
-    border-bottom-color: red !important; /*senza important non funziona*/
+    border-bottom-color: #ec5252 !important; /*senza important non funziona*/
 }
 
 .hidden{
@@ -138,7 +138,7 @@ a {
 
 .right{
     margin: 0px;
-    color: green;
+    color: #75f075;
     font-size: 0.6rem;
     font-family: "Lalezar", system-ui;
     font-weight: 400;

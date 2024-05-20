@@ -22,12 +22,24 @@
           $entry = mysqli_fetch_assoc($res);
           
           if (password_verify($_POST['password'], $entry['password'])) {
+            if(isset($_POST['remember'])){
+              $token = random_bytes(12);
+              $hash = password_hash($token, PASSWORD_BCRYPT);
+              $expires = time() + (7 * 24 * 60 * 60);
+              $query = "INSERT INTO cookies (id_user, hash, expires) VALUES(".$entry['id'].", '".$hash."', ".$expires.")";
+              $res = mysqli_query($conn, $query) or die("Errore: ". mysqli_connect_error());
+              setcookie("user_id", $entry['id'], $expires);
+              setcookie("cookie_id", mysqli_insert_id($conn), $expires);
+              setcookie("token", $token, $expires);
+              
+            } else{
+              $_SESSION["user_id"] = $entry['id'];
+            }
+            header("Location: index_logged.php");
+            mysqli_free_result($res);
+            mysqli_close($conn);
+            exit;
 
-                $_SESSION["user_id"] = $entry['id'];
-                header("Location: index_logged.php");
-                mysqli_free_result($res);
-                mysqli_close($conn);
-                exit;
           } else{
             $error[] = "Wrong password. Try again or go to forgot password section.";
           }  
@@ -41,7 +53,8 @@
  <html>
   <head>
     <meta charset="utf-8">
-      <title>LOG IN</title>
+      <link rel="icon" type="image/png" href="images/logo_mini.png">
+      <title>Login | MoMA</title>
       <link rel="stylesheet" href="login.css"/>
       <script src="login.js" defer></script>
       <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -68,6 +81,7 @@
                 <input type="password" name="password" placeholder="Password" class="input" <?php if(isset($_POST["password"])){echo "value=".$_POST["password"];} ?>>
                 <img id="show_pss" src="images\show_pss.jpg" /> 
                 <input type="submit" value="Log in" class="button">
+                <label id="remember"><input type="checkbox" name="remember"> Remember Me</label>
               </form>
               <a href="http://localhost/hw1/forgot_password.php">Forgot your password?</a>
             </div>

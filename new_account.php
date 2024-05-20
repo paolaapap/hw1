@@ -7,7 +7,7 @@ if (checkAuth()) {
 }   
 
 if(isset($_POST['last_name']) && isset($_POST['first_name']) && isset($_POST['email']) && 
-  isset($_POST['password']) && isset($_POST['password_confirm'])){
+  isset($_POST['password']) && isset($_POST['password_confirm']) && isset($_POST['gender'])){
 
     $error = array();
     $conn = mysqli_connect($dbconfig['host'], $dbconfig['user'], $dbconfig['password'], $dbconfig['database']) or die("Errore: ". mysqli_connect_error());
@@ -50,10 +50,11 @@ if(isset($_POST['last_name']) && isset($_POST['first_name']) && isset($_POST['em
     if (count($error) == 0) {
       $cognome = mysqli_real_escape_string($conn, $_POST['last_name']);
       $nome = mysqli_real_escape_string($conn, $_POST['first_name']);
+      $gender = mysqli_real_escape_string($conn, $_POST['gender']);
       $password = mysqli_real_escape_string($conn, $_POST['password']);
       $password = password_hash($password, PASSWORD_BCRYPT);
 
-      $query_insert = "INSERT INTO users(email, password, nome, cognome) VALUES('$email','$password','$nome','$cognome')";
+      $query_insert = "INSERT INTO users(email, password, nome, cognome, genere) VALUES('$email','$password','$nome','$cognome', '$gender')";
       $res = mysqli_query($conn, $query_insert)  or die("Errore: ". mysqli_connect_error());
       if($res){
               $_SESSION["user_id"]=mysqli_insert_id($conn);
@@ -71,7 +72,8 @@ if(isset($_POST['last_name']) && isset($_POST['first_name']) && isset($_POST['em
  <html>
   <head>
     <meta charset="utf-8">
-      <title>NEW ACCOUNT</title>
+      <link rel="icon" type="image/png" href="images/logo_mini.png">
+      <title>New Account | MoMA</title>
       <link rel="stylesheet" href="new_account.css"/>
       <script src="new_account.js" defer></script>
       <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -95,7 +97,12 @@ if(isset($_POST['last_name']) && isset($_POST['first_name']) && isset($_POST['em
             ?>
             <form name="form_new_account" method="post">
               <input type="input" name="last_name" placeholder="Last name" class="input" <?php if(isset($_POST["last_name"])){echo "value=".$_POST["last_name"];} ?> >
-              <input type="input" name="first_name" placeholder="First name" class="input" <?php if(isset($_POST["first_name"])){echo "value=".$_POST["first_name"];} ?> >             
+              <input type="input" name="first_name" placeholder="First name" class="input" <?php if(isset($_POST["first_name"])){echo "value=".$_POST["first_name"];} ?> > 
+              <select id="gender" name="gender" placeholder="Gender" class="input" <?php if(isset($_POST["gender"])){echo "value=".$_POST["gender"];} ?>>
+                <option value="Female">Female</option>
+                <option value="Male">Male</option>
+                <option value="Other">Non-Specific</option>
+              </select>            
               <input type="email" name="email" placeholder="Email address" class="input" <?php if(isset($_POST["email"])){echo "value=".$_POST["email"];} ?> >
               <input type="password" name="password" placeholder="Create password" class="input" <?php if(isset($_POST["password"])){echo "value=".$_POST["password"];} ?> >
               <input type="password" name="password_confirm" placeholder="Confirm password" class="input" <?php if(isset($_POST["password_confirm"])){echo "value=".$_POST["password_confirm"];} ?> >

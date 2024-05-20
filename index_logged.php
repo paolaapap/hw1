@@ -15,6 +15,7 @@
        if(mysqli_num_rows($res) > 0){
             $userinfo = mysqli_fetch_assoc($res);
             $nome = $userinfo["nome"];
+            $genere = $userinfo["genere"];
         }
         else{
             $name_notfound = true;
@@ -28,7 +29,8 @@
  <html>
   <head>
     <meta charset="utf-8">
-      <title>INDEX</title>
+      <link rel="icon" type="image/png" href="images/logo_mini.png">
+      <title>Home logged | MoMA</title>
       <link rel="stylesheet" href="index_logged.css"/>
       <script src="index_logged.js" defer></script>
       <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -60,9 +62,16 @@
                 } else {
                     echo "<h1>Hello, $nome</h1>";
                 }
-                ?>
+                
 
-                <img src="images\personal_area.jpeg"/>
+                if($genere == "Female"){
+                    echo "<img src='images\women.jpg'/>";
+                } else if ($genere == "Male"){
+                    echo "<img src='images\man.jpg'/>";    
+                } else {
+                    echo "<img src='images\personal_area.jpeg'/>";
+                }
+                ?>
             </div>
         </div>
     </header>
