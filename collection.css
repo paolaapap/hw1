@@ -187,4 +187,13 @@ header {
     width: 50px !important;
     height: 50px !important;
     object-fit: cover;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+    transition: transform 0.3s ease;
+}
+
+.cuore:hover{
+    transform: scale(1.08); /* Ingrandisce leggermente al passaggio */
+    opacity: 1;
+    transform: rotate(20deg); /* Ruota l'elemento di 15 gradi */
 }
