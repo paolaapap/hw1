@@ -10,7 +10,7 @@ if (isset($_GET["id_collection"])){
     $conn = mysqli_connect($dbconfig['host'], $dbconfig['user'], $dbconfig['password'], $dbconfig['database']);
     $result = array();
     $id_collection = mysqli_real_escape_string($conn, $_GET["id_collection"]);
-    $query_count = "SELECT COUNT(*) FROM favorites WHERE id_collection=$id_collection";
+    $query_count = "SELECT COUNT(*) FROM favorites WHERE collection_id=$id_collection";
     $res = mysqli_query($conn, $query_count) or die(mysqli_error($conn));
     $num = mysqli_fetch_assoc($res);
 
@@ -19,7 +19,7 @@ if (isset($_GET["id_collection"])){
         $img = "images/like.png";
     } else {
     //se sono loggata controlla se ho messo like, se l'ho messo mi da il cuore nero
-        $query_check = "SELECT * FROM favorites WHERE id_collection=$id_collection AND id_user=$userid";
+        $query_check = "SELECT * FROM favorites WHERE collection_id=$id_collection AND user_id=$userid";
         $res = mysqli_query($conn, $query_check) or die(mysqli_error($conn));
         //se trova risultati vuol dire che l'utente aveva gia messo like
         if(mysqli_num_rows($res) > 0){

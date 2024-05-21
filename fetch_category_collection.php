@@ -4,7 +4,7 @@ require_once 'auth.php';
 header('Content-Type: application/json');
 
 $conn = mysqli_connect($dbconfig['host'], $dbconfig['user'], $dbconfig['password'], $dbconfig['database']);
-$query = "SELECT DISTINCT category FROM collection";
+$query = "SELECT DISTINCT category FROM collections";
 $res = mysqli_query($conn, $query) or die(mysqli_error($conn));
 
 $categoryArray = array();

@@ -26,7 +26,8 @@ if(isset($_POST['email']))
     #SE NON CI SONO ERRORI FACCIO L'INSERT NEL DB
     if(count($error) == 0){
         $token = rand(10000, 99999);
-        $insert_query = "INSERT INTO reset_password VALUES ('$email', '$token')";
+        $token_hash = password_hash($token, PASSWORD_BCRYPT);
+        $insert_query = "INSERT INTO tokens(email, token) VALUES ('$email', '$token_hash')";
         $res = mysqli_query($conn, $insert_query) or die("Errore: ". mysqli_connect_error());   
         if(!($res)){
             $error[] = "Something went wrong.";

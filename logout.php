@@ -7,7 +7,7 @@
         $conn = mysqli_connect($dbconfig['host'], $dbconfig['user'], $dbconfig['password'], $dbconfig['database']) or die("Errore: " .mysqli_connect_error());
         $cookieid = mysqli_real_escape_string($conn, $_COOKIE['cookie_id']);
         $userid = mysqli_real_escape_string($conn, $_COOKIE['user_id']);
-        $res = mysqli_query($conn, "SELECT id, hash FROM cookies WHERE id = $cookieid AND id_user = $userid");
+        $res = mysqli_query($conn, "SELECT id, hash FROM cookies WHERE id = $cookieid AND user_id = $userid");
         if($cookie=mysqli_fetch_assoc($res)){
           if (password_verify(($_COOKIE['token']), $cookie['hash'])){ //verifico che il token sia ancora valido perche altrimenti sara gia stato eliminato da auth.php
                 mysqli_query($conn, "DELETE FROM cookies WHERE id = ".$cookie['id']) or die("Errore: " .mysqli_error($conn));

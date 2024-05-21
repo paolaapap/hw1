@@ -3,6 +3,6 @@
         'host'     => 'localhost',
         'user'     => 'root',
         'password' => "",
-        'database'     => 'homework1'
+        'database'     => 'hw1'
     ];
 ?>

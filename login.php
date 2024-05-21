@@ -26,7 +26,7 @@
               $token = random_bytes(12);
               $hash = password_hash($token, PASSWORD_BCRYPT);
               $expires = time() + (7 * 24 * 60 * 60);
-              $query = "INSERT INTO cookies (id_user, hash, expires) VALUES(".$entry['id'].", '".$hash."', ".$expires.")";
+              $query = "INSERT INTO cookies (user_id, hash, expires) VALUES(".$entry['id'].", '".$hash."', ".$expires.")";
               $res = mysqli_query($conn, $query) or die("Errore: ". mysqli_connect_error());
               setcookie("user_id", $entry['id'], $expires);
               setcookie("cookie_id", mysqli_insert_id($conn), $expires);

@@ -140,7 +140,7 @@
         <div class="subtitle">See what's on view &#8594;</div>    
     </section>
     <section id="orange">
-        <div class="orange_figlio">
+        <a href="http://localhost/hw1/login.php"><div class="orange_figlio">
             <div class="o1">
                 <span class="title">Discover more</br> 
                     as a member</span>
@@ -149,7 +149,7 @@
             <div class="o2">
                 <img src="images\orange.gif"/>
             </div> 
-        </div>  
+        </div></a>
     </section>
     <section id="store">
         <div class="store1">

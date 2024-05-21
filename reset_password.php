@@ -22,20 +22,18 @@ if(isset($_SESSION['token'])){
             $error[] = "Tokens don't match.";
         }
 
-        #CONTROLLO CHE IL TOKEN ESISTA NEL DB
-        $token = mysqli_real_escape_string($conn, $_POST['token']);
-        $query_token = "SELECT * FROM reset_password WHERE token='$token'";
-        $res = mysqli_query($conn, $query_token)  or die("Errore: ". mysqli_connect_error());
-        if(mysqli_num_rows($res) == 0){
-            $error[] = "Token doesn't exists.";
-        }
 
         #CONTROLLO CHE ESISTA LA RIGA EMAIL-TOKEN
         $email = mysqli_real_escape_string($conn, strtolower($_POST['email']));
-        $query_check = "SELECT * FROM reset_password WHERE email ='" . $email . "' AND token = '" .$token."'"; 
+        $query_check = "SELECT * FROM tokens WHERE email ='" . $email . "'"; 
         $res = mysqli_query($conn, $query_check)  or die("Errore: ". mysqli_connect_error());
-        if(mysqli_num_rows($res) == 0){
-            $error[] = "Wrong token.";
+        if(mysqli_num_rows($res) > 0){
+            $entry = mysqli_fetch_assoc($res);
+            if (!(password_verify($_POST['token'], $entry['token']))){
+                $error[] = "Wrong token.";
+            }
+        } else {
+            $error[] = "Wrong email.";
         }
 
         #SE NON CI SONO STATI ERRORI, FACCIO L'UPDATE
@@ -50,6 +48,8 @@ if(isset($_SESSION['token'])){
 
             //se l'update è andato bene cambio la sessione
             if($res){ 
+                $query_delete = "DELETE FROM tokens WHERE email='$email'";
+                $res = mysqli_query($conn, $query_delete) or die("Errore: ". mysqli_connect_error());
                 $query_id ="SELECT * FROM users WHERE email = '" . $email . "'";
                 $res = mysqli_query($conn, $query_id) or die("Errore: ". mysqli_connect_error());
                 

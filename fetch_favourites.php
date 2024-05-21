@@ -15,7 +15,7 @@ $conn = mysqli_connect($dbconfig['host'], $dbconfig['user'], $dbconfig['password
 
 $result = array();
 $userid = mysqli_real_escape_string($conn, $userid);
-$query= "SELECT c.* FROM (favorites f JOIN users u ON f.id_user=u.id) JOIN collection c on c.id=f.id_collection WHERE id_user=$userid";
+$query= "SELECT c.* FROM (favorites f JOIN users u ON f.user_id=u.id) JOIN collections c on c.id=f.collection_id WHERE f.user_id=$userid";
 $res = mysqli_query($conn, $query) or die(mysqli_error($conn));
 
 while($entry = mysqli_fetch_assoc($res)) {

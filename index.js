@@ -62,9 +62,9 @@ const tour_click = document.querySelector('.custom_tour');
 
 
 function fetch_all(){
-    fetch("fetch_exibitions.php").then(fetchResponse).then(fetchExibitionsJson);
-    fetch("fetch_magazine.php").then(fetchResponse).then(fetchMagazineJson);
-    fetch("fetch_sponsor.php").then(fetchResponse).then(fetchSponsorJson);
+    fetch("fetch_images.php?section=exibition").then(fetchResponse).then(fetchExibitionsJson);
+    fetch("fetch_images.php?section=magazine").then(fetchResponse).then(fetchMagazineJson);
+    fetch("fetch_images.php?section=sponsor").then(fetchResponse).then(fetchSponsorJson);
     fetch("fetch_collection.php").then(fetchResponse).then(fetchCollectionJson);
 }
 
