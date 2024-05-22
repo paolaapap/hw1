@@ -3,9 +3,9 @@
   <head>
     <meta charset="utf-8">
       <link rel="icon" type="image/png" href="images/logo_mini.png">
-      <title>The Collection | MoMA</title>
-      <link rel="stylesheet" href="collection.css"/>
-      <script src="collection.js" defer></script>
+      <title>Running Auctions | MoMA</title>
+      <link rel="stylesheet" href="running_auction.css"/>
+      <script src="running_auction.js" defer></script>
       <link rel="preconnect" href="https://fonts.googleapis.com">
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
       <link href="https://fonts.googleapis.com/css2?family=Lalezar&display=swap" rel="stylesheet">
@@ -21,16 +21,16 @@
             <?php
             require_once 'auth.php';
             if ($userid = checkAuth()) {
-                echo '<a href="http://localhost/hw1/personal_area.php">Personal Area</a>';
+                echo '<a class="a1" href="http://localhost/hw1/personal_area.php">Personal area</a>';
             } else {
-                echo '<a href="http://localhost/hw1/login.php">Login</a>';
+                echo '<a class="a1" href="http://localhost/hw1/index.php">Home</a>';
             }
             ?> 
         </div>
         <div id="header_nav_lower">
             <span>Visit</span> 
-            <span>Auctions</span>  
-            <span class="current_page">Art and artist</span>  
+            <span class="current_page">Auctions</span>  
+            <span>Art and artist</span>  
             <span>Store</span>   
             <div class="header_nav_lower_right"></div>
         </div>
@@ -38,23 +38,20 @@
     <section id="dinamic_header" class='hidden'>
             <div class="left">
                 <span>Visit</span> 
-                <span>Auctions</span>  
-                <span class="current_page">Art and artist</span>  
+                <span class="current_page">Auctions</span>  
+                <span>Art and artist</span>  
                 <span>Store</span>     
             </div>
             <div class="right">
                 <?php
                 if ($userid = checkAuth()) {
-                    echo '<a class="a1" href="http://localhost/hw1/personal_area.php">Personal Area</a>';
+                    echo '<a class="a1" href="http://localhost/hw1/personal_area.php">Personal area</a>';
                 } else {
-                    echo '<a class="a1" href="http://localhost/hw1/login.php">Login</a>';
+                    echo '<a class="a1" href="http://localhost/hw1/index.php">Home</a>';
                 }
                 ?>
+
             </div>
     </section>
-    <h1 id="page_title">The Collection</h1>
-    <section id="filter">
-        <input list="filters" id="filter_input" placeholder="Filter by categories" spellcheck="false">
-        <datalist id="filters"></datalist>
-    </section>
+    <h1 id="page_title">Running Auctions</h1>
     <section id="artworks_section"></section>

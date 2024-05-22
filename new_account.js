@@ -158,7 +158,7 @@ function validazione_input(event){
     (checkInput(formNewAccount.last_name, "Enter your last name"));
     (checkInput(formNewAccount.first_name, "Enter your first name"));
     (checkInput(formNewAccount.email, "Enter your email"));
-    (checkInput(formNewAccount.password, "Eneter your password"));
+    (checkInput(formNewAccount.password, "Enter your password"));
     (checkInput(formNewAccount.password_confirm, "Repeat password"));
 
     if((checkInput(formNewAccount.last_name, "Enter your last name")) || (checkInput(formNewAccount.first_name, "Enter your first name")) || 

@@ -51,7 +51,7 @@
         </div>
         <div class="header_nav_lower">
             <span data-index="1">Visit</span> 
-            <span data-index="2">What's on</span>  
+            <span data-index="2">Auctions</span>  
             <span data-index="3">Art and artist</span>  
             <a href="https://store.moma.org/?_ga=2.93273949.1716260741.1710596028-1262709068.1710596028&_gl=1*d4f806*_ga*MTI2MjcwOTA2OC4xNzEwNTk2MDI4*_ga_8QY3201SLC*MTcxMDYwMTMzNy4yLjEuMTcxMDYwMzM1MS41MC4wLjA.&utm_source=moma.org">Store</a>   
             <img src="images\search_icon.png" />
@@ -84,7 +84,7 @@
         <div class='header_scroll hidden'>
             <div class="left">
                 <span data-index="1">Visit</span> 
-                <span data-index="2">What's on</span>  
+                <span data-index="2">Auctions</span>  
                 <span data-index="3">Art and artist</span>  
                 <a href="https://store.moma.org/?_ga=2.93273949.1716260741.1710596028-1262709068.1710596028&_gl=1*d4f806*_ga*MTI2MjcwOTA2OC4xNzEwNTk2MDI4*_ga_8QY3201SLC*MTcxMDYwMTMzNy4yLjEuMTcxMDYwMzM1MS41MC4wLjA.&utm_source=moma.org">Store</a>   
                 <img src="images\search_icon.png" />   
@@ -118,11 +118,10 @@
         <span class="close">X</span>
     </section>
     <section id="pop_up_m_w" class='pop_up_menu hidden'>
-        <span>In the galleries</span>
-        <span>Events</span>
-        <span>Film series</span>
+        <a href="http://localhost/hw1/new_auction.php">New auction</a>
+        <a href="http://localhost/hw1/running_auction.php">Running auction</a>
+        <span>Where to start</span>
         <span>Performance programs</span>
-        <span>Exhibition history</span>
         <span class="close">X</span>
     </section>
     <section id="pop_up_m_a" class='pop_up_menu hidden'>

@@ -49,7 +49,8 @@
             <a href="http://localhost/hw1/index_logged.php">Home</a> 
             <a href="http://localhost/hw1/change_password.php">Change Password</a>  
             <a href="http://localhost/hw1/new_auction.php">New auction</a>  
-            <span>Store</span>
+            <a href="http://localhost/hw1/running_auction.php">Running auction</a>  
+            <a href="http://localhost/hw1/collection.php">Collection</a>
             <div class="header_nav_lower_right"></div>
         </div>
     </header>
@@ -58,7 +59,8 @@
             <a href="http://localhost/hw1/index_logged.php">Home</a> 
             <a href="http://localhost/hw1/change_password.php">Change Password</a>  
             <a href="http://localhost/hw1/new_auction.php">New auction</a>   
-            <span>Store</span>
+            <a href="http://localhost/hw1/running_auction.php">Running auction</a>  
+            <a href="http://localhost/hw1/collection.php">Collection</a>
             </div>
             <div class="right">
                 <?php
@@ -102,8 +104,10 @@
     </section>
     <section id="auction_ongoing">
         <h1>My auction ongoing</h1>
+        <div id="ongoing_figlio"></div>
     </section>
     <section id="auction">
-        <h1>Running auctions</h1>
+        <h1>My auctions</h1>
+        <div id="auction_figlio"></div>
     </section>
   </body>

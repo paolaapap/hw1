@@ -1,12 +1,15 @@
 const fixHeader = document.querySelector('#fix_header');
 const dinamicHeader = document.querySelector('#dinamic_header');
-const collection_section = document.querySelector('#collection');
 const collection_figlio = document.querySelector('#collection_figlio');
+const auction_figlio = document.querySelector('#auction_figlio');
+const ongoing_figlio = document.querySelector('#ongoing_figlio');
 
 fetch_all();
 
 function fetch_all(){
-    fetch("fetch_favourites.php").then(fetchResponse).then(fetchCollectionJson);   
+    fetch("fetch_favourites.php").then(fetchResponse).then(fetchCollectionJson); 
+    fetch("fetch_auction.php?user_id=true").then(fetchResponse).then(fetchAuctionJson); 
+    fetch("fetch_myoffers.php").then(fetchResponse).then(fetchOffersJson);
 }
 
 function checkScrolling(event)
@@ -58,4 +61,58 @@ function noResults(father){
     const span_error = document.createElement('span');
     span_error.textContent = 'No results found.'
     father.appendChild(span_error);
+}
+
+function fetchAuctionJson(json){
+    if(json.lenght == 0){
+        noResults(auction_figlio);
+        return;
+    }  
+    
+    auction_figlio.innerHTML='';
+    for (let result in json){
+        const div = document.createElement("div");
+        div.classList.add('artworks');
+        div.dataset.index = json[result].asta_id;
+        auction_figlio.appendChild(div);
+        const path = json[result].foto;
+        const src = path.substring(path.indexOf("uploads")); //trova la posizione iniziale della sottostringa "uploads" utilizzando il metodo indexOf(), utilizzando substring(), estrarrà la parte della stringa da quella posizione fino alla fine
+        const img = document.createElement("img");
+        img.src= src;
+        div.appendChild(img);
+        const title = document.createElement("span");
+        title.textContent= json[result].titolo;
+        div.append(title);
+        div.addEventListener("click", show_details);
+    }
+}
+
+function show_details(event){
+    window.location.href = 'info_auction.php?id='+encodeURIComponent(event.currentTarget.dataset.index);
+}
+
+function fetchOffersJson(json){
+    console.log(json);
+    if(json.lenght == 0){
+        noResults(ongoing_figlio);
+        return;
+    }  
+    
+    ongoing_figlio.innerHTML='';
+    for (let result in json){
+        const div = document.createElement("div");
+        div.classList.add('artworks');
+        div.dataset.index = json[result].asta_id;
+        ongoing_figlio.appendChild(div);
+        const path = json[result].foto;
+        const src = path.substring(path.indexOf("uploads")); //trova la posizione iniziale della sottostringa "uploads" utilizzando il metodo indexOf(), utilizzando substring(), estrarrà la parte della stringa da quella posizione fino alla fine
+        const img = document.createElement("img");
+        img.src= src;
+        div.appendChild(img);
+        const title = document.createElement("span");
+        title.textContent= json[result].titolo;
+        div.append(title);
+        div.addEventListener("click", show_details);
+    }
+
 }

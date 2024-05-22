@@ -99,9 +99,9 @@ if(isset($_POST['last_name']) && isset($_POST['first_name']) && isset($_POST['em
               <input type="input" name="last_name" placeholder="Last name" class="input" <?php if(isset($_POST["last_name"])){echo "value=".$_POST["last_name"];} ?> >
               <input type="input" name="first_name" placeholder="First name" class="input" <?php if(isset($_POST["first_name"])){echo "value=".$_POST["first_name"];} ?> > 
               <select id="gender" name="gender" placeholder="Gender" class="input" <?php if(isset($_POST["gender"])){echo "value=".$_POST["gender"];} ?>>
+                <option value="Other">Non-Specific</option>  
                 <option value="Female">Female</option>
                 <option value="Male">Male</option>
-                <option value="Other">Non-Specific</option>
               </select>            
               <input type="email" name="email" placeholder="Email address" class="input" <?php if(isset($_POST["email"])){echo "value=".$_POST["email"];} ?> >
               <input type="password" name="password" placeholder="Create password" class="input" <?php if(isset($_POST["password"])){echo "value=".$_POST["password"];} ?> >

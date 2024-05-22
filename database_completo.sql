@@ -1,5 +1,5 @@
-CREATE DATABASE hw1;
-USE hw1;
+/*CREATE DATABASE hw1_complete;*/
+USE hw1_complete;
 
 CREATE TABLE images (
 	id INTEGER AUTO_INCREMENT PRIMARY KEY,
@@ -54,7 +54,7 @@ CREATE TABLE auctions (
     user_id INTEGER NOT NULL,
     foto VARCHAR(255) NOT NULL,
     titolo VARCHAR(255) NOT NULL,
-    duarata DATE NOT NULL,
+    durata DATETIME NOT NULL,
     prezzo_iniziale FLOAT NOT NULL,
     num_offerte INTEGER DEFAULT 0, 
     ultimo_prezzo INTEGER DEFAULT 0, 
@@ -110,7 +110,7 @@ FOR EACH ROW
 BEGIN
 UPDATE auctions
 SET num_offerte = num_offerte + 1
-WHERE id = new.auctions_id;
+WHERE id = new.auction_id;
 END //
 DELIMITER ;
 
@@ -118,9 +118,10 @@ DELIMITER //
 CREATE TRIGGER update_price
 AFTER INSERT ON offers
 FOR EACH ROW
+BEGIN
 UPDATE auctions
-SET ultimo_prezzo = new.prezzo;
-WHERE id=new.auctions_id;
+SET ultimo_prezzo = new.prezzo
+WHERE id=new.auction_id;
 END //
 DELIMITER ;
 
@@ -129,9 +130,23 @@ CREATE TRIGGER check_date
 BEFORE INSERT ON offers
 FOR EACH ROW
 BEGIN
-IF(current_date() > (SELECT durata FROM auctions WHERE id=new.auction_id)) THEN
+IF(now() > (SELECT durata FROM auctions WHERE id=new.auction_id)) THEN
 	SIGNAL SQLSTATE '45000'
 	SET MESSAGE_TEXT = 'Impossibile inserire offerta: l\'asta è scaduta';
+END IF;
+END //
+DELIMITER ;
+
+
+DELIMITER //
+CREATE TRIGGER check_price
+BEFORE INSERT ON offers
+FOR EACH ROW
+BEGIN
+/*o analogamente IF(new.prezzo < (SELECT prezzo FROM offers WHERE auction_id=new.auction_id ORDER BY prezzo DESC LIMIT 1)) THEN*/
+IF(new.prezzo < (SELECT ultimo_prezzo FROM auctions WHERE id=new.auction_id)) THEN
+	SIGNAL SQLSTATE '45000'
+	SET MESSAGE_TEXT = 'Impossibile inserire offerta: il prezzo deve essere maggiore dell\'ultimo prezzo';
 END IF;
 END //
 DELIMITER ;
@@ -162,3 +177,5 @@ INSERT INTO images (section, content) VALUES ('sponsor', '{"image" : "images/spo
 INSERT INTO images (section, content) VALUES ('sponsor', '{"image" : "images/sponsor2.jpg"}');
 INSERT INTO images (section, content) VALUES ('sponsor', '{"image" : "images/sponsor3.jpg"}');
 INSERT INTO images (section, content) VALUES ('sponsor', '{"image" : "images/sponsor4.jpg"}');
+
+SELECT * FROM favorites;

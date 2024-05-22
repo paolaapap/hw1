@@ -564,11 +564,12 @@ input[type="text"] {
     padding-left: 60px;
 }
 
-.section-box img{
+.section-box img {
     width: 63.4vw;
     height: 384px;
     object-fit: cover;
 }
+
 
 .little h1{
     width: 70%;
