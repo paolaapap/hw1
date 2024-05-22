@@ -1,8 +1,19 @@
 <?php
     require_once 'auth.php';
+    require_once 'fetch_check_expires.php';
+
+    $conn = mysqli_connect($dbconfig['host'], $dbconfig['user'], $dbconfig['password'], $dbconfig['database']);
 
     if(isset($_GET["id"])) {
         $auction_id = $_GET["id"];
+        $query = "SELECT id FROM auctions ORDER BY id DESC LIMIT 1";
+        $res = mysqli_query($conn, $query) or die(mysqli_error($conn));
+        if($result = mysqli_fetch_assoc($res)){
+            if($auction_id > $result['id']){ //cioe se provo a fare un'offerta ma nel frattempo scade l'asta e quindi viene rimossa dal db
+                header("Location: running_auction.php"); 
+                exit;  
+            }
+        }
     } else {
         header("Location: running_auction.php");
     }
@@ -14,7 +25,6 @@
 
         } else {
 
-            $conn = mysqli_connect($dbconfig['host'], $dbconfig['user'], $dbconfig['password'], $dbconfig['database']);
             $error = array();
 
             #CONTROLLO CHE IL PREZZO INSERITO SIA MAGGIORE DELL'UTLIMA OFFERTA E DEL PREZZO BASE

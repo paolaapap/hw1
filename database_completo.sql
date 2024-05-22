@@ -76,7 +76,7 @@ CREATE TABLE offers(
 CREATE TABLE notifications(
 	id INTEGER AUTO_INCREMENT PRIMARY KEY,
     user_id INTEGER NOT NULL,
-    content JSON,
+    content VARCHAR(255),
     INDEX idx_user (user_id),	
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
@@ -144,7 +144,7 @@ BEFORE INSERT ON offers
 FOR EACH ROW
 BEGIN
 /*o analogamente IF(new.prezzo < (SELECT prezzo FROM offers WHERE auction_id=new.auction_id ORDER BY prezzo DESC LIMIT 1)) THEN*/
-IF(new.prezzo < (SELECT ultimo_prezzo FROM auctions WHERE id=new.auction_id)) THEN
+IF(new.prezzo < (SELECT ultimo_prezzo FROM auctions WHERE id=new.auction_id) || new.prezzo < (SELECT prezzo_iniziale FROM auctions WHERE id=new.auction_id)) THEN
 	SIGNAL SQLSTATE '45000'
 	SET MESSAGE_TEXT = 'Impossibile inserire offerta: il prezzo deve essere maggiore dell\'ultimo prezzo';
 END IF;
@@ -178,4 +178,3 @@ INSERT INTO images (section, content) VALUES ('sponsor', '{"image" : "images/spo
 INSERT INTO images (section, content) VALUES ('sponsor', '{"image" : "images/sponsor3.jpg"}');
 INSERT INTO images (section, content) VALUES ('sponsor', '{"image" : "images/sponsor4.jpg"}');
 
-SELECT * FROM favorites;

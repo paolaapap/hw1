@@ -58,7 +58,7 @@ function fetchAuctionJson(json){
     divDetails.appendChild(prezzo_iniziale);
 
     const ultimo_prezzo = document.createElement("span");
-    ultimo_prezzo.textContent = "Latest price: " + json[0].ultimo_prezzo;
+    ultimo_prezzo.textContent = "Latest price: " + json[0].ultimo_prezzo + "$";
     divDetails.appendChild(ultimo_prezzo);
 
     const form = document.createElement("form");

@@ -3,6 +3,8 @@ const dinamicHeader = document.querySelector('#dinamic_header');
 const collection_figlio = document.querySelector('#collection_figlio');
 const auction_figlio = document.querySelector('#auction_figlio');
 const ongoing_figlio = document.querySelector('#ongoing_figlio');
+const headerForNotif = document.querySelector('.header_nav_lower_right');
+const notifSection = document.querySelector('#notifications');
 
 fetch_all();
 
@@ -10,6 +12,7 @@ function fetch_all(){
     fetch("fetch_favourites.php").then(fetchResponse).then(fetchCollectionJson); 
     fetch("fetch_auction.php?user_id=true").then(fetchResponse).then(fetchAuctionJson); 
     fetch("fetch_myoffers.php").then(fetchResponse).then(fetchOffersJson);
+    fetch("fetch_notifications.php").then(fetchResponse).then(fetchNotificationJson);
 }
 
 function checkScrolling(event)
@@ -114,5 +117,67 @@ function fetchOffersJson(json){
         div.append(title);
         div.addEventListener("click", show_details);
     }
+
+}
+
+function fetchNotificationJson(json){
+    console.log(json);
+    if(json.length==0){
+        notifSection.innerHTML='';
+        if(headerForNotif.querySelector('img')){
+            const img = headerForNotif.querySelector('img');
+            //headerForNotif.removeChild(img);
+            img.src = 'images/no_notifications.jpg';
+        } else {
+            const new_img = document.createElement('img');
+            new_img.src = 'images/no_notifications.jpg';
+            headerForNotif.appendChild(new_img);
+        }
+    
+    } else {
+        if(headerForNotif.querySelector('img')){
+            const img = headerForNotif.querySelector('img');
+            //headerForNotif.removeChild(img);
+            img.src = 'images/yes_notifications.jpg';
+            img.addEventListener('mouseenter', showPersonalMenu);
+            img.addEventListener('mouseleave', hidePersonalMenu);
+        } else {
+            const new_img = document.createElement('img');
+            new_img.src = 'images/yes_notifications.jpg';
+            headerForNotif.appendChild(new_img);
+            new_img.addEventListener('mouseenter', showPersonalMenu);
+            new_img.addEventListener('mouseleave', hidePersonalMenu);
+            notifSection.addEventListener('mouseleave', hidePersonalMenu);
+        }
+
+        notifSection.innerHTML='';
+        for (let result in json){
+            const span = document.createElement('span');
+            span.textContent = json[result].content;
+            notifSection.appendChild(span);
+        }
+
+        const div = document.createElement('div');
+        div.textContent = 'Hide all';
+        notifSection.classList.add('pointer');
+        notifSection.appendChild(div);
+        notifSection.addEventListener("click", hide_all);
+
+        function hide_all(){
+            fetch("fetch_notifications.php?hide=true").then(fetchResponse).then(fetchNotificationJson);    
+        }
+
+        function showPersonalMenu(){
+            notifSection.classList.remove('hidden');
+        }
+
+        function hidePersonalMenu(event){
+            // Nascondo il menu solo se il mouse non è sopra il menu stesso o sopra l'elemento che lo attiva
+            if (!event.currentTarget.contains(event.relatedTarget) && !notifSection.contains(event.relatedTarget)) {
+                notifSection.classList.add('hidden');
+            }
+        }
+    }
+
 
 }

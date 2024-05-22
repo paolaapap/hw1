@@ -1,10 +1,11 @@
 <?php 
     require_once 'auth.php';
+    require_once 'fetch_check_expires.php';
+
     if (!$userid = checkAuth()) {
         header("Location: login.php");
         exit;
     } else{
-
         $conn = mysqli_connect($dbconfig['host'], $dbconfig['user'], $dbconfig['password'], $dbconfig['database']) or die("Errore: " .mysqli_connect_error());
         $userid = mysqli_real_escape_string($conn, $userid);
         $query = "SELECT * FROM users WHERE id = $userid";
@@ -54,6 +55,8 @@
             <div class="header_nav_lower_right"></div>
         </div>
     </header>
+    <section id="notifications" class='hidden'>
+    </section>
     <section id="dinamic_header" class='hidden'>
             <div class="left">
             <a href="http://localhost/hw1/index_logged.php">Home</a> 

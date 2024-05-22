@@ -1,5 +1,6 @@
 <?php
 require_once 'auth.php';
+require_once 'fetch_check_expires.php';
 
 header('Content-Type: application/json');
 

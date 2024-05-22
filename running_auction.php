@@ -1,3 +1,6 @@
+<?php
+    require_once 'fetch_check_expires.php';
+?>
 <!DOCTYPE html>
  <html>
   <head>
