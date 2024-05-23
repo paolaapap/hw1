@@ -29,10 +29,6 @@ const modalViewArtworks = document.querySelector('#modal_view_artworks');
 const artworkResults = document.querySelector('#artworks_results');
 const hotel_grid = document.querySelector('.hotel_grid');
 const nearby_hotel_click = document.querySelectorAll('.hotel');
-const my_api_key = '605fe4c119msh474c466ec9a765dp14fd40jsn77c52d3be8dc';
-//chiavi non usate '022b4901d2mshc22ec5bba4faa35p19c891jsndd905e2f2fba'
-const latitude = "40.730610";
-const longitude = "-73.935242";
 const client_id = "b29a8bd46d37ea752b70";
 const client_secret ="c2bef07647734ee67d2b7e86b47469a0";
 let token;
@@ -379,6 +375,7 @@ for(t of textBoxMail){
 ///////////////////////////////////////////////////////// API ////////////////
 
 function onJson(json) {
+
     hotel_grid.innerHTML='';
     const status = json.status;
     if(status === false){
@@ -387,6 +384,7 @@ function onJson(json) {
         err_message.classList.add('error_message');
         modalViewHotel.appendChild(err_message);
     }
+    
     else{
         const list_result = json.data.data;
         for(result of list_result){
@@ -426,7 +424,6 @@ function onJson(json) {
             hotel_box.appendChild(span2);
             hotel_box.appendChild(span3);
             hotel_box.appendChild(link);
-            h1.classList.add('shrink');
             span1.classList.add('shrink');
             img.classList.add('shrink');
             span2.classList.add('shrink');
@@ -456,16 +453,8 @@ function search(event) {
     const adults_value = encodeURIComponent(adults.value);
     const rooms_value = encodeURIComponent(rooms.value);
   
-    const url = 'https://tripadvisor16.p.rapidapi.com/api/v1/hotels/searchHotelsByLocation?latitude=' + latitude + '&longitude=' + longitude + '&checkIn=' + check_in_value + '&checkOut=' + check_out_value +'&pageNumber=1&adults=' + adults_value + '&rooms=' + rooms_value + '&currencyCode=USD';
-    const options = {
-      method: "GET",
-      headers: {
-        "X-RapidAPI-Key": my_api_key,
-        "X-RapidAPI-Host": "tripadvisor16.p.rapidapi.com",
-      },
-    };
-
-    fetch(url, options).then(onResponse).then(onJson);
+    const url = 'fetch_api_hotel.php?check_in=' + check_in_value + '&check_out=' + check_out_value + '&adults=' + adults_value + '&room=' + rooms_value;
+    fetch(url).then(onResponse).then(onJson);
 }
 
 form_hotel.addEventListener('submit', search);

@@ -95,7 +95,6 @@ function show_details(event){
 }
 
 function fetchOffersJson(json){
-    console.log(json);
     if(json.lenght == 0){
         noResults(ongoing_figlio);
         return;
@@ -121,7 +120,6 @@ function fetchOffersJson(json){
 }
 
 function fetchNotificationJson(json){
-    console.log(json);
     if(json.length==0){
         notifSection.innerHTML='';
         if(headerForNotif.querySelector('img')){

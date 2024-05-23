@@ -385,14 +385,13 @@ header {
     position: absolute;
     top: 0px;
     left: 0;
-    width: 98%;
+    width: 80.27%;
     height: 7000px;
     background-color: white; 
     z-index: 3;     
     padding-top: 24px;
-    padding-left: 24px;
-    padding-right: 24px;
-    overflow: auto;
+    padding-left: 150px;
+    padding-right: 150px;
 }
 
 #modal_view_hotel form{
@@ -444,7 +443,7 @@ input[type="text"] {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-between;    
+    justify-content: space-between;   
 }
 
 .single_hotel{
@@ -461,13 +460,17 @@ input[type="text"] {
     margin-top: 24px;
 }
 
-.single_hotel h1, .single_hotel img, .single_hotel span, .single_hotel a{
+.single_hotel img, .single_hotel span, .single_hotel a{
     flex-shrink: 1;
 }
 
+.single_hotel h1{
+    font-size: 1.3rem !important;
+}
+
 .single_hotel img{
-    width: 300px;
-    height: 250px;
+    width: 270px;
+    height: 220px;
     object-fit: cover;
 }
 

@@ -1,4 +1,4 @@
-/*CREATE DATABASE hw1_complete;*/
+CREATE DATABASE hw1_complete;
 USE hw1_complete;
 
 CREATE TABLE images (
@@ -37,7 +37,6 @@ CREATE TABLE collections (
     category VARCHAR(255) NOT NULL,
     content JSON
 );
-
 
 CREATE TABLE favorites (
 	user_id INTEGER NOT NULL,
@@ -86,7 +85,7 @@ CREATE TRIGGER likes
 AFTER INSERT ON favorites
 FOR EACH ROW
 BEGIN
-UPDATE collection
+UPDATE collections
 SET num_like = num_like + 1
 WHERE id = new.collection_id;
 END //
@@ -97,7 +96,7 @@ CREATE TRIGGER unlikes
 AFTER DELETE ON favorites
 FOR EACH ROW
 BEGIN
-UPDATE collection
+UPDATE collections
 SET num_like = num_like - 1
 WHERE id = old.collection_id;
 END //
@@ -178,3 +177,5 @@ INSERT INTO images (section, content) VALUES ('sponsor', '{"image" : "images/spo
 INSERT INTO images (section, content) VALUES ('sponsor', '{"image" : "images/sponsor3.jpg"}');
 INSERT INTO images (section, content) VALUES ('sponsor', '{"image" : "images/sponsor4.jpg"}');
 
+SELECT * FROM favorites;
+SELECT * FROM tokens;
