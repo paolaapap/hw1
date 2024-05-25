@@ -32,6 +32,14 @@
             <span>Auctions</span>  
             <span class="current_page">Art and artist</span>  
             <span>Store</span>   
+            <?php
+            require_once 'auth.php';
+            if ($userid = checkAuth()) {
+                echo '<a href="http://localhost/hw1/index.php">Home</a>';
+            } else {
+                echo '<a href="http://localhost/hw1/index.php">Home</a>';
+            }
+            ?> 
             <div class="header_nav_lower_right"></div>
         </div>
     </header>
@@ -40,7 +48,15 @@
                 <span>Visit</span> 
                 <span>Auctions</span>  
                 <span class="current_page">Art and artist</span>  
-                <span>Store</span>     
+                <span>Store</span>    
+                <?php
+                require_once 'auth.php';
+                if ($userid = checkAuth()) {
+                    echo '<a href="http://localhost/hw1/index.php">Home</a>';
+                } else {
+                    echo '<a href="http://localhost/hw1/index.php">Home</a>';
+                }
+                ?> 
             </div>
             <div class="right">
                 <?php

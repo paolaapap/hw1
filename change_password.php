@@ -46,7 +46,7 @@ if(isset($_POST['email']) && isset($_POST['old_password']) && isset($_POST['new_
             if($res){
                 $userid = $entry["id"];
                 $_SESSION["user_id"] = $userid;
-                header("Location: index_logged.php");
+                header("Location: index.php");
                 mysqli_free_result($res); 
                 exit;  
             } else {
@@ -93,7 +93,7 @@ if(isset($_POST['email']) && isset($_POST['old_password']) && isset($_POST['new_
               <input type="submit" value="Change password" class="button">
             </form>
             <a href="http://localhost/hw1/personal_area.php">&#8592; Return to your personal area</a>
-            <a href="http://localhost/hw1/index_logged.php">&#8592; Return to home page</a>
+            <a href="http://localhost/hw1/index.php">&#8592; Return to home page</a>
           </div>
       </section>
     </section>

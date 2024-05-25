@@ -179,3 +179,5 @@ INSERT INTO images (section, content) VALUES ('sponsor', '{"image" : "images/spo
 
 SELECT * FROM favorites;
 SELECT * FROM tokens;
+SELECT * FROM cookies;
+SELECT * FROM auctions;

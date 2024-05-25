@@ -1,10 +1,4 @@
 <?php
-//controllo che l'utente sia loggato altrimenti ti mando al login       FATTO 
-//controllo formato datetime         FATTO
-//prima di inserire controllo che la data e ora attuale sia maggiore di quella inserita         FATTO
-//controllo formato img             FATTO
-//controllo formato prezzo          FATTO
-
 require_once 'auth.php';
 
 if (!$userid = checkAuth()) {
@@ -108,7 +102,7 @@ if(isset($_FILES["uploaded_image"]["name"]) && isset($_POST['title']) && isset($
               <input type="input" name="starting_price" placeholder="Starting price" class="input" <?php if(isset($_POST["starting_time"])){echo "value=".$_POST["starting_time"];} ?> >
               <input type="submit" value="Create new auction" class="button">
             </form>
-            <a href="http://localhost/hw1/index_logged.php">&#8592; Return to home page</a>
+            <a href="http://localhost/hw1/index.php">&#8592; Return to home page</a>
             <a href="http://localhost/hw1/personal_area.php">&#8592; Return to personal area</a>
           </div>
       </section>

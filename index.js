@@ -5,6 +5,9 @@
 const navClick = document.querySelectorAll('.header_nav_lower span');
 const popUpMenu = document.querySelectorAll('.pop_up_menu');
 const closeButton = document.querySelectorAll('.close');
+const personalAreaH1 = document.querySelector('.header_nav_lower .d1 h1');
+const personalAreaImg = document.querySelector('.header_nav_lower .d1 img');
+const menuPersonalArea = document.querySelector("#menu_personal_area");
 const exib_container = document.querySelector('#exibitions');
 const exib_img_dinamic = [];
 const exib_img_static = [];
@@ -29,9 +32,7 @@ const modalViewArtworks = document.querySelector('#modal_view_artworks');
 const artworkResults = document.querySelector('#artworks_results');
 const hotel_grid = document.querySelector('.hotel_grid');
 const nearby_hotel_click = document.querySelectorAll('.hotel');
-const client_id = "b29a8bd46d37ea752b70";
-const client_secret ="c2bef07647734ee67d2b7e86b47469a0";
-let token;
+const bookATour_section = document.querySelector('#book_a_tour');
 let source = [
     "GetYourGuide",
     "Viator",
@@ -46,16 +47,11 @@ let source = [
     "Trip Savvy",
     "Tripadvisor"
 ];
-const api_key_joj = '838310cca6msh7d61d361461e895p122d46jsn6a90eb379efb';
-//chiavi non usate '022b4901d2mshc22ec5bba4faa35p19c891jsndd905e2f2fba', '605fe4c119msh474c466ec9a765dp14fd40jsn77c52d3be8dc'
-const bookATour_section = document.querySelector('#book_a_tour');
-const close_custom_tour = document.querySelector('#close_custom_tour');
-const custom_tour_section = document.querySelector('#custom_tour');
-const custom_tour_form = document.querySelector('#custom_tour form');
-const api_key_chatgpt = '022b4901d2mshc22ec5bba4faa35p19c891jsndd905e2f2fba';
-const text_by_chatgpt = custom_tour_section.querySelector('span');
-const tour_click = document.querySelector('.custom_tour');
 
+
+function stopProp(event){   
+    event.stopPropagation();
+}
 
 function fetch_all(){
     fetch("fetch_images.php?section=exibition").then(fetchResponse).then(fetchExibitionsJson);
@@ -230,6 +226,25 @@ for (const c of closeButton){
     c.addEventListener('click', hideMenu);    
 }
 
+if(document.querySelector(".d1 img")){
+    function showPersonalMenu(){
+        menuPersonalArea.classList.remove('hidden');
+    }
+
+    personalAreaH1.addEventListener('mouseenter', showPersonalMenu);
+    personalAreaImg.addEventListener('mouseenter', showPersonalMenu);
+
+    function hidePersonalMenu(event){
+        // Nascondo il menu solo se il mouse non è sopra il menu stesso o sopra l'elemento che lo attiva
+        if (!menuPersonalArea.contains(event.relatedTarget) && !personalAreaH1.contains(event.relatedTarget) && !personalAreaImg.contains(event.relatedTarget)) {
+            menuPersonalArea.classList.add('hidden');
+        }
+    }
+
+    personalAreaH1.addEventListener('mouseleave', hidePersonalMenu);
+    personalAreaImg.addEventListener('mouseleave', hidePersonalMenu);
+    menuPersonalArea.addEventListener('mouseleave', hidePersonalMenu);
+}
 
 function changeImg(event) {
     const image = event.currentTarget;
@@ -330,11 +345,6 @@ function hideSearchBar(event){
 
 modalView.addEventListener('click', hideSearchBar);
 
-function stopProp(event)
-{
-    event.stopPropagation();
-}
-
 textBox.addEventListener('click', stopProp);
 
 function onWriteText(){
@@ -372,7 +382,7 @@ for(t of textBoxMail){
     t.addEventListener('keypress', storeMail);
 }
 
-///////////////////////////////////////////////////////// API ////////////////
+///////////////////////////////////////////////////////// API HOTEL ///////////////////////////
 
 function onJson(json) {
 
@@ -482,105 +492,87 @@ function hideModalHotel (event){
 
 document.addEventListener('keydown', hideModalHotel);
 
-////////////////// API CON OAUTH ///////////////////////////////////////////
+////////////////// API CON OAUTH - ARTSY ///////////////////////////////////////////
 
-fetch("https://api.artsy.net/api/tokens/xapp_token?client_id=" + client_id + "&client_secret=" + client_secret,
-{
-    method: "post"
-}
-).then(onResponse).then(onTokenJson);
+modalViewForm.addEventListener('submit', searchArtist);
 
+let user_input = '';
 
-function onTokenJson(json)
-{
-  console.log(json)
-  token = json.token;
-}
-
-
-function search2(event){
-    event.preventDefault();
-    let url = "https://api.artsy.net/api/artists/";
-    //il testo inserito dall'utente deve essere separato da trattini
-    const user_input = textBox.value;
-    const array = user_input.split(" ");
-    for (let i=0; i<array.length; i++){
-        if(i!=array.length-1)
-            url += array[i] + "-";
-        else url += array[i];
-    }
-    fetch(url, 
-    {
-      headers:
-      {
-        'X-Xapp-Token':  token
-      }
-    }
-  ).then(onResponse).then(onJson2);
-
-  
-}
-
-let artist_name;
-let artist_location;
-
-function onJson2(json){
-    artist_name = json.name; //nome
-    artist_location = json.location; //localita
-    const id_artist = json.id;
-    let url_artworks = "https://api.artsy.net/api/artworks?artist_id=";
-    fetch(url_artworks + id_artist, 
-        {
-          headers:
-          {
-            'X-Xapp-Token':  token
-          }
-        }
-      ).then(onResponse).then(onJson3);
-
-}
-
-function onJson3(json){
+function searchArtist(event){
     modalView.classList.add('hidden');
     modalViewArtworks.classList.remove('hidden');
-    textBox.value="";
-    artworkResults.innerHTML='';
-    const h1_remove = modalViewArtworks.querySelectorAll('h1');
-    for (h of h1_remove)
-        h.remove();
-
-    const name = document.createElement("h1");
-    name.textContent=artist_name;
-    modalViewArtworks.insertBefore(name, artworkResults);
-    const loc = document.createElement("h1");
-    loc.textContent=artist_location;
-    modalViewArtworks.insertBefore(loc, artworkResults);
-
-    const artworks = json._embedded.artworks;
-    const thum_src = [];
-    const titles = [];
-    for (let i=0; i<artworks.length; i++){
-            thum_src[i] = artworks[i]._links.thumbnail.href;
-            titles[i]=artworks[i].title;
-    }
-    
-    for(let i=0; i<thum_src.length; i++){
-        const new_div = document.createElement("div");
-        artworkResults.appendChild(new_div);
-        new_div.classList.add('artworks_and_title');
-        const img = document.createElement("img");
-        img.src=thum_src[i];
-        const title = document.createElement("span");
-        title.textContent=titles[i];
-        new_div.appendChild(img);
-        new_div.appendChild(title);
-    } 
-
-    document.body.classList.add('no-scroll');
-    modalViewArtworks.classList.add('scroll');
+    event.preventDefault();
+    user_input = textBox.value;
+    fetch("fetch_api_artsy.php?artist_name=" + user_input).then(onResponse).then(onJsonArtist);
 }
 
-modalViewForm.addEventListener('submit', search2);
+function onJsonArtist(json){
+    if(json.message == "Artist Not Found"){
+        textBox.value="";
+        artworkResults.innerHTML='';
+        const h1 = document.createElement("h1");
+        h1.textContent = "Artist Not Found";
+        artworkResults.appendChild(h1);
+    } else {
+        const link = json._links.location.href;
+        const parts = link.split('/');
+        const artist_id = parts[parts.length - 1];
+        fetch("fetch_api_artsy.php?artist_id=" + artist_id).then(onResponse).then(onJsonArtworks);
+    }
+}
+
+function onJsonArtworks(json){
+
+    if(json.message == "Artist Not Found" || json._embedded.artworks.length == 0){
+        textBox.value="";
+        artworkResults.innerHTML='';
+        const h1 = document.createElement("h1");
+        h1.textContent = "Artist Not Found";
+        artworkResults.appendChild(h1);
+
+    } else {
+
+        textBox.value="";
+        artworkResults.innerHTML='';
+
+        if(modalViewArtworks.querySelector('h1')){
+            const h1 = modalViewArtworks.querySelector('h1');
+            h1.remove();
+        }
+
+        const name = document.createElement("h1");
+        name.textContent=(user_input.toUpperCase());
+        modalViewArtworks.insertBefore(name, artworkResults);
+        
+        const artworks = json._embedded.artworks;
+        const thum_src = [];
+        const titles = [];
+
+        for (let i=0; i<artworks.length; i++){
+                thum_src[i] = artworks[i]._links.thumbnail.href;
+                titles[i]=artworks[i].title;
+        }
+        
+        for(let i=0; i<thum_src.length; i++){
+
+            const new_div = document.createElement("div");
+            artworkResults.appendChild(new_div);
+            new_div.classList.add('artworks_and_title');
+
+            const img = document.createElement("img");
+            img.src=thum_src[i];
+            new_div.appendChild(img);
+
+            const title = document.createElement("span");
+            title.textContent=titles[i];
+            new_div.appendChild(title);
+        } 
+
+        document.body.classList.add('no-scroll');
+        modalViewArtworks.classList.add('scroll');
+    }
+}
+
 
 function hideArtworks(event){
     modalViewArtworks.classList.add('hidden');
@@ -591,9 +583,16 @@ function hideArtworks(event){
 modalViewArtworks.addEventListener('click', hideArtworks);
 artworkResults.addEventListener('click', stopProp);
 
-////////////////////// TERZA API ////////////////////////////
+////////////////////// API JOJ ////////////////////////////
 
-function onJson4(json) {
+bookATour.addEventListener('click', searchTour);
+
+function searchTour(event) {
+    fetch("fetch_api_tour.php").then(onResponse).then(onTourJson);
+}
+
+
+function onTourJson(json) {
     for (p of popUpMenu)
         p.classList.add('hidden');
     bookATour_section.classList.remove('hidden');
@@ -654,6 +653,10 @@ function onJson4(json) {
         div3.appendChild(l);
         const p = document.createElement("span");
         div3.appendChild(p);
+        const star = document.createElement("span");
+        star.classList.add("pref_tour");
+        star.addEventListener("click", saveTour);
+        div3.appendChild(star);
 
 
         t.textContent=titles[i];
@@ -661,6 +664,12 @@ function onJson4(json) {
         p.textContent="by: " + provider[i];
         l.href=link[i];
         l.textContent="Reserve now";
+        star.textContent = "Save it for later";
+
+        div.dataset.index = i;
+        div.dataset.title = titles[i];
+        div.dataset.img = img[i];
+        div.dataset.link = link[i];
 
     }
 
@@ -672,88 +681,40 @@ function close_tour(){
     document.body.classList.remove('no-scroll');
     bookATour_section.classList.remove('scroll');
 }
-  
 
+function saveTour(event){
+    const tour = event.currentTarget.parentNode.parentNode.parentNode;
+    console.log(tour.dataset.index);
+    console.log(tour.dataset.title);
+    console.log(tour.dataset.img);
+    console.log(tour.dataset.link);
 
-function search3(event) {
-    event.preventDefault();
-    const url = 'https://joj-image-search.p.rapidapi.com/v2/?q=moma%20tour&hl=en';
-    const options = {
-      method: "GET",
-      headers: {
-        "X-RapidAPI-Key": api_key_joj,
-        "X-RapidAPI-Host": 'joj-image-search.p.rapidapi.com',
-      },
-    };
+    const formData = new FormData();
 
-    fetch(url, options).then(onResponse).then(onJson4);
+    formData.append('id', tour.dataset.index);
+    formData.append('title', tour.dataset.title);
+    formData.append('img', tour.dataset.img);
+    formData.append('link', tour.dataset.link);
+
+    fetch("fetch_save_tour.php", {method: 'post', body: formData}).then(dispatchResponse, dispatchError);
+    event.stopPropagation();
 }
 
-bookATour.addEventListener('click', search3);
-
-
-//////////////////////////////// QUARTA API ///////////////////////////
-function openCustomTour(){
-    for (p of popUpMenu)
-        p.classList.add('hidden');
-    custom_tour_section.classList.remove('hidden');
-    document.body.classList.add('no-scroll');
-    custom_tour_section.classList.add('scroll');
-    text_by_chatgpt.innerHTML='';
+function dispatchResponse(response) {
+    return response.json().then(databaseResponse); 
 }
 
-tour_click.addEventListener('click', openCustomTour);
-
-function onJson5(json) {
-    console.log(json);
-    const result_text = json.choices[0].message.content;
-    const span = document.createElement("span");
-    custom_tour_section.appendChild(span);
-    span.classList.add(span_chatgpt);
-    span.textContent=result_text;
-}
-  
-
-function search4(event) {
-    event.preventDefault();
-    const user_tex = document.querySelector("#chatgpt_text");
-    const user_input = user_tex.value;
-
-    const url = 'https://chat-gpt26.p.rapidapi.com/';
-    const options = {
-        method: 'POST',
-        headers: {
-            'content-type': 'application/json',
-            'Content-Type': 'application/json',
-            'X-RapidAPI-Key': api_key_chatgpt,
-            'X-RapidAPI-Host': 'chat-gpt26.p.rapidapi.com'
-        },
-        body: {
-            model: 'gpt-3.5-turbo',
-            messages: [
-                {
-                    role: 'user',
-                    content: "\'" + user_input + "\'"
-                }
-            ]
-        }
-    };
-
-    fetch(url, options).then(onResponse).then(onJson5); 
+function dispatchError(error) { 
+    console.log("Errore: " + error);
 }
 
-custom_tour_form.addEventListener('submit', search4);
-
-
-
-function hideCustomTour (event){
-        custom_tour_section.classList.add('hidden');
-        document.body.classList.remove('no-scroll');
-        bookATour_section.classList.remove('scroll');
-        const user = document.querySelector('#chatgpt_text');
-        user.value="";
-        text_by_chatgpt.innerHTML='';
+function databaseResponse(json) {
+    if (!json.ok) {
+        dispatchError();
+        return null;
+    }
 }
 
 
-close_custom_tour.addEventListener('click', hideCustomTour);
+
+

@@ -2,7 +2,7 @@
 require_once 'auth.php';
 
 if (checkAuth()) {
-    header("Location: index_logged.php");
+    header("Location: index.php");
     exit;
 }   
 
@@ -58,7 +58,7 @@ if(isset($_POST['last_name']) && isset($_POST['first_name']) && isset($_POST['em
       $res = mysqli_query($conn, $query_insert)  or die("Errore: ". mysqli_connect_error());
       if($res){
               $_SESSION["user_id"]=mysqli_insert_id($conn);
-              header("Location: index_logged.php");
+              header("Location: index.php");
               mysqli_free_result($res);
               mysqli_close($conn);
               exit;

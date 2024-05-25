@@ -79,10 +79,53 @@ header {
     justify-content: space-between;
     position: sticky;
 }
+
 .header_nav_lower .d1{
     width: 50%;
     background-color: #fff;
+    display: flex;
+    justify-content: end;
 }
+
+.header_nav_lower .d1 h1{
+    font-family: "Lalezar", system-ui;
+    font-weight: 400;
+    font-size: 1.6rem;
+    margin: 0px;    
+}
+
+.header_nav_lower .d1 img{
+    width: 32px;
+    height: 32px;
+    margin-left: 8px;
+}
+
+.header_nav_lower .d1 h1:hover, .header_nav_lower .d1 img:hover{
+    cursor: pointer;
+}
+
+#menu_personal_area{
+    font-family: "Lalezar", system-ui;
+    width: 175px;
+    height: 100px;
+    padding-bottom: 12px !important;
+    padding: 12px;
+    padding-top: 24px;
+    background-color: white;
+    font-size: 1.4rem;
+    color: black;
+    position: absolute;
+    top:127px;
+    left: 78%;
+    z-index: 3;
+    padding-bottom: 48px;
+}
+
+#menu_personal_area a:hover{
+    cursor: pointer;
+    color: #8fc421;
+}
+
 .header_nav_lower span, .header_nav_lower a, .header_scroll {
         font-family: "Lalezar", system-ui;
         font-weight: 400;
@@ -156,7 +199,7 @@ header {
     padding-right: 40px;
 }
 
-#book_a_tour, #custom_tour{
+#book_a_tour{
     padding: 0px 167px;
     background-color: white;
     height: 100%;
@@ -193,6 +236,15 @@ header {
     padding-left: 48px;
 }
 
+.pref_tour{
+    font-size: 1rem;
+}
+
+.pref_tour:hover{
+    border-bottom: 3px solid black;
+    cursor: pointer;
+}
+
 .div3 a{
     text-decoration: none;
     color: #5E96FF;
@@ -219,56 +271,6 @@ header {
     border-bottom: 4px solid black;
     cursor: pointer;
 }
-
-#custom_tour h1{
-    line-height: 24px;
-    font-weight: 800;
-}
-
-#custom_tour #chatgpt_text::placeholder{
-    font-size: 1.3rem;
-    color: gray;
-    padding: 0px;
-}
-
-#custom_tour #chatgpt_text{
-    width: 40%;
-    padding-left: 0px;
-    margin-bottom: 48px;
-    border-bottom: 3px solid black;
-    font-family: "Ramabhadra", sans-serif;
-    font-weight: 800;
-    font-size: 1.4rem;
-}
-
-#submit_chatgpt {
-    background-color: white;
-    color: black;
-    border: none;
-    font-family: "Lalezar", system-ui;
-    font-weight: 4000;
-    font-size: 2rem;
-    cursor: pointer;
-  }
-
-  #close_custom_tour{
-    width: fit-content;
-  }
-  
-  #submit_chatgpt:hover {
-    color: #8fc421;
-    transform: scale(1.05); /* Ingrandisce leggermente al passaggio */
-  }
-  
-  .span_chatgpt {
-    display: block;
-    width: 80%;
-    font-family: "Ramabhadra", sans-serif;
-    font-weight: 600;
-    line-height: 24px;
-    font-size: 1.3rem;
-    color: #8fc421;  
-  }
 
 .pop_up_menu{
     font-family: "Lalezar", system-ui;
@@ -347,6 +349,7 @@ header {
     font-family: "Sedgwick Ave Display", cursive;
     font-size: 3rem;
     margin: 12px 12px;
+    margin-top: 30px;
 }
 
 #artworks_results{
@@ -354,12 +357,12 @@ header {
     flex-wrap: wrap;
     justify-content: space-around;
     align-items: center;
-    padding-top: 48px;
+    padding: 24px 100px;
 }
 
 .artworks_and_title{
-    width: 400px;
-    height: 300px;
+    width: 300px;
+    height: 260px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -367,8 +370,8 @@ header {
 }
 
 .artworks_and_title img{
-    width: 300px;
-    height: 250px;
+    width: 270px;
+    height: 220px;
     object-fit: cover;
 }
 
@@ -489,8 +492,8 @@ input[type="text"] {
 
 .error_message{
     font-family: "Lalezar", system-ui;
-    font-size: 3rem;
-    color: red;
+    font-size: 3rem !important;
+    color: red !important;
     text-align: center;
 }
 

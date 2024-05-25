@@ -47,7 +47,7 @@
             <a href="http://localhost/hw1/logout.php">Logout</a>
         </div>
         <div id="header_nav_lower">
-            <a href="http://localhost/hw1/index_logged.php">Home</a> 
+            <a href="http://localhost/hw1/index.php">Home</a> 
             <a href="http://localhost/hw1/change_password.php">Change Password</a>  
             <a href="http://localhost/hw1/new_auction.php">New auction</a>  
             <a href="http://localhost/hw1/running_auction.php">Running auction</a>  
@@ -59,7 +59,7 @@
     </section>
     <section id="dinamic_header" class='hidden'>
             <div class="left">
-            <a href="http://localhost/hw1/index_logged.php">Home</a> 
+            <a href="http://localhost/hw1/index.php">Home</a> 
             <a href="http://localhost/hw1/change_password.php">Change Password</a>  
             <a href="http://localhost/hw1/new_auction.php">New auction</a>   
             <a href="http://localhost/hw1/running_auction.php">Running auction</a>  

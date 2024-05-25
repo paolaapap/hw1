@@ -58,7 +58,7 @@ if(isset($_SESSION['token'])){
                     $userid = $userinfo["id"];
                     unset($_SESSION['token']);
                     $_SESSION["user_id"] = $userid;
-                    header("Location: index_logged.php"); 
+                    header("Location: index.php"); 
                     mysqli_free_result($res);
                     mysqli_close($conn);
                     exit;  

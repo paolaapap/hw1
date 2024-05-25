@@ -16,7 +16,7 @@ $resultArray = array();
  } 
  #SE VOGLIO LE ASTE CREATE DALL'UTENTE
  else if(isset($_GET["user_id"])){
-
+//AGGIUNGI CONTROLLO SULL'AUTENTICAZIONE
     if ($userid = checkAuth()) {
 
         $userid = mysqli_real_escape_string($conn, $_SESSION["user_id"]);

@@ -1,3 +1,27 @@
+<?php
+    require_once 'auth.php';
+
+    if ($userid = checkAuth()) {
+        
+        $conn = mysqli_connect($dbconfig['host'], $dbconfig['user'], $dbconfig['password'], $dbconfig['database']) or die("Errore: " .mysqli_connect_error());
+        $userid = mysqli_real_escape_string($conn, $userid);
+        $query = "SELECT * FROM users WHERE id = $userid";
+
+        $res = mysqli_query($conn, $query) or die("Errore: ". mysqli_connect_error());
+
+       if(mysqli_num_rows($res) > 0){
+            $userinfo = mysqli_fetch_assoc($res);
+            $nome = $userinfo["nome"];
+            $genere = $userinfo["genere"];
+        }
+        else{
+            $name_notfound = true;
+        }
+
+        mysqli_free_result($res);
+        mysqli_close($conn);
+    }
+?>
 <!DOCTYPE html>
  <html>
   <head>
@@ -28,9 +52,33 @@
             <span data-index="3">Art and artist</span>  
             <a href="https://store.moma.org/?_ga=2.93273949.1716260741.1710596028-1262709068.1710596028&_gl=1*d4f806*_ga*MTI2MjcwOTA2OC4xNzEwNTk2MDI4*_ga_8QY3201SLC*MTcxMDYwMTMzNy4yLjEuMTcxMDYwMzM1MS41MC4wLjA.&utm_source=moma.org">Store</a>   
             <img src="images\search_icon.png" />
-            <div class="d1"></div>
+            <div class="d1">
+            <?php 
+            if($userid = checkAuth()){
+                if(isset($name_notfound)){
+                    echo "<h1>Hello, $userid</h1>";
+                } else {
+                    echo "<h1>Hello, $nome</h1>";
+                }
+                
+
+                if($genere == "Female"){
+                    echo "<img src='images\women.jpg'/>";
+                } else if ($genere == "Male"){
+                    echo "<img src='images\man.jpg'/>";    
+                } else {
+                    echo "<img src='images\personal_area.jpeg'/>";
+                }
+            }    
+            ?>
+            </div>
         </div>
     </header>
+    <section id="menu_personal_area" class="hidden">
+        <a href="http://localhost/hw1/personal_area.php">Personal Area</a>
+        <a href="http://localhost/hw1/change_password.php">Change password</a>
+        <a href="http://localhost/hw1/logout.php">Logout</a>
+    </section>
     <section class='white hidden'>
         <div class='header_scroll hidden'>
             <div class="left">
@@ -48,16 +96,6 @@
         </div>
     </section>
     <section id="book_a_tour" class="hidden"></section>
-    <section id="custom_tour" class="hidden">
-        <div id="close_custom_tour" class="close_button">CLOSE</div>
-        <h1>Request a tour that is specifically designed for you, <br>
-            based on your specific interests and duration.
-        </h1>
-        <form>
-            <input type="text" spellcheck="false" placeholder="Make your request" id="chatgpt_text">
-            <input type="submit" id="submit_chatgpt" value="&#8594;">   
-        </form>
-    </section>
     <section id="pop_up_m_v" class='pop_up_menu hidden'>
         <span>Tickets</span>
         <span>Locations,hours,and admission</span>
@@ -138,18 +176,22 @@
         <div class="title">In the collection</div>
         <div class="subtitle">See what's on view &#8594;</div>    
     </section>
-    <section id="orange">
-        <a href="http://localhost/hw1/login.php"><div class="orange_figlio">
-            <div class="o1">
-                <span class="title">Discover more</br> 
-                    as a member</span>
-                <span class="subtitle">Join today &#8594;</span>
-            </div> 
-            <div class="o2">
-                <img src="images\orange.gif"/>
-            </div> 
-        </div></a>
-    </section>
+    <?php
+    if(!$userid = checkAuth()){
+    echo "<section id='orange'>
+            <a href='http://localhost/hw1/login.php'><div class='orange_figlio'>
+                <div class='o1'>
+                    <span class='title'>Discover more</br> 
+                        as a member</span>
+                    <span class='subtitle'>Join today &#8594;</span>
+                </div> 
+                <div class='o2'>
+                    <img src='images\orange.gif'/>
+                </div> 
+            </div></a>
+        </section>" ;
+    }
+    ?>
     <section id="store">
         <div class="store1">
             <div class="title">Store</div>

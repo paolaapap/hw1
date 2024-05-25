@@ -61,7 +61,7 @@ header {
     width: 77%;
 }
 
-#header_nav_lower span, #dinamic_header span{
+#header_nav_lower span, #dinamic_header span, #header_nav_lower a, #dinamic_header a{
     font-family: "Lalezar", system-ui;
     font-weight: 400;
     font-style: normal;
@@ -92,7 +92,7 @@ header {
 }
 
 .header_nav_lower_right{
-    width: 55%;
+    width: 45%;
     background-color: #fff;
 }
 

@@ -96,6 +96,7 @@ const auction_id = "<?php echo $auction_id; ?>";
             <span class="current_page">Auctions</span>  
             <span>Art and artist</span>  
             <span>Store</span>   
+            <a href="http://localhost/hw1/running_auction.php">Running auctions</a>
             <div class="header_nav_lower_right"></div>
         </div>
     </header>
@@ -104,7 +105,8 @@ const auction_id = "<?php echo $auction_id; ?>";
                 <span>Visit</span> 
                 <span class="current_page">Auctions</span>  
                 <span>Art and artist</span>  
-                <span>Store</span>     
+                <span>Store</span>    
+                <a href="http://localhost/hw1/running_auction.php">Running auctions</a> 
             </div>
             <div class="right">
                 <?php

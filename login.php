@@ -2,7 +2,7 @@
     require_once 'auth.php';
 
     if (checkAuth()) {
-          header('Location: index_logged.php');
+          header('Location: index.php');
           exit;
     }
 
@@ -35,7 +35,7 @@
             } else{
               $_SESSION["user_id"] = $entry['id'];
             }
-            header("Location: index_logged.php");
+            header("Location: index.php");
             mysqli_free_result($res);
             mysqli_close($conn);
             exit;

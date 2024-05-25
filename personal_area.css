@@ -110,7 +110,7 @@ header {
     background-color: white;
     position: absolute;
     right: 22%;
-    top: 18.5%;
+    top: 18%;
     display: flex;
     flex-direction: column;
     overflow-x: auto; 
@@ -118,20 +118,30 @@ header {
     white-space: nowrap; 
     box-shadow: 0 8px 8px -4px rgba(0, 0, 0, 1);
     margin-bottom: 12px;
+    border-radius: 20px;
+    align-items: center;
+    justify-content: left;
+    backdrop-filter: blur(10px);
+    transition: 0.5s ease-in-out;
+    padding-top: 12px;
 }
 
 #notifications span{
+    width: 200px;
     display: block;
-    font-family: "Ysabeau Infant", sans-serif;
+    font-family: monospace;
     font-weight: 400;
-    font-size: 1.2rem; 
-    border-bottom: 2px solid gray;
-    border-radius: 15%;
-    color: gray;
+    font-size: 0.9rem; 
+    text-align: start;
+    border: 2px solid gray;
+    margin-bottom: 6px;
+    background: #8fc421;
+    border-radius: 20px;
+    color: white;
     word-wrap: break-word;
     white-space: normal;
     padding: 10px;
-    line-height: 18px;
+    line-height: 14px;
 }
 
 #dinamic_header .right{
