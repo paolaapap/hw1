@@ -180,9 +180,13 @@ function fetchCollectionJson(json){
     img.src = json[index].content.image;
     img.dataset.index = json[index].id;
     const div = collection.querySelector('.title');
-    div.insertAdjacentElement('afterend', img)
+    div.insertAdjacentElement('afterend', img);
+    img.addEventListener("click", show_collection_details);
 }
 
+function show_collection_details(event){
+    window.location.href = 'info_collection.php?id='+encodeURIComponent(event.currentTarget.dataset.index);
+}
 
 
 function showMenu (event){
@@ -684,11 +688,6 @@ function close_tour(){
 
 function saveTour(event){
     const tour = event.currentTarget.parentNode.parentNode.parentNode;
-    console.log(tour.dataset.index);
-    console.log(tour.dataset.title);
-    console.log(tour.dataset.img);
-    console.log(tour.dataset.link);
-
     const formData = new FormData();
 
     formData.append('id', tour.dataset.index);
@@ -696,25 +695,19 @@ function saveTour(event){
     formData.append('img', tour.dataset.img);
     formData.append('link', tour.dataset.link);
 
-    fetch("fetch_save_tour.php", {method: 'post', body: formData}).then(dispatchResponse, dispatchError);
-    event.stopPropagation();
+    fetch("fetch_save_tour.php", {method: 'post', body: formData}).then(onResponse).then(onAddTourJson);
+    
 }
 
-function dispatchResponse(response) {
-    return response.json().then(databaseResponse); 
-}
 
-function dispatchError(error) { 
-    console.log("Errore: " + error);
+function onAddTourJson(json){
+    console.log(json);
+    if(!json.ok){   
+       if(json.error == "Utente non autenticato"){
+            window.location.href = 'login.php';
+       }
+    } 
 }
-
-function databaseResponse(json) {
-    if (!json.ok) {
-        dispatchError();
-        return null;
-    }
-}
-
 
 
 

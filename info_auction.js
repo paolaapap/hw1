@@ -1,6 +1,5 @@
 const fixHeader = document.querySelector('#fix_header');
 const dinamicHeader = document.querySelector('#dinamic_header');
-const auctionSection = document.querySelector('#show_auction');
 const divImage = document.querySelector('#image');
 const divDetails = document.querySelector('#details');
 

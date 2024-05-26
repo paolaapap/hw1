@@ -6,6 +6,7 @@ const auction_figlio = document.querySelector('#auction_figlio');
 const ongoing_figlio = document.querySelector('#ongoing_figlio');
 const headerForNotif = document.querySelector('.header_nav_lower_right');
 const notifSection = document.querySelector('#notifications');
+const tour_figlio = document.querySelector('#tour_figlio');
 
 fetch_all();
 
@@ -14,6 +15,7 @@ function fetch_all(){
     fetch("fetch_auction.php?user_id=true").then(fetchResponse).then(fetchAuctionJson); 
     fetch("fetch_myoffers.php").then(fetchResponse).then(fetchOffersJson);
     fetch("fetch_notifications.php").then(fetchResponse).then(fetchNotificationJson);
+    fetch("fetch_saved_unsaved_tour.php").then(fetchResponse).then(fetchTourJson);
 }
 
 function checkScrolling(event)
@@ -57,7 +59,12 @@ function fetchCollectionJson(json){
         const author = document.createElement("span");
         author.textContent= json[result].content.author;
         div.append(author);
+        div.addEventListener("click", show_collection_details);
     }
+}
+
+function show_collection_details(event){
+    window.location.href = 'info_collection.php?id='+encodeURIComponent(event.currentTarget.dataset.index);
 }
 
 function noResults(father){
@@ -87,11 +94,11 @@ function fetchAuctionJson(json){
         const title = document.createElement("span");
         title.textContent= json[result].titolo;
         div.append(title);
-        div.addEventListener("click", show_details);
+        div.addEventListener("click", show_auction_details);
     }
 }
 
-function show_details(event){
+function show_auction_details(event){
     window.location.href = 'info_auction.php?id='+encodeURIComponent(event.currentTarget.dataset.index);
 }
 
@@ -115,7 +122,7 @@ function fetchOffersJson(json){
         const title = document.createElement("span");
         title.textContent= json[result].titolo;
         div.append(title);
-        div.addEventListener("click", show_details);
+        div.addEventListener("click", show_auction_details);
     }
 
 }
@@ -177,6 +184,45 @@ function fetchNotificationJson(json){
             }
         }
     }
+}
 
+function fetchTourJson(json){
 
+    tour_figlio.innerHTML = '';
+    for (let result in json){
+
+        const div = document.createElement("div");
+        div.classList.add('artworks');
+        div.dataset.index = json[result].tour_id;
+        tour_figlio.appendChild(div);
+
+        const img = document.createElement("img");
+        img.src=json[result].content.image;
+        div.appendChild(img);
+
+        const link = document.createElement("a");
+        link.href = json[result].content.link;
+        link.textContent = json[result].content.title;
+        div.append(link);
+
+        const remove = document.createElement("h1");
+        remove.classList.add("remove_button");
+        remove.textContent = "Unsaved";
+        div.appendChild(remove);
+
+        remove.addEventListener("click", remove_tour);
+    }
+}
+
+function remove_tour(event){
+    const id_remove = event.currentTarget.parentNode.dataset.index;
+    fetch("fetch_saved_unsaved_tour.php?id_remove=" + id_remove).then(fetchResponse).then(fetchRemoveTourJson);
+}
+
+function fetchRemoveTourJson(json){
+    if(json.ok){
+        fetch_all();
+    } else {
+        console.log("Errore");
+    }
 }

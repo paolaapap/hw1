@@ -31,6 +31,15 @@ CREATE TABLE cookies (
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
+CREATE TABLE tours (
+	id INTEGER AUTO_INCREMENT PRIMARY KEY,
+	user_id INTEGER NOT NULL,
+    tour_id INTEGER NOT NULL,
+    content JSON,
+    INDEX idx_user (user_id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
 CREATE TABLE collections (
 	id INTEGER AUTO_INCREMENT PRIMARY KEY,
 	num_like INTEGER DEFAULT 0,
@@ -172,6 +181,7 @@ INSERT INTO images (section, content) VALUES ('exibition', '{"image" : "images/s
 INSERT INTO images (section, content) VALUES ('exibition', '{"image" : "images/section_s8.jpg" , "title" : "Visit MoMA PS1 in Queens" , "text" : "Free for New Yorkers MoMA PS1", "image_dinamic" : "images/s8_js.webp"}');
 INSERT INTO images (section, content) VALUES ('magazine', '{"image" : "images/magazine2.jpg", "title1": "Drawn to MoMA", "title2" : "Kristen Radtke’s Pregnancy in Art", "description" : "The illustrator reflects on her journey to motherhood and how it changed her relationship to art.", "author_and_date" : "Kristen Radtke May 8, 2024"}');
 INSERT INTO images (section, content) VALUES ('magazine', '{"image" : "images/magazine.jpeg", "title1": "Drawn to MoMA", "title2" : "Manjit Thapp Thaw Out", "description" : "The illustrator helps us look beyound our winter blues.", "author_and_date" : "Manjit Thapp Mar13, 2024"}');
+INSERT INTO images (section, content) VALUES ('magazine', '{"image" : "images/magazine3.jpg", "title1": "Drawn to MoMA", "title2" : "Deep Cuts with Trailblazing Filmmaker Ken Jacobs", "description" : "An experimental cinema legend talks about how New York City has inspired more than 60 years of films.", "author_and_date" : "Ken Jacobs, Azazel Jacobs May 16, 2024"}');
 INSERT INTO images (section, content) VALUES ('sponsor', '{"image" : "images/sponsor1.jpg"}');
 INSERT INTO images (section, content) VALUES ('sponsor', '{"image" : "images/sponsor2.jpg"}');
 INSERT INTO images (section, content) VALUES ('sponsor', '{"image" : "images/sponsor3.jpg"}');
@@ -181,3 +191,8 @@ SELECT * FROM favorites;
 SELECT * FROM tokens;
 SELECT * FROM cookies;
 SELECT * FROM auctions;
+SELECT * FROM tours;
+SELECT * FROM images;
+SELECT * FROM collections;
+
+

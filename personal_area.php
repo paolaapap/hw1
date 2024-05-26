@@ -105,6 +105,10 @@
         <h1>Favourites for my MoMA tour</h1>
         <div id="collection_figlio"></div>
     </section>
+    <section id="tour">
+        <h1>My MoMA tour saved</h1>
+        <div id="tour_figlio"></div>
+    </section>
     <section id="auction_ongoing">
         <h1>My auction ongoing</h1>
         <div id="ongoing_figlio"></div>

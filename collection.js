@@ -74,6 +74,7 @@ function fetchArtworksJson(json){
         div.classList.add('artworks');
         div.dataset.index = json[result].id;
         artworksSection.appendChild(div);
+        div.addEventListener("click", show_collection_details);
 
         const img = document.createElement("img");
         img.src=json[result].content.image;
@@ -91,15 +92,6 @@ function fetchArtworksJson(json){
             cuore.classList.add("cuore");
             div.appendChild(cuore);
             cuore.addEventListener("click", fetch_add_remove_like);
-            /*const artwork = artworksSection.querySelectorAll('.artworks');
-            const cuore = document.createElement("img");
-            cuore.src = json[0].img;
-            cuore.classList.add("cuore");
-            for(a of artwork){
-                if(a.dataset.index == json[0].id)
-                    a.appendChild(cuore);
-            }
-            cuore.addEventListener("click", fetch_add_remove_like);*/
         }
 
         function fetch_add_remove_like(){
@@ -132,4 +124,9 @@ function noResults(father){
     const span_error = document.createElement('span');
     span_error.textContent = 'No results found.'
     father.appendChild(span_error);
+}
+
+
+function show_collection_details(event){
+    window.location.href = 'info_collection.php?id='+encodeURIComponent(event.currentTarget.dataset.index);
 }
