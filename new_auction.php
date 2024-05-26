@@ -51,7 +51,9 @@ if(isset($_FILES["uploaded_image"]["name"]) && isset($_POST['title']) && isset($
         if (move_uploaded_file($_FILES["uploaded_image"]["tmp_name"], $target_file)) {
             $title = mysqli_real_escape_string($conn, $_POST['title']);
             $deadline = mysqli_real_escape_string($conn, $_POST['deadline']);
-            $starting_price = mysqli_real_escape_string($conn, floatval($_POST['starting_price']));  
+            $starting_price = mysqli_real_escape_string($conn, floatval($_POST['starting_price'])); 
+            $target_file = mysqli_real_escape_string($conn, $target_file); 
+            $userid = mysqli_real_escape_string($conn, $userid); 
 
             $query_insert = "INSERT INTO auctions (user_id, foto, titolo, durata, prezzo_iniziale) VALUES($userid, '$target_file', '$title', '$deadline', '$starting_price')";
             $res = mysqli_query($conn, $query_insert)  or die("Errore: ". mysqli_connect_error());

@@ -1,6 +1,4 @@
-<?php
-    require_once 'fetch_check_expires.php';
-?>
+
 <!DOCTYPE html>
  <html>
   <head>
@@ -25,16 +23,15 @@
             require_once 'auth.php';
             if ($userid = checkAuth()) {
                 echo '<a class="a1" href="http://localhost/hw1/personal_area.php">Personal area</a>';
-            } else {
-                echo '<a class="a1" href="http://localhost/hw1/index.php">Home</a>';
-            }
+            } 
             ?> 
         </div>
         <div id="header_nav_lower">
             <span>Visit</span> 
             <span class="current_page">Auctions</span>  
             <span>Art and artist</span>  
-            <span>Store</span>   
+            <span>Store</span> 
+            <a href="http://localhost/hw1/index.php">Home</a>  
             <div class="header_nav_lower_right"></div>
         </div>
     </header>
@@ -43,14 +40,13 @@
                 <span>Visit</span> 
                 <span class="current_page">Auctions</span>  
                 <span>Art and artist</span>  
-                <span>Store</span>     
+                <span>Store</span>
+                <a href="http://localhost/hw1/index.php">Home</a>      
             </div>
             <div class="right">
                 <?php
                 if ($userid = checkAuth()) {
                     echo '<a class="a1" href="http://localhost/hw1/personal_area.php">Personal area</a>';
-                } else {
-                    echo '<a class="a1" href="http://localhost/hw1/index.php">Home</a>';
                 }
                 ?>
 

@@ -9,6 +9,8 @@ const notifSection = document.querySelector('#notifications');
 const tour_figlio = document.querySelector('#tour_figlio');
 
 fetch_all();
+setInterval(notifications, 5000); //permette di eseguire il codice a intervalli regolari.
+setInterval(expires, 5000); //permette di eseguire il codice a intervalli regolari.
 
 function fetch_all(){
     fetch("fetch_favourites.php").then(fetchResponse).then(fetchCollectionJson); 
@@ -16,6 +18,20 @@ function fetch_all(){
     fetch("fetch_myoffers.php").then(fetchResponse).then(fetchOffersJson);
     fetch("fetch_notifications.php").then(fetchResponse).then(fetchNotificationJson);
     fetch("fetch_saved_unsaved_tour.php").then(fetchResponse).then(fetchTourJson);
+}
+
+function notifications(){
+    fetch("fetch_notifications.php").then(fetchResponse).then(fetchNotificationJson);    
+}
+
+function expires(){
+    fetch("fetch_check_expires.php").then(fetchResponse).then(fetchExpiresJson);
+}
+
+function fetchExpiresJson(json){
+    if(json.ok){
+        fetch_all();
+    }
 }
 
 function checkScrolling(event)
@@ -130,6 +146,7 @@ function fetchOffersJson(json){
 function fetchNotificationJson(json){
     if(json.length==0){
         notifSection.innerHTML='';
+        notifSection.classList.add('no_notif');
         if(headerForNotif.querySelector('img')){
             const img = headerForNotif.querySelector('img');
             //headerForNotif.removeChild(img);
@@ -141,6 +158,7 @@ function fetchNotificationJson(json){
         }
     
     } else {
+        notifSection.classList.remove('no_notif');
         if(headerForNotif.querySelector('img')){
             const img = headerForNotif.querySelector('img');
             //headerForNotif.removeChild(img);

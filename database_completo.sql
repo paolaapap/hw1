@@ -194,5 +194,6 @@ SELECT * FROM auctions;
 SELECT * FROM tours;
 SELECT * FROM images;
 SELECT * FROM collections;
+SELECT * FROM users;
 
 

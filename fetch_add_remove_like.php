@@ -18,6 +18,7 @@ $conn = mysqli_connect($dbconfig['host'], $dbconfig['user'], $dbconfig['password
 
     $result = array();
 
+    $userid = mysqli_real_escape_string($conn, $userid);
     $id_collection = mysqli_real_escape_string($conn, $_GET["id_collection"]);
     $query_check = "SELECT * FROM favorites WHERE collection_id=$id_collection AND user_id=$userid";
     $res = mysqli_query($conn, $query_check) or die(mysqli_error($conn));

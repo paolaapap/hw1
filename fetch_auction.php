@@ -1,6 +1,5 @@
 <?php
 require_once 'auth.php';
-require_once 'fetch_check_expires.php';
 
 header('Content-Type: application/json');
 
@@ -12,13 +11,28 @@ $resultArray = array();
 
     $id = mysqli_real_escape_string($conn, $_GET["id"]);
     $query = "SELECT * FROM auctions WHERE id = $id";
+    $res = mysqli_query($conn, $query) or die(mysqli_error($conn));
+    if(mysqli_num_rows($res) == 0){
+      $resultArray[] = array('res' => false);
+      echo json_encode($resultArray);
+      mysqli_free_result($res);
+      mysqli_close($conn);
+      exit;
+    }
+    while($entry = mysqli_fetch_assoc($res)) {
+      $resultArray[] = array('res' => true, 'asta_id' => $entry['id'], 'user_id' => $entry['user_id'], 'foto' => $entry['foto'], 'titolo' => $entry['titolo'],
+                            'durata' => $entry['durata'], 'prezzo_iniziale' => $entry['prezzo_iniziale'], 'num_offerte' => $entry['num_offerte'], 'ultimo_prezzo' => $entry['ultimo_prezzo']); 
+}
+echo json_encode($resultArray);
+mysqli_free_result($res);
+mysqli_close($conn);
+exit;
 
  } 
  #SE VOGLIO LE ASTE CREATE DALL'UTENTE
  else if(isset($_GET["user_id"])){
-//AGGIUNGI CONTROLLO SULL'AUTENTICAZIONE
+  
     if ($userid = checkAuth()) {
-
         $userid = mysqli_real_escape_string($conn, $_SESSION["user_id"]);
         $query = "SELECT * FROM auctions WHERE user_id = $userid";
 

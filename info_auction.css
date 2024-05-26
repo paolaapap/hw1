@@ -186,7 +186,29 @@ header {
     font-weight: 600;
 }
 
+@keyframes lampeggiaERitorna {
+    0%, 100% {
+      color: gray;
+    }
+    50% {
+      color: red;
+    }
+  }
+  
+  .lampeggiante {
+    animation: lampeggia 3s linear forwards;
+  }
 
-
-
-
+  @keyframes lampeggia {
+    0%, 100% {
+      color: gray;
+      text-shadow: none;
+      box-shadow: none;
+    }
+    25%, 75% {
+      color: black;
+      font-size: 1.6rem;
+      text-shadow: 0 0 5px red, 0 0 10px red, 0 0 20px red, 0 0 40px red;
+    }
+  }
+  

@@ -19,6 +19,7 @@ if (isset($_GET["id_collection"])){
         $img = "images/like.png";
     } else {
     //se sono loggata controlla se ho messo like, se l'ho messo mi da il cuore nero
+        $userid = mysqli_real_escape_string($conn, $userid);
         $query_check = "SELECT * FROM favorites WHERE collection_id=$id_collection AND user_id=$userid";
         $res = mysqli_query($conn, $query_check) or die(mysqli_error($conn));
         //se trova risultati vuol dire che l'utente aveva gia messo like

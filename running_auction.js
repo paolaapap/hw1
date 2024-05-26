@@ -21,10 +21,22 @@ function checkScrolling(event)
 document.addEventListener('scroll',checkScrolling);
 
 fetch_all();
+setInterval(expires, 5000); //permette di eseguire il codice a intervalli regolari.
 
 function fetch_all(){
     fetch("fetch_auction.php").then(fetchResponse).then(fetchArtworksJson); 
 }
+
+function expires(){
+    fetch("fetch_check_expires.php").then(fetchResponse).then(fetchExpiresJson);
+}
+
+function fetchExpiresJson(json){
+    if(json.ok){
+        fetch_all();
+    }
+}
+
 
 function fetchResponse(response) {
     if (!response.ok) {return null};

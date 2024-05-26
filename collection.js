@@ -74,11 +74,11 @@ function fetchArtworksJson(json){
         div.classList.add('artworks');
         div.dataset.index = json[result].id;
         artworksSection.appendChild(div);
-        div.addEventListener("click", show_collection_details);
 
         const img = document.createElement("img");
         img.src=json[result].content.image;
         div.appendChild(img);
+        img.addEventListener("click", show_collection_details);
 
         const author = document.createElement("span");
         author.textContent= json[result].content.author;
@@ -109,7 +109,8 @@ function fetchArtworksJson(json){
                     cuore.src = json[0].img;
                     cuore.classList.add("cuore");
                     div.appendChild(cuore);
-                    cuore.addEventListener("click", fetch_add_remove_like);    
+                    cuore.addEventListener("click", fetch_add_remove_like);  
+                    cuore.addEventListener("click", stopProp);  
                 }
             } else {
                 window.location.href = 'login.php';
@@ -128,5 +129,5 @@ function noResults(father){
 
 
 function show_collection_details(event){
-    window.location.href = 'info_collection.php?id='+encodeURIComponent(event.currentTarget.dataset.index);
+    window.location.href = 'info_collection.php?id='+encodeURIComponent(event.currentTarget.parentNode.dataset.index);
 }

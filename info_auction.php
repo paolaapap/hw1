@@ -1,6 +1,5 @@
 <?php
     require_once 'auth.php';
-    require_once 'fetch_check_expires.php';
 
     $conn = mysqli_connect($dbconfig['host'], $dbconfig['user'], $dbconfig['password'], $dbconfig['database']);
 
@@ -40,17 +39,30 @@
                 }
             }
 
+            #CONTROLLO CHE L'UTENTE NON FACCIA UN'OFFERTA AD UN'ASTA CHE HA CREATI LUI STESSO
+            $query_check_user = "SELECT * FROM auctions WHERE id=$auction_id";
+            $res = mysqli_query($conn, $query_check_user) or die(mysqli_error($conn));
+            if($entry = mysqli_fetch_assoc($res)){
+                if($entry['user_id'] == $userid){
+                    $error[] = "You cannot bid on an auction you own";
+                }
+            }
+
+            #SE NON CI SONO STATI ERRORI FACCIO L'OFFERTA
             if(count($error)==0){
                 $user_id = mysqli_real_escape_string($conn, $userid);
                 $query = "INSERT INTO offers (user_id, auction_id, prezzo) VALUES ($user_id, $auction_id, '$offerta')";
                 $res = mysqli_query($conn, $query) or die(mysqli_error($conn));
 
-                $query = "SELECT user_id FROM auctions WHERE id=$auction_id";
+                $query = "SELECT user_id, titolo FROM auctions WHERE id=$auction_id";
                 $res = mysqli_query($conn, $query) or die(mysqli_error($conn));
 
                 if($entry = mysqli_fetch_assoc($res)){
                     $user_not_id = $entry["user_id"];
-                    $query = "INSERT INTO notifications (content, user_id) VALUES ('You have a new offer for your auction!' , $user_not_id)";
+                    $user_not_id = mysqli_real_escape_string($conn, $user_not_id);
+                    $title = $entry["titolo"];
+                    $content = "You have a new offer for your auction: " . $title . ". Amount: " .$offerta . "$";
+                    $query = "INSERT INTO notifications (content, user_id) VALUES ('$content' , $user_not_id)";
                     $res = mysqli_query($conn, $query) or die(mysqli_error($conn));
                 }
 

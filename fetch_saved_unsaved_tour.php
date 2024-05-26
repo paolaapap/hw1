@@ -10,10 +10,11 @@ if (!$userid = checkAuth()) {
     exit;
 }
 
+$userid = mysqli_real_escape_string($conn, $userid);
+
 if (isset($_GET['id_remove'])) {
 
     $tourid = mysqli_real_escape_string($conn, $_GET['id_remove']);
-    $userid = mysqli_real_escape_string($conn, $userid);
 
     $query_remove = "DELETE FROM tours WHERE tour_id = $tourid and user_id = $userid"; 
     $res = mysqli_query($conn, $query_remove)  or die("Errore: ". mysqli_connect_error());

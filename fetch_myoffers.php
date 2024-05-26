@@ -1,6 +1,5 @@
 <?php
 require_once 'auth.php';
-require_once 'fetch_check_expires.php';
 
 if (!$userid = checkAuth()) {
     header("Location: login.php");

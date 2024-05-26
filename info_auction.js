@@ -22,9 +22,21 @@ function checkScrolling(event)
 document.addEventListener('scroll',checkScrolling);
 
 fetch_all();
+setInterval(fetch_all, 5000);
+setInterval(expires, 5000); //permette di eseguire il codice a intervalli regolari.
 
 function fetch_all(){
     fetch("fetch_auction.php?id="+auction_id).then(fetchResponse).then(fetchAuctionJson);
+}
+
+function expires(){
+    fetch("fetch_check_expires.php").then(fetchResponse).then(fetchExpiresJson);
+}
+
+function fetchExpiresJson(json){
+    if(json.ok){
+        fetch_all();
+    }
 }
 
 function fetchResponse(response) {
@@ -32,7 +44,18 @@ function fetchResponse(response) {
     return response.json();
 }
 
+
+let old_price = 0;
+
 function fetchAuctionJson(json){
+    console.log(json);
+    if(!json[0].res){
+        window.location.href="running_auction.php";
+        return;
+    }
+
+    divImage.innerHTML = '';
+    divDetails.innerHTML = '';
     const path = json[0].foto;
     const src = path.substring(path.indexOf("uploads")); //trova la posizione iniziale della sottostringa "uploads" utilizzando il metodo indexOf(), utilizzando substring(), estrarrà la parte della stringa da quella posizione fino alla fine
     const img = document.createElement("img");
@@ -59,6 +82,12 @@ function fetchAuctionJson(json){
     const ultimo_prezzo = document.createElement("span");
     ultimo_prezzo.textContent = "Latest price: " + json[0].ultimo_prezzo + "$";
     divDetails.appendChild(ultimo_prezzo);
+    //se il prezzo cambia lo faccio lampeggiare 
+    if(old_price < json[0].ultimo_prezzo){
+        console.log("ciao");
+        ultimo_prezzo.classList.add("lampeggiante");
+        old_price = json[0].ultimo_prezzo;
+    }
 
     const form = document.createElement("form");
     form.name = "offers_form";
