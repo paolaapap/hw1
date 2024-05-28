@@ -74,6 +74,7 @@
 <script>
 const auction_id = "<?php echo $auction_id; ?>";
 </script>
+
 <!DOCTYPE html>
  <html>
   <head>

@@ -40,7 +40,7 @@ header {
         font-family: "Lalezar", system-ui;
         font-weight: 400;
         font-style: normal;
-        font-size: 1.4rem;   
+        font-size: clamp(10px, 2vw, 1.4rem) !important; 
         color: #8fc421; 
 }
 
@@ -65,7 +65,7 @@ header {
     font-family: "Lalezar", system-ui;
     font-weight: 400;
     font-style: normal;
-    font-size: 1.6rem;   
+    font-size: clamp(10px, 2vw, 1.6rem) !important; 
 }
 
 #header_nav_lower span:hover, #header_nav_lower a:hover, #dinamic_header span:hover, #dinamic_header .left a:hover{
@@ -94,7 +94,7 @@ header {
 }
 
 .header_nav_lower_right{
-    width: 25%;
+    width: 15%;
     background-color: #fff;
 }
 
@@ -164,7 +164,7 @@ header {
     font-family: "Lalezar", system-ui;
     font-weight: 400;
     font-style: normal;
-    font-size: 1.6rem; 
+    font-size: clamp(14px, 2vw, 1.6rem) !important; 
     margin: 0px;
 }
 
@@ -189,7 +189,7 @@ header {
 #user h1{
     margin: 0px;
     margin-left: 18px;
-    font-size: 3rem;
+    font-size: clamp(30px, 2.5vw, 3rem) !important; 
 }
 
 #collection, #auction_ongoing, #auction, #tour{
@@ -202,7 +202,7 @@ header {
     font-family: "Lalezar", system-ui;
     font-weight: 300;
     font-style: normal;
-    font-size: 2.5rem; 
+    font-size: clamp(25px, 2vw, 2.5rem) !important; 
 }
 
 
@@ -276,4 +276,78 @@ header {
 
 .no_notif{
     box-shadow: 0 8px 8px -4px rgba(255, 255, 255, 1) !important;
+}
+
+@media (max-width: 900px) {
+    #fix_header{
+        height: 100px;
+    }
+
+    #dinamic_header .left{
+        width: 67.5%;   
+    }
+
+    #header_nav_lower{
+        width: 90%;
+        height: 30px;
+    }
+
+    .header_nav_lower_right img{
+        width: 20px;
+        height: 15px;
+    }
+
+    #header_nav_upper{
+        margin-top: 12px;
+    }
+    
+    #dinamic_header{
+        width: 100%;
+        height: 30px;
+    }
+
+    #dinamic_header img{
+        display: none;
+    }
+
+    #dinamic_header .right{
+        display: none;
+    }
+
+    #dinamic_header .left{
+        width: 80%;
+    }
+
+    .header_nav_lower_right{
+        width: 10%;
+    }
+
+    .logo{
+        width: 130px;
+        height: 33px;
+        object-fit: cover;
+    }
+
+    #user img{
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+    }
+
+    #notifications{
+        top: 100px;
+        right: 10px;
+        width: 160px;
+    }
+
+    #notifications span{
+        width: 130px;
+        font-size: 0.6rem;
+        padding: 6px;
+        line-height: 12px;
+    }
+
+    #notifications div{
+        font-size: 1rem;
+    }
 }

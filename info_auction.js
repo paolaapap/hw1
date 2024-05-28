@@ -48,7 +48,6 @@ function fetchResponse(response) {
 let old_price = 0;
 
 function fetchAuctionJson(json){
-    console.log(json);
     if(!json[0].res){
         window.location.href="running_auction.php";
         return;
@@ -84,7 +83,6 @@ function fetchAuctionJson(json){
     divDetails.appendChild(ultimo_prezzo);
     //se il prezzo cambia lo faccio lampeggiare 
     if(old_price < json[0].ultimo_prezzo){
-        console.log("ciao");
         ultimo_prezzo.classList.add("lampeggiante");
         old_price = json[0].ultimo_prezzo;
     }

@@ -40,7 +40,7 @@ header {
         font-family: "Lalezar", system-ui;
         font-weight: 400;
         font-style: normal;
-        font-size: 1.4rem;   
+        font-size: clamp(16px, 2vw, 1.4rem);   
         color: #8fc421; 
 }
 
@@ -65,7 +65,7 @@ header {
     font-family: "Lalezar", system-ui;
     font-weight: 400;
     font-style: normal;
-    font-size: 1.6rem;   
+    font-size: clamp(16px, 2vw, 1.6rem);   
 }
 
 #header_nav_lower .current_page, #dinamic_header .current_page{
@@ -92,7 +92,7 @@ header {
 }
 
 .header_nav_lower_right{
-    width: 55%;
+    width: 45%;
     background-color: #fff;
 }
 
@@ -155,5 +155,41 @@ header {
     }
     100% {
         opacity: 1;
+    }
+}
+
+@media (max-width: 900px) {
+    #dinamic_header .left{
+        width: 67.5%;   
+    }
+
+    #page_title{
+        font-size: 3rem;
+        margin: 0px;
+        text-align: center;
+    }
+
+    #header_nav_lower{
+        width: 100%;
+        height: 30px;
+    }
+
+    #header_nav_upper{
+        margin-top: 12px;
+    }
+    
+    #dinamic_header{
+        height: 30px;
+        padding-left: 22px;
+    }
+
+    .header_nav_lower_right{
+        width: 10%;
+    }
+
+    .logo{
+        width: 150px;
+        height: 35px;
+        object-fit: cover;
     }
 }

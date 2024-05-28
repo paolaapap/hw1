@@ -6,6 +6,7 @@ body{
     margin: 0px;
     width: 100vw;
     height: 100vh;
+    overflow-x: hidden;
 }
 
 a {
@@ -39,8 +40,9 @@ a {
 
 
 #logo{
-    width: 209px;
-    height: 53px;
+    width: 13.67vw;
+    height: 3.46vw;
+    object-fit: cover;
 }
 
 
