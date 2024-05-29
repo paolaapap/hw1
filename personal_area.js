@@ -1,4 +1,4 @@
-//fai la fetch a fetch_saved_tour.php (metti anche il tasto unsaved) e fetch_unsaved_tour.php
+
 const fixHeader = document.querySelector('#fix_header');
 const dinamicHeader = document.querySelector('#dinamic_header');
 const collection_figlio = document.querySelector('#collection_figlio');

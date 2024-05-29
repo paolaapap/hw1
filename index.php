@@ -40,37 +40,37 @@
   </head>
   <body>
     <header>
-        <div class="header_nav_upper">
+        <div id="header_nav_upper">
             <img class="logo" src="images\logo.png"/>
-            <span class='orange hotel'>Nearby Hotel</span>
+            <span class="hotel">Nearby Hotel</span>
             <a class="a1" href="http://localhost/hw1/login.php">Membership</a>
             <a class="a2" href="https://visit.moma.org/select">Tickets</a>
         </div>
-        <div class="header_nav_lower">
+        <div id="header_nav_lower">
             <span data-index="1">Visit</span> 
             <span data-index="2">Auctions</span>  
             <span data-index="3">Art and artist</span>  
-            <a href="https://store.moma.org/?_ga=2.93273949.1716260741.1710596028-1262709068.1710596028&_gl=1*d4f806*_ga*MTI2MjcwOTA2OC4xNzEwNTk2MDI4*_ga_8QY3201SLC*MTcxMDYwMTMzNy4yLjEuMTcxMDYwMzM1MS41MC4wLjA.&utm_source=moma.org">Store</a>   
+            <a href="">Store</a>   
             <img src="images\search_icon.png" />
-            <div class="d1">
-            <?php 
-            if($userid = checkAuth()){
-                if(isset($name_notfound)){
-                    echo "<h1>Hello, $userid</h1>";
-                } else {
-                    echo "<h1>Hello, $nome</h1>";
-                }
-                
+            <div class="profile">
+                <?php 
+                if($userid = checkAuth()){
+                    if(isset($name_notfound)){
+                        echo "<h1>Hello, $userid</h1>";
+                    } else {
+                        echo "<h1>Hello, $nome</h1>";
+                    }
+                    
 
-                if($genere == "Female"){
-                    echo "<img src='images\women.jpg'/>";
-                } else if ($genere == "Male"){
-                    echo "<img src='images\man.jpg'/>";    
-                } else {
-                    echo "<img src='images\personal_area.jpeg'/>";
-                }
-            }    
-            ?>
+                    if($genere == "Female"){
+                        echo "<img src='images\women.jpg'/>";
+                    } else if ($genere == "Male"){
+                        echo "<img src='images\man.jpg'/>";    
+                    } else {
+                        echo "<img src='images\personal_area.jpeg'/>";
+                    }
+                }    
+                ?>
             </div>
         </div>
     </header>
@@ -79,20 +79,18 @@
         <a href="http://localhost/hw1/change_password.php">Change password</a>
         <a href="http://localhost/hw1/logout.php">Logout</a>
     </section>
-    <section class='white hidden'>
-        <div class='header_scroll hidden'>
-            <div class="left">
-                <span data-index="1">Visit</span> 
-                <span data-index="2">Auctions</span>  
-                <span data-index="3">Art and artist</span>  
-                <a href="https://store.moma.org/?_ga=2.93273949.1716260741.1710596028-1262709068.1710596028&_gl=1*d4f806*_ga*MTI2MjcwOTA2OC4xNzEwNTk2MDI4*_ga_8QY3201SLC*MTcxMDYwMTMzNy4yLjEuMTcxMDYwMzM1MS41MC4wLjA.&utm_source=moma.org">Store</a>   
-                <img src="images\search_icon.png" />   
-            </div>
-            <div class="right">
-                <span class='orange hotel'>Nearby Hotel</span>
-                <a href="http://localhost/hw1/login.php" class="orange">Membership</a>
-                <a class="orange" href="https://visit.moma.org/select">Tickets</a>
-            </div>
+    <section id="header_scroll" class="hidden">
+        <div class="left">
+            <span data-index="1">Visit</span> 
+            <span data-index="2">Auctions</span>  
+            <span data-index="3">Art and artist</span>  
+            <a href="">Store</a>   
+            <img src="images\search_icon.png" />   
+        </div>
+        <div class="right">
+            <span class="hotel">Nearby Hotel</span>
+            <a href="http://localhost/hw1/login.php">Membership</a>
+            <a href="">Tickets</a>
         </div>
     </section>
     <section id="book_a_tour" class="hidden"></section>
@@ -101,7 +99,7 @@
         <span>Locations,hours,and admission</span>
         <span>Map,audio,and more</span>
         <span>Where to start</span>
-        <span class="custom_tour">Customized tours</span>
+        <span>Customized tours</span>
         <span>Frequently asked questions</span>
         <span class="tour">Book a tour</span>
         <span class="close">X</span>
@@ -121,7 +119,7 @@
         <span>Magazine</span>
         <span class="close">X</span>
     </section>
-    <section id="modal_view" class='modal_view hidden'>
+    <section id="search_artist" class="hidden">
         <form>
             <input type="text" spellcheck="false" placeholder="Search an artist on MoMA.org" class='text_box'>
             <input type="submit" id="submit_artist" value="">
@@ -163,14 +161,11 @@
         <span class='newsl_descr n1'>Get art and ideas in your inbox</span>
         <span class='newsl_descr n2'>
             <input type="text" spellcheck="false" placeholder="Sign up for our newsletter" class="a" data-info="newsLetter"/>
-            <div class="b"></div>
         </span>
     </section>
     <section id="magazine">
         <h1 class="mag1">Magazine</h1>
-        <div class="mag2">
-
-        </div>
+        <div class="mag2"></div>
     </section>
     <section id="collection">
         <div class="title">In the collection</div>
@@ -240,8 +235,7 @@
             </span>   
         </div>
         <div class="footer_mail">
-            <input type="text" spellcheck="false" placeholder="Art and ideas in your inbox" class='word a' data-info="footer"/>
-            <div class="line"></div>   
+            <input type="text" spellcheck="false" placeholder="Art and ideas in your inbox" class='word a' data-info="footer"/>  
         </div>
         <div class="footer_info">
             <span class="title">MoMA</span>

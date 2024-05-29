@@ -3,6 +3,7 @@ const dinamicHeader = document.querySelector('#dinamic_header');
 const divImage = document.querySelector('#image');
 const divDetailsLeft = document.querySelector('#details .left');
 const divDetailsRight = document.querySelector('#details .right');
+const collection_id = document.querySelector('#show_collection').dataset.index;
 
 function checkScrolling(event)
 {

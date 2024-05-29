@@ -2,6 +2,7 @@ const formForgotPassword = document.forms['form_forgot_password'];
 
 function checkInput(inputElement, errorMessage){
     if (inputElement.value.length == 0) {
+        //nextElementSibling restituisce l'elemento che segue immediatamente 
         if (inputElement.nextElementSibling.classList.contains('error') || inputElement.nextElementSibling.classList.contains('right')) {
             inputElement.nextElementSibling.remove();
         }

@@ -71,9 +71,6 @@
 
     }
 ?>
-<script>
-const auction_id = "<?php echo $auction_id; ?>";
-</script>
 
 <!DOCTYPE html>
  <html>
@@ -132,7 +129,7 @@ const auction_id = "<?php echo $auction_id; ?>";
 
             </div>
     </section>
-    <section id="show_auction">
+    <section id="show_auction" data-index="<?php echo $auction_id; ?>">
         <div id="image"></div>
         <div id="details">
         <?php

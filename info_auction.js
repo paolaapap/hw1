@@ -2,6 +2,7 @@ const fixHeader = document.querySelector('#fix_header');
 const dinamicHeader = document.querySelector('#dinamic_header');
 const divImage = document.querySelector('#image');
 const divDetails = document.querySelector('#details');
+const auction_id = document.querySelector('#show_auction').dataset.index;
 
 function checkScrolling(event)
 {

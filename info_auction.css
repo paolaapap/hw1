@@ -121,6 +121,7 @@ header {
     width: 350px;
     height: 370px;
     object-fit: cover;
+    margin-bottom: 24px;
 }
 
 #details{

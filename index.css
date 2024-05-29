@@ -17,19 +17,19 @@ header {
     background-color: #fff;
     margin: 0;
     width: 100%;
-    height: 156px;
+    height: clamp(130px, 10vw, 156px);
     position: sticky;
     top: 0px;
 
 }
 
-.header_nav_upper{
+#header_nav_upper{
     background-color: #fff;
-    width: 78vw;
+    width: 78%;
     height: 64px;
-    padding: 32px 48px 0px 48px;
+    padding: 2.1% 3.16% 0px 3.16%;
     border: 0;
-    margin: 0px 119px;
+    margin: 0px 7.8%;
 }
 
 .logo{
@@ -38,87 +38,105 @@ header {
     height: 52px;
 }
 
-.header_nav_upper span, .header_nav_upper a{
+#header_nav_upper span, #header_nav_upper a{
         display: inline-block;
         font-family: "Lalezar", system-ui;
-        font-weight: 400;
-        font-style: normal;
-        font-size: 1.4rem;   
+        font-size: clamp(14px, 2vw, 1.4rem);   
         color: #8fc421; 
         position: fixed;  
 }
 
-.header_nav_upper .a1 {
+#header_nav_upper .hotel{
     position: absolute;
-    top: 2vw;
-    left: 73vw;
-}
-
-.header_nav_upper .a2{
-    position: absolute;
-    top: 2vw;
-    left: 84vw;
-    text-decoration: none;
-}
-
-.header_nav_upper .hotel{
-    position: absolute;
-    top: 2vw;
-    left: 61vw;
+    top: 20%;
+    left: 58%;
+    margin-right: 20px;
     cursor: pointer;
 }
 
-.header_nav_lower, .header_scroll{
+#header_nav_upper .a1 {
+    position: absolute;
+    top: 20%;
+    left: 71%;
+    margin-right: 20px;
+}
+
+#header_nav_upper .a2{
+    position: absolute;
+    top: 20%;
+    left: 84%;
+}
+
+#header_nav_lower{
     display: flex;
     background-color: #fff;
-    width: 78vw;
-    height: 50px;
-    padding: 0px 48px;
+    width: 78%;
+    height: clamp(28px, 3vw, 50px);
+    padding: 0px 3.16%;
     border: 0;
-    margin: 0px 119px;
+    margin: 0px 7.8%;
     justify-content: space-between;
     position: sticky;
 }
 
-.header_nav_lower .d1{
-    width: 50%;
+#header_nav_lower span, #header_nav_lower a, #header_scroll span, #header_scroll a{
+    font-family: "Lalezar", system-ui;
+    font-size: clamp(18px, 2vw, 1.6rem) !important;    
+}
+
+#header_nav_lower img, #header_scroll img{
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+
+#header_nav_lower .profile{
+    width: 40%;
     background-color: #fff;
     display: flex;
     justify-content: end;
 }
 
-.header_nav_lower .d1 h1{
+#header_nav_lower .profile h1{
     font-family: "Lalezar", system-ui;
     font-weight: 400;
-    font-size: 1.6rem;
+    font-size: clamp(18px, 2vw, 1.6rem) !important;   
     margin: 0px;    
 }
 
-.header_nav_lower .d1 img{
+#header_nav_lower .profile img{
     width: 32px;
     height: 32px;
     margin-left: 8px;
 }
 
-.header_nav_lower .d1 h1:hover, .header_nav_lower .d1 img:hover{
+#header_nav_lower .profile h1:hover, #header_nav_lower .profile img:hover{
+    cursor: pointer;
+}
+
+
+#header_nav_lower a:hover, #header_scroll a:hover{
+    color:#8fc421; 
+}
+
+#header_nav_lower span:hover, #header_scroll span:hover{
+    display: block;
+    border-bottom: 4px solid black;
     cursor: pointer;
 }
 
 #menu_personal_area{
     font-family: "Lalezar", system-ui;
-    width: 175px;
-    height: 100px;
-    padding-bottom: 12px !important;
-    padding: 12px;
-    padding-top: 24px;
+    width: clamp(100px, 15vw, 180px);
+    height: clamp(60px, 9vw, 100px);
+    padding: 1.6% 0.8% 0.8% 0.8% !important;
     background-color: white;
-    font-size: 1.4rem;
+    font-size: clamp(14px, 2vw, 1.4rem) !important;   
     color: black;
     position: absolute;
     top:127px;
     left: 78%;
     z-index: 3;
-    padding-bottom: 48px;
 }
 
 #menu_personal_area a:hover{
@@ -126,81 +144,39 @@ header {
     color: #8fc421;
 }
 
-.header_nav_lower span, .header_nav_lower a, .header_scroll {
-        font-family: "Lalezar", system-ui;
-        font-weight: 400;
-        font-style: normal;
-        font-size: 1.6rem;   
-}
 
-.header_scroll .orange{
-    color: #8fc421; 
-    font-size: 1.4rem;
-}
-
-.header_nav_lower a, .header_scroll a{
-    color: black;
-    text-decoration: none;
-}
-
-.header_nav_lower img, .header_scroll img{
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
-}
-
-.header_nav_lower a:hover, .header_scroll a:hover{
-    color:#8fc421; 
-}
-
-.header_nav_lower span:hover, .header_scroll span:hover{
-    display: block;
-    border-bottom: 4px solid black;
-    cursor: pointer;
-}
-
-.header_scroll .orange:hover{
-    border: 0;
-}
-
-.header_scroll{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 77vw;
-    padding-bottom: 10px;
-    padding-top: 10px;
-}
-
-.white{
-    width: 100%;
-    height: 70px;
+#header_scroll{
+    display: flex;
+    justify-content: space-between;
     background-color: white;
+    width: 85%;
+    height: 50px;
+    padding: 10px 10.9%;
     position: fixed;
     top: 0;
     left: 0;
 }
 
-.header_scroll .left{
-    width: 46%;
+
+#header_scroll .left{
+    width: 50%;
     display: flex;
     justify-content: space-between;
 }
 
-.header_scroll .right{
-    flex-grow: 1;
+#header_scroll .right{
+    width: 50%;
     display: flex;
-    justify-content: flex-end;
-    
+    justify-content: space-around;
+    color: #8fc421;
 }
 
-.header_scroll .orange {
-    display: block;
-    padding-right: 40px;
+#header_scroll .right span:hover{
+    border: 0;
 }
 
 #book_a_tour{
-    padding: 0px 167px;
+    padding: 0px 10.9%;
     background-color: white;
     height: 100%;
     width: 100vw;
@@ -209,7 +185,7 @@ header {
 }
 
 #book_a_tour h1{
-    font-size: 1.6rem;
+    font-size: clamp(16px, 2vw, 1.6rem);   
     color: black;
     font-family: "Lalezar", system-ui;
     font-weight: 500;
@@ -218,26 +194,26 @@ header {
 
 .div2{
     display: flex;
-    justify-content: start;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: flex-end;
     padding-bottom: 72px;
 }
 
 .div3{
     display: flex;
     flex-direction: column;
-    justify-content: end;
-    align-items: start;
+    justify-content: flex-end;
+    align-items: flex-start;
     font-family: "Ramabhadra", sans-serif;
     font-weight: 700;
-    font-size: 1.3rem;
+    font-size: clamp(12px, 2vw, 1.2rem);
     line-height: 32px;
-    height: 300px;
-    padding-left: 48px;
+    height: 100%;
+    padding-left: 3.15%;
 }
 
 .pref_tour{
-    font-size: 1rem;
+    font-size: clamp(12px, 2.5vw, 1rem);
 }
 
 .pref_tour:hover{
@@ -255,8 +231,10 @@ header {
 }
 
 #book_a_tour img{
-    height: 300px;
-    width: 700px;
+    min-height: 150px;
+    min-width: 250px;
+    height: 19.7vw;
+    width: 46vw;
     object-fit: cover;
 }
 
@@ -276,7 +254,7 @@ header {
     font-family: "Lalezar", system-ui;
     width: 100vw;
     background-color: white;
-    font-size: 2rem;
+    font-size: clamp(18px, 2.5vw, 2rem);
     color: black;
     position: fixed;
     z-index: 3;
@@ -286,7 +264,7 @@ header {
 
 .pop_up_menu span, .pop_up_menu a{
     display: block;
-    padding-left: 167px;
+    padding-left: 10.9%;
     padding-top: 10px;
 }
 
@@ -299,17 +277,17 @@ header {
     color: black; 
 }
 
-.modal_view{
+#search_artist{
     position: fixed;
     top: 0;
     left: 0;
     height: 100vh;
     width: 100vw;
-    background-color: rgba(0, 0, 0, 0.7); 
+    background-color: rgba(255, 255, 255, 0.7); 
     z-index: 3;  
 }
 
-.modal_view form{
+#search_artist form{
     width: 100%;
     height: 100%;
     display: flex;
@@ -318,18 +296,21 @@ header {
     align-items: center; 
 }
 
-.modal_view .text_box{
-    width: 30%;
+#search_artist .text_box{
+    width: 23%;
     height: 8%;
     background-color: transparent;
     font-family: "Lalezar", system-ui;
     font-size: 2rem;
-    color: white;
-    caret-color: white; 
 }
 
-.modal_view .text_box::placeholder{
+#search_artist .text_box::placeholder{
     text-align: center;
+    font-size: 1.6rem;
+}
+
+#submit_artist {
+    display: none;
 }
 
 #modal_view_artworks{
@@ -338,16 +319,16 @@ header {
     left: 0;
     height: 100%;
     width: 100vw;
-    background-color: rgba(0, 0, 0, 0.7); 
+    background-color: rgba(255, 255, 255, 0.7); 
     z-index: 3;      
 }
 
 #modal_view_artworks h1{
     text-align: center;
-    color: white;
     font-weight: 400;
     font-family: "Sedgwick Ave Display", cursive;
-    font-size: 3rem;
+    font-size: clamp(30px, 2.5vw, 3rem);
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
     margin: 12px 12px;
     margin-top: 30px;
 }
@@ -373,33 +354,34 @@ header {
     width: 270px;
     height: 220px;
     object-fit: cover;
+    box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.5);
 }
 
 .artworks_and_title span{
     flex-shrink: 1; 
     white-space: wrap; 
-    min-width: 0; /* Permette al testo di stringersi */
-    color: white;
+    color: black;
     font-weight: 700;
     text-align: center;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 #modal_view_hotel{
     position: absolute;
-    top: 0px;
+    top: 0;
     left: 0;
-    width: 80.27%;
+    width: 83%;
     height: 7000px;
     background-color: white; 
-    z-index: 3;     
-    padding-top: 24px;
-    padding-left: 150px;
-    padding-right: 150px;
+    z-index: 4;    
+    padding: 24px 9.9% 0px 9.9%; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 #modal_view_hotel form{
-    padding-left: 48px;
-    padding-right: 48px;
+    width: 100%;
     display: flex;
     justify-content: space-around;
     align-items: start; 
@@ -426,11 +408,13 @@ input[type="text"] {
 
 #modal_view_hotel .box {
     width: 20%;
-    height: 20%;
+    height: 18px;
+    font-size: clamp(12px, 2vw, 1.2rem);
 }
 
 #modal_view_hotel input::placeholder{
     text-align: center;
+    font-size: clamp(10px, 1.5vw, 1.2rem);
 }
 
 #modal_view_hotel h1{
@@ -443,6 +427,7 @@ input[type="text"] {
 }
 
 .hotel_grid{
+    width: 88%;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -450,7 +435,7 @@ input[type="text"] {
 }
 
 .single_hotel{
-    width: 25%;
+    width: 303px;
     height: 450px;
     font-family: "Lalezar", system-ui;
     font-size: 1.2rem;
@@ -469,17 +454,14 @@ input[type="text"] {
 
 .single_hotel h1{
     font-size: 1.3rem !important;
+    margin: 12px;
+    text-align: center;
 }
 
 .single_hotel img{
     width: 270px;
     height: 220px;
     object-fit: cover;
-}
-
-.single_hotel h1{
-    margin: 12px;
-    text-align: center;
 }
 
 .single_hotel a{
@@ -497,12 +479,6 @@ input[type="text"] {
     text-align: center;
 }
 
-.modal_view_div{
-    font-family: "Lalezar", system-ui;
-    cursor: pointer;
-    font-size: 1.5rem;
-    color: white;
-}
 
 #exibitions{
     display: flex;
@@ -511,9 +487,6 @@ input[type="text"] {
     flex-direction: column;
 }
 
-#submit_artist {
-    display: none;
-}
 
 .section-box{
     flex-grow: 1;
@@ -558,35 +531,34 @@ input[type="text"] {
     flex-direction: column;
     justify-content: space-between;
     font-family: "Ramabhadra", sans-serif;
-    font-weight: 400;
-    font-style: normal;   
 }
 
 .l1, .l3, .l5, .l7{
-    padding-left: 130px;
+    padding-left: 8.6%;
 }
 
 .l2, .l4, .l6, .l8{
-    padding-left: 60px;
+    padding-left: 4%;
 }
 
 .section-box img {
     width: 63.4vw;
     height: 384px;
+    min-height: 384px;
     object-fit: cover;
 }
 
 
 .little h1{
     width: 70%;
-    font-size: 3rem;
+    font-size: clamp(30px, 3vw, 3rem);
     margin-top: 25px;
     line-height: 46px;
 }
 
 .strong{
     width: 64%;
-    font-size: 1.2rem;
+    font-size: clamp(14px, 2vw, 1.2rem);
     margin-bottom: 25px;
     font-weight: 700;
     line-height: 20px;
@@ -601,9 +573,9 @@ input[type="text"] {
     display: flex;
     width: 77vw;
     height: 105px;
-    padding: 0px 48px;
+    padding: 0px 3.15%;
     border: 0;
-    margin: 64px 119px 0px 119px;
+    margin: 4.2% 7.8% 0px 7.8%;
 }
 
 #home_location .home{
@@ -616,16 +588,16 @@ input[type="text"] {
     margin: 0; 
     font-family: "Ramabhadra", sans-serif;
     font-weight: 800;
-    font-size: 1.4rem;  
+    font-size: clamp(16px, 2vw, 1.4rem);
     line-height: 20px;             
 }
 
 #home_location .h1{
-    padding: 0px 24px 0px 0px;
+    padding: 0px 1.9% 0px 0px;
 }
 
 #home_location .h2{
-    padding: 0px 0px 0px 24px;
+    padding: 0px 0px 0px 1.9%;
 }
 
 .home .d2{
@@ -637,18 +609,18 @@ input[type="text"] {
     justify-content: space-between;
     width: 77vw;
     height: 117px;
-    padding: 0px 48px;
+    padding: 0px 3.15%;
     border: 0;
-    margin: 128px 119px 0px 119px;
+    margin: 8.4% 7.8% 0px 7.8%;
 }
 
 .newsl_descr{
     width: 70vw;
     height: 16px;
     border: 2.4px solid black;
-    padding: 48px;
+    padding: 3.75%;
     font-weight: 800;
-    font-size: 1.4rem;  
+    font-size: clamp(16px, 2vw, 1.4rem); 
     line-height: 20px;         
 }
 
@@ -663,14 +635,12 @@ input[type="text"] {
     border-left: 0px;
 }
 
-.b{
-    border: 2px solid black;
-}
 
 .a{
     font-family: "Ramabhadra", sans-serif;
     font-weight: 800;
-    font-size: 1.4rem;
+    font-size: clamp(16px, 2vw, 1.4rem);
+    border-bottom: 3px solid black !important;
 }
 
 .a::placeholder{
@@ -684,14 +654,14 @@ input[type="text"] {
   
 
 #magazine{
-    height: 470px;
+    height: 31vw;
+    min-height: 300px;
     flex-direction: column;
 }
 
 .mag1{
     font-weight: 800;
-    font-style: normal; 
-    font-size: 2.3rem;  
+    font-size: clamp(24px, 3vw, 2.3rem);
     padding: 0;
 }
 
@@ -703,7 +673,7 @@ input[type="text"] {
 
 .mag2 img{
     width: 37vw;
-    height: 378px;
+    height: 25vw;
     object-fit: cover;
     align-self: end;
 }
@@ -717,45 +687,46 @@ input[type="text"] {
 }
 
 .mag2_2 h1{
-    font-size: 2.5rem;
+    font-size: clamp(20px, 1.5vw, 2.5rem);
     font-weight: 900;
     margin: 0px;
     width: 80%;
-    line-height: 43px;
+    line-height: 35px;
 }
 
 .mag2_2 span{
     font-family: "Ysabeau Infant", sans-serif;
-    font-size: 1.3rem;
+    font-size: clamp(16px, 2vw, 1.3rem);
 }
 
 .mag2_2 .span1{
-    padding-top: 45px;
+    padding-top: 7.3%;
 }
 
 .mag2_2 .span2{
-    padding-top: 55px;
-    width: 30%;
+    padding-top: 9%;
 }
 
 .mag2_2 .title1{
     color: #8fc421;  
-    font-size: 1.7rem; 
+    font-size: clamp(18px, 2vw, 1.7rem);
 }
 
 #collection{
     flex-direction: column;
-    height: 437px;
+    height: 31.1vw;
+    min-height: 300px;
 }
 
 #collection img{
-    max-width: 50%;
-    height: 316px;
+    max-width: 40%;
+    height: 21vw;
+    min-height: 220px;
     object-fit: cover;
 }
 
 #collection .title{
-    font-size: 2.3rem;
+    font-size: clamp(24px, 3vw, 2.3rem);
     font-weight: 800;   
     padding-bottom: 45px; 
 }
@@ -764,18 +735,20 @@ input[type="text"] {
     padding: 8px;
     padding-left: 0px;
     font-weight: 600;
-    font-size: 1.1rem;
+    font-size: clamp(10px, 2vw, 1.1rem);
 }
 
 #orange{
-    height: 340px;
+    height: 22.3vw;
+    min-height: 220px;
 }
 
 .orange_figlio{
     display: flex;
     width: 71vw;
-    height: 244px;
-    padding: 48px;
+    height: 16vw;
+    min-height: 180px;
+    padding: 3.8%;
     background-color: #FF8F1C;
     border-radius: 10px;
 }
@@ -788,12 +761,12 @@ input[type="text"] {
 
 .o1 .title{
     font-weight: 900;
-    font-size: 4rem;  
+    font-size: clamp(28px, 4vw, 4rem) !important; 
     line-height: 60px;  
 }
 
 .o1 .subtitle{
-    font-size: 2rem;
+    font-size: clamp(22px, 2vw, 2rem);
     font-weight: 700;
 }
 
@@ -806,22 +779,24 @@ input[type="text"] {
 
 .o2 img{
     width: 16.6vw;
-    height: 243px;
+    height: 16vw;
 }
 
 #store{
-    height: 518px;
+    height: 34vw;
+    min-height: 350px;
     display: flex;  
 }
 
 #store img{
     width: 37vw;
-    height: 378px;
+    height: 24.8vw;
+    min-height: 250px;
     object-fit: cover;
 }
 
 #store .title{
-    font-size: 2.3rem;
+    font-size: clamp(24px, 3vw, 2.3rem);
     font-weight: 800;  
     padding-bottom: 45px; 
 }
@@ -834,7 +809,7 @@ input[type="text"] {
     padding: 8px;
     padding-left: 0px;
     font-weight: 600;
-    font-size: 1.1rem;
+    font-size: clamp(10px, 2vw, 1.1rem);
 }
 
 #sponsor{
@@ -844,7 +819,7 @@ input[type="text"] {
 }
 
 #sponsor img{
-    width: 11.7vw;
+    width: 179px;
     height: 47px;
     padding-bottom: 25px;
     object-fit: cover;
@@ -859,14 +834,15 @@ input[type="text"] {
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 647px;
+    height: 42.6vw;
+    min-height: 400px;
     border: 0;
-    padding: 64px 0px;
-    margin-top: 128px;
+    padding: 4.2% 0px;
+    margin-top: 8.4%;
     background-color: #444444;
     font-family: "Lalezar", system-ui;
     font-weight: 400;
-    font-size: 1.6rem; 
+    font-size: clamp(16px, 2vw, 1.6rem);
     color: white;
   }
 
@@ -874,38 +850,33 @@ input[type="text"] {
     width: 77vw;
     height: 16px;
     border: 0;
-    padding: 0px 48px;
-    margin: 0px 119px;
+    padding: 0px 3.15%;
+    margin: 0px 7.8%;
+    margin-top: 8.4%;
+  }
+
+  .footer_section{
+    margin-top: 0px;
   }
 
   .footer_section .word{
     color: white;
     text-decoration: none;
   }
-.footer_address{
-    height: 108px;
-    margin-top: 128px;
-}
 
-.footer_mail{
-    height: 15px;
-    margin-top: 128px;
-}
 
 .footer_mail .word {
     background-color: transparent;
     caret-color: white;
     color: white;
+    border-bottom-color: white !important;
     width: 43%;
 }
 
 .footer_mail .word::placeholder{
     color: white;
 }
-.footer_info{
-    height: 15px;
-    margin-top: 128px;
-}
+
 
 .footer_section, .footer_address{
     display: flex;
@@ -948,12 +919,15 @@ input[type="text"] {
     display: flex;
     justify-content: space-between;
     width: 45%;
-    font-size: 1.2rem;
+    font-size: clamp(14px, 2vw, 1.2rem);
 }
 
 .social .icon{
-    width: 24px;
-    height: 24px;
+    width: 1.57vw;
+    min-width: 16px;
+    min-height: 16px;
+    height: 1.57vw;
+    padding: 4px;
 }
 
 .social .f{
@@ -961,8 +935,10 @@ input[type="text"] {
 }
 
 .social .s{
-    width: 34px;
-    height: 34px;
+    width: 2.23vw;
+    height: 2.23vw;
+    min-width: 26px;
+    min-height: 26px;
 }
 
 .footer_mail, .footer_info{
@@ -972,34 +948,34 @@ input[type="text"] {
     align-items: start;
 }
 
-.footer_mail .line{
-    border: 2px solid white;
-    width: 43%;
-}
 
 .footer_info .title{
-    font-size: 1.6em;
+    font-size: clamp(16px, 2vw, 1.6rem);
 }
 
 .footer_info .info{
     display: flex;
     justify-content: space-between;
-    width: 70%;
-    font-size: .8em;
+    width: 80%;
+    font-size: clamp(10px, 2vw, 1.2rem) !important;
     font-weight: 300;
 }
 
 .footer_info .trademark{
     font-family: "Ysabeau Infant", sans-serif;
-    font-size: 1rem;    
+    font-size: clamp(12px, 1.5vw, 1.5rem);  
     padding-top: 10px;
     color: #FFFFFF45;
 }
 
 
- @media (max-width: 600px) {
+ @media (max-width: 800px) {
     html {
         font-size: 12px;
+    }
+
+    body{
+        overflow-x: hidden;
     }
 
     header{
@@ -1010,45 +986,119 @@ input[type="text"] {
    
     .logo{
         padding-left: 24px;
-        width: 113px;
-        height: 29px;
+        width: 105px;
+        height: 27px;
     }
-    .header_nav_upper, .header_nav_lower {
+
+    #header_nav_lower span, #header_nav_lower a, #header_nav_upper a, #header_nav_upper span{
+        font-size: 12px !important;
+    }
+
+    #header_nav_lower img{
+        width: 16px;
+        height: 16px;
+    }
+
+    #header_nav_upper .hotel{
+        left: 39%;
+    }
+    
+    #header_nav_upper .a1 {
+        left: 60%;
+    }
+    
+    #header_nav_upper .a2{
+        left: 80%;
+    }
+    
+    #header_nav_upper, #header_nav_lower {
         width: 100vw;
         margin: 0px;
         padding: 0;
     }
 
-    .header_nav_upper{
+    #header_nav_upper{
         height: 32px;
         padding-top: 24px;
     }
 
-    .header_nav_upper span{
-        left: 55%;
-        padding-top: 10px;
-    }
-
-    .header_nav_upper a{
-        left: 80%;
-        padding-top: 10px;
-    }
-
-
-    .header_nav_lower{
-        height: 52px;
+    #header_nav_lower{
+        width: 95vw;
+        height: 45px;
         padding-left: 24px;
         align-items: center;
     }
 
-    .header_nav_lower .d1{
-        width: 8vw;
+    #header_nav_lower .profile h1{
+        display: none;
     }
-    #home_location, #news_letter, #magazine, #collection, #orange, #store, #sponsor{
-        margin-left: 0;
-        margin-right: 0;
-        margin-top: 50px;
+
+    #header_nav_lower .profile {
+        width: 20%;
+        justify-content: flex-start;
     }
+
+    #header_nav_lower .profile img {
+       width: 22px;
+       height: 22px;
+    }
+
+    #menu_personal_area{
+        font-size: 12px !important;   
+        top:92px;
+        left: 78%;
+    }
+
+    #header_scroll{
+        height: 20px;
+        width: 97%;
+        padding: 10px;
+    }
+
+    #header_scroll span, #header_scroll a{
+        font-size: 11px !important;
+    }
+
+    #header_scroll img{
+        width: 20px;
+        height: 20px;
+    }
+
+    #exibitions {
+        height: 1960px !important;
+    }
+
+    .section-box{
+        height: 245px;
+        width: 100vw;
+    }
+
+    .section-box img{
+        width: 55% !important;
+        height: 245px !important;
+        min-height: 245px !important;
+    }
+
+    .section-box h1{
+        font-size: 22px !important;
+        margin: 10px 0px;
+    }
+
+    
+    .little{
+        width: 60vw;
+        height: 215px;
+    }
+
+    .little h1{
+        font-size: 2.5rem;
+        line-height: 20px;
+    }
+
+    .little span{
+        line-height: 15px;
+    }
+
     .l1, .l3, .l5, .l7{
         padding-left: 20px;
     }
@@ -1057,11 +1107,23 @@ input[type="text"] {
         padding-left: 10px;
     }
 
-    .footer_section, .footer_address, .footer_mail, .footer_info{
+    #home_location, #news_letter, #magazine, #collection, #orange, #store, #sponsor{
         margin-left: 0;
         margin-right: 0;
+        margin-top: 50px;
+        width: 88vw;
     }
 
+    #home_location, #news_letter{
+        width: 95vw;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    #news_letter .a::placeholder{
+        text-align: center;
+    }
 
     #news_letter{
         flex-direction: column;
@@ -1073,9 +1135,6 @@ input[type="text"] {
         padding: 10px;
     }
 
-    .a{
-        padding-bottom: 0px;
-    }
 
     #news_letter .n1{
         border-bottom: 0px;
@@ -1086,54 +1145,18 @@ input[type="text"] {
         border-top: 0px;
         border-left: 2.4px solid black;
     }
-    .b{
-        width: 70%;
-        align-self: center;
+
+    #magazine {
+        height: fit-content;
     }
 
-    .mag2{
-        height: 300px;
+    #magazine .mag2{
+        display: flex;
         flex-direction: column;
+        flex-wrap: wrap;
+        justify-content: space-between;
     }
 
-    .sent1, .sent2, .sent3, .sent4{
-        padding: 0;
-    }
-
-    #collection img{
-        width: 220px;
-        height: 250px;
-        object-fit: cover;
-    }
-
-    #collection .title{
-        padding-bottom: 0;
-    }
-
-    .little h1{
-        font-size: 2.5rem;
-        line-height: 25px;
-    }
-
-    .little{
-        width: 60vw;
-        height: 215px;
-    }
-
-    .section-box img{
-        width: 40vw;
-        height: 215px;
-        object-fit: cover;
-    }
-
-    #exibitions{
-        height: 1720px;
-    }
-
-    #magazine, #collection{
-        height: 330px;
-        justify-content: space-around;
-    }
 
     #magazine img{
         width: 78vw;
@@ -1142,35 +1165,46 @@ input[type="text"] {
         align-self: start;
     }
 
-    .mag2_2 h1{
-        font-size: 2rem;
-        line-height: 25px;
-    }
 
-    .sent2, .sent3, .sent4{
-        font-size: 1rem;
-        line-height: 16px;
-    }
-
-    .mag2_2{
-        width: 78vw;
-        height: 250px;
+    #magazine .mag2_2{
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: flex-start;
         padding: 0;
 
     }
 
+    .footer_section, .footer_address, .footer_mail, .footer_info{
+        margin-left: 0;
+        margin-right: 0;
+    }
+    
+    #collection img{
+        width: 300px;
+        height: 250px;
+        object-fit: cover;
+    }
+
+    #collection .title{
+        padding-bottom: 0;
+    }
+
+   #collection{
+        height: 330px;
+        justify-content: space-around;
+    }
+
     #orange{
         padding: 0px 24px;
-        width: 89vw;
+        width: 80vw;
         height: 260px;
+        display: flex;
+        justify-content: center;
     }
     .orange_figlio{
         flex-direction: column;
         padding: 24px;
-        width: 89vw;
+        width: 70vw;
         height: 212px;
     }
 
@@ -1194,16 +1228,23 @@ input[type="text"] {
         align-self: center;
     }
 
+    #store{
+        padding: 0px 24px;
+        height: 200px !important;
+        min-height: 200px;
+    }
+
+    #store .store1, #store .store2{
+        height: 150px;
+    }
+
     #store img{
-        width: 179px;
-        height: 119px;
+        width: 140px;
+        height: 100px !important;
+        min-height: 100px;
         object-fit: cover;
     }
     
-    #store{
-        padding: 0px 24px;
-        height: 263px;
-    }
 
     .store1 img{
         padding-right: 24px;
@@ -1224,12 +1265,22 @@ input[type="text"] {
         height: 36px;
         object-fit: cover;
     }
+
     #footer{
-        margin-top: 50px;
+        margin-top: 0px;
+        display: flex;
+        flex-direction: column;
+        height: fit-content;
+
     }
 
-    .footer_address, .footer_section, .footer_info, .footer_mail{
+    .footer_mail{
+        display: none;
+    }
+
+    .footer_address, .footer_section, .footer_info{
         padding: 0px 24px;
+        height: 100px;
     }
 
     .footer_section{
@@ -1244,9 +1295,6 @@ input[type="text"] {
         padding-left: 48px;
     }
 
-   .footer_mail .line{
-    width: 230px;
-   }
 
    .footer_info{
     margin-top: 80px;
@@ -1259,24 +1307,25 @@ input[type="text"] {
     line-height: 15px;
    }
 
-.social{
+    .social{
     width: 100%;
-}
+    }
    
-.social .icon{
+    .social .icon{
     padding-top: 5px;
     width: 16px;
     height: 16px;
+    }
 }
 
-}
+
 
 .no-scroll{
     overflow: hidden;
 }
 
 .hidden{
-    display: none;
+    display: none !important;
 }
 
 .scroll{

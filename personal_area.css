@@ -242,8 +242,6 @@ header {
 
 .artworks span, .artworks a {
     white-space: normal; /* Consente la rottura del testo */
-    word-wrap: break-word; /* Supporto per IE */
-    overflow-wrap: break-word; /* Proprietà standard per i browser moderni */
     line-height: 20px;
 }
 

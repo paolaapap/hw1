@@ -8,9 +8,7 @@
     }
 
 ?>
-<script>
-const collection_id = "<?php echo $collection_id; ?>";
-</script>
+
 <!DOCTYPE html>
  <html>
   <head>
@@ -68,7 +66,7 @@ const collection_id = "<?php echo $collection_id; ?>";
 
             </div>
     </section>
-    <section id="show_collection">
+    <section id="show_collection" data-index="<?php echo $collection_id; ?>">
         <div id="image"></div>
         <div id="details">
             <div class="left"></div>

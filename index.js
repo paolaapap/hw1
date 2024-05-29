@@ -2,27 +2,25 @@
 //metti i controlli nel caso che le api non funzionino
 
 
-const navClick = document.querySelectorAll('.header_nav_lower span');
+const navClick = document.querySelectorAll('#header_nav_lower span');
 const popUpMenu = document.querySelectorAll('.pop_up_menu');
 const closeButton = document.querySelectorAll('.close');
-const personalAreaH1 = document.querySelector('.header_nav_lower .d1 h1');
-const personalAreaImg = document.querySelector('.header_nav_lower .d1 img');
+const personalAreaH1 = document.querySelector('#header_nav_lower .profile h1');
+const personalAreaImg = document.querySelector('#header_nav_lower .profile img');
 const menuPersonalArea = document.querySelector("#menu_personal_area");
 const exib_container = document.querySelector('#exibitions');
 const exib_img_dinamic = [];
 const exib_img_static = [];
 const bookATour = document.querySelector('.tour');
-const customTour = document.querySelector('.custom_tour');
-const header_scroll = document.querySelector('.header_scroll');
-const white_bar = document.querySelector('.white');
+const header_scroll = document.querySelector('#header_scroll');
 const header_fix = document.querySelector('header');
-const navClickScroll = document.querySelectorAll('.header_scroll span');
+const navClickScroll = document.querySelectorAll('#header_scroll span');
 const magazine = document.querySelector('#magazine .mag2');
-const search_icon = document.querySelector('.header_nav_lower img');
-const modalView = document.querySelector('#modal_view');
-const modalViewForm = document.querySelector('#modal_view form');
+const search_icon = document.querySelector('#header_nav_lower img');
+const searchArtistSection = document.querySelector('#search_artist');
+const searchArtistForm = document.querySelector('#search_artist form');
 const textBox = document.querySelector('.text_box');
-const searchIconScroll = document.querySelector ('.header_scroll img');
+const searchIconScroll = document.querySelector ('#header_scroll img');
 const textBoxMail = document.querySelectorAll('.a');
 const sponsor = document.querySelector('#sponsor');
 const collection = document.querySelector('#collection');
@@ -67,6 +65,13 @@ function fetchResponse(response) {
     return response.json();
 }
 
+function noResults(father){
+    father.innerHTML='';
+    const span_error = document.createElement('span');
+    span_error.textContent = 'No results found.'
+    father.appendChild(span_error);
+}
+
 function fetchExibitionsJson(json){
     if(json.length == 0){
         noResults(exib_container);
@@ -109,13 +114,6 @@ function fetchExibitionsJson(json){
 
     }
 
-}
-
-function noResults(father){
-    father.innerHTML='';
-    const span_error = document.createElement('span');
-    span_error.textContent = 'No results found.'
-    father.appendChild(span_error);
 }
 
 
@@ -230,7 +228,7 @@ for (const c of closeButton){
     c.addEventListener('click', hideMenu);    
 }
 
-if(document.querySelector(".d1 img")){
+if(document.querySelector(".profile img")){
     function showPersonalMenu(){
         menuPersonalArea.classList.remove('hidden');
     }
@@ -240,6 +238,8 @@ if(document.querySelector(".d1 img")){
 
     function hidePersonalMenu(event){
         // Nascondo il menu solo se il mouse non è sopra il menu stesso o sopra l'elemento che lo attiva
+        //nel caso di mouseenter e mouseleave event.relatedTarget sarà l'elemento da cui il puntatore del mouse si sta spostando
+        //verifico se l'elemento che ha ricevuto il focus è contenuto in menuPersonalArea, personalAreaH!, personalAreaImg
         if (!menuPersonalArea.contains(event.relatedTarget) && !personalAreaH1.contains(event.relatedTarget) && !personalAreaImg.contains(event.relatedTarget)) {
             menuPersonalArea.classList.add('hidden');
         }
@@ -320,14 +320,12 @@ function checkScrolling(event)
     if(scroll > 0) 
     {   
         header_scroll.classList.remove('hidden');
-        white_bar.classList.remove('hidden');
         header_fix.classList.add('hidden');
         
     }
     else
     {   
         header_scroll.classList.add('hidden');
-        white_bar.classList.add('hidden');
         header_fix.classList.remove('hidden');
     }
 }
@@ -335,7 +333,7 @@ function checkScrolling(event)
 document.addEventListener('scroll',checkScrolling);
 
 function showSearchBar(){
-    modalView.classList.remove('hidden');
+    searchArtistSection.classList.remove('hidden');
     document.body.classList.add('no-scroll');
 }
 
@@ -343,29 +341,13 @@ search_icon.addEventListener('click', showSearchBar);
 searchIconScroll.addEventListener('click', showSearchBar);
 
 function hideSearchBar(event){
-        modalView.classList.add('hidden');
-        document.body.classList.remove('no-scroll');
+    searchArtistSection.classList.add('hidden');
+    document.body.classList.remove('no-scroll');
 }
 
-modalView.addEventListener('click', hideSearchBar);
+searchArtistSection.addEventListener('click', hideSearchBar);
 
 textBox.addEventListener('click', stopProp);
-
-function onWriteText(){
-    const newDiv = document.createElement("span");  
-    newDiv.textContent='CANCEL';
-    newDiv.classList.add('modal_view_div');
-    modalViewForm.appendChild(newDiv); 
-    textBox.removeEventListener('input', onWriteText);
-    newDiv.addEventListener('click', deleteText); 
-    newDiv.addEventListener('click', stopProp);
-}
-
-textBox.addEventListener('input', onWriteText);
-
-function deleteText(){
-    textBox.value='';
-}
 
 function storeMail (event){
     const type=event.currentTarget.dataset.info;
@@ -388,7 +370,7 @@ for(t of textBoxMail){
 
 ///////////////////////////////////////////////////////// API HOTEL ///////////////////////////
 
-function onJson(json) {
+function onHotelJson(json) {
 
     hotel_grid.innerHTML='';
     const status = json.status;
@@ -468,7 +450,7 @@ function search(event) {
     const rooms_value = encodeURIComponent(rooms.value);
   
     const url = 'fetch_api_hotel.php?check_in=' + check_in_value + '&check_out=' + check_out_value + '&adults=' + adults_value + '&room=' + rooms_value;
-    fetch(url).then(onResponse).then(onJson);
+    fetch(url).then(onResponse).then(onHotelJson);
 }
 
 form_hotel.addEventListener('submit', search);
@@ -498,12 +480,12 @@ document.addEventListener('keydown', hideModalHotel);
 
 ////////////////// API CON OAUTH - ARTSY ///////////////////////////////////////////
 
-modalViewForm.addEventListener('submit', searchArtist);
+searchArtistForm.addEventListener('submit', searchArtist);
 
 let user_input = '';
 
 function searchArtist(event){
-    modalView.classList.add('hidden');
+    searchArtistSection.classList.add('hidden');
     modalViewArtworks.classList.remove('hidden');
     event.preventDefault();
     user_input = textBox.value;
